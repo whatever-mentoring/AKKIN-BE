@@ -3,6 +3,8 @@ package com.akkin.auth;
 import com.akkin.auth.dto.AuthToken;
 import com.akkin.common.exception.ExpireRefreshTokenException;
 import com.akkin.login.dto.AuthMember;
+import com.akkin.member.Member;
+import com.akkin.member.MemberService;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +21,8 @@ public class RedisService {
     private final RedisTemplate<String, AuthMember> redisTemplate;
 
     private final WhiteTokenRepository whiteTokenRepository;
+
+    private final MemberService memberService;
 
     private final int ACCESS_TOKEN_EXPIRE = 60 * 60; // 1시간
 
@@ -46,8 +50,12 @@ public class RedisService {
             throw new ExpireRefreshTokenException(ExpireRefreshTokenException.EXPIRED_TOKEN_MSG);
         }
 
+        Member member = memberService.findMemberOrElseThrow(whiteToken.getMemberId());
+        AuthMember authMember = new AuthMember(member);
+
         String newAccessToken = generateToken();
         String newRefreshToken = generateToken();
+        redisTemplate.opsForValue().set(newAccessToken, authMember, ACCESS_TOKEN_EXPIRE, TimeUnit.SECONDS);
         whiteToken.reIssuance(newAccessToken, newRefreshToken);
 
         return new AuthToken(newAccessToken, newRefreshToken);

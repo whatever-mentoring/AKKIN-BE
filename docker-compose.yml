@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+      
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: akkin
+      MYSQL_USER: akkin
+      MYSQL_PASSWORD: akkin
+      MYSQL_ROOT_PASSWORD: akkin
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
