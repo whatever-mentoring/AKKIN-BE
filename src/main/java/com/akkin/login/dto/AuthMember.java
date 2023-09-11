@@ -1,5 +1,6 @@
 package com.akkin.login.dto;
 
+import com.akkin.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,9 @@ public class AuthMember {
 
     private String email;
 
-    public AuthMember(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+    public AuthMember(Member member) {
+        this.id = member.getId();
+        this.name = member.getName();
+        this.email = member.getEmail();
     }
 }

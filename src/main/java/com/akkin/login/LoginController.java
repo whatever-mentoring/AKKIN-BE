@@ -1,6 +1,12 @@
 package com.akkin.login;
 
+import com.akkin.auth.RedisService;
+import com.akkin.auth.dto.AuthToken;
+import com.akkin.login.dto.AuthMember;
+import com.akkin.member.Member;
+import com.akkin.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/login")
 public class LoginController {
 
+    private final RedisService redisService;
+
+    private final MemberService memberService;
+
     @GetMapping("/oauth2/apple")
     public ResponseEntity<Void> appleOauthLogin(@RequestParam("code") String code) throws Exception {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/demo/{id}")
-    public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Integer id) throws Exception {
-        return ResponseEntity.ok().build();
+    @GetMapping("/dummy/{id}")
+    public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) throws Exception {
+        Member member = memberService.findMemberOrElseThrow(id);
+        AuthMember authMember = new AuthMember(member);
+        AuthToken authToken = redisService.issueAuthToken(authMember);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("accessToken", authToken.getAccessToken());
+        headers.add("refreshToken", authToken.getRefreshToken());
+        return ResponseEntity.ok().headers(headers).build();
     }
 }

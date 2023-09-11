@@ -1,6 +1,5 @@
 package com.akkin.auth;
 
-import com.akkin.common.BaseTimeEntity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,6 +49,7 @@ public class WhiteToken {
     public void reIssuance(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.expiredAt = LocalDateTime.now().plusYears(1);
+        this.createdAt = LocalDateTime.now();
+        this.expiredAt = this.createdAt.plusYears(1);
     }
 }

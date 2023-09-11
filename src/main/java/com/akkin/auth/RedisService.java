@@ -4,7 +4,6 @@ import com.akkin.auth.dto.AuthToken;
 import com.akkin.common.exception.ExpireRefreshTokenException;
 import com.akkin.login.dto.AuthMember;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class RedisService {
     private final int ACCESS_TOKEN_EXPIRE = 60 * 60; // 1시간
 
     @Transactional
-    public AuthToken setAuthMember(AuthMember authMember) {
+    public AuthToken issueAuthToken(AuthMember authMember) {
         String accessToken = UUID.randomUUID().toString();
         String refreshToken = UUID.randomUUID().toString();
         whiteTokenRepository.save(new WhiteToken(authMember.getId(), accessToken, refreshToken));
