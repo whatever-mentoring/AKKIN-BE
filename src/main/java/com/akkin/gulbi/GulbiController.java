@@ -1,7 +1,6 @@
 package com.akkin.gulbi;
 
 import com.akkin.auth.AuthRequired;
-import com.akkin.auth.dto.AuthToken;
 import com.akkin.gulbi.dto.GulbiCreateForm;
 import com.akkin.gulbi.dto.GulbiCreateResponse;
 import com.akkin.gulbi.dto.GulbiCreateResponses;
