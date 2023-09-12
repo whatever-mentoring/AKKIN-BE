@@ -19,7 +19,7 @@ public class BaseTimeEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public void setUpdatedAt() {
+    public void updateLoginTime() {
         this.updatedAt = LocalDateTime.now();
     }
 }

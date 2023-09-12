@@ -12,6 +12,16 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
+    public Member saveOrUpdateMember(String name, String email) {
+        return memberRepository.findByEmail(email)
+            .map(member -> {
+                member.updateLoginTime();
+                return member;
+            })
+            .orElseGet(() -> memberRepository.save(new Member(name, email)));
+    }
+
     public Member findMemberOrElseThrow(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 멤버입니다. : " + memberId));
