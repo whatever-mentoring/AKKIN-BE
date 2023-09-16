@@ -1,6 +1,7 @@
 package com.akkin.gulbi;
 
 import com.akkin.common.BaseTimeEntity;
+import com.akkin.gulbi.dto.GulbiUpdateForm;
 import com.akkin.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,9 +35,6 @@ public class Gulbi extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer saveDay;
 
-//    @Column(nullable = false) // s3 열릴 때 까지 닫아둠
-    private String imageUrl;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Category category;
@@ -57,19 +55,30 @@ public class Gulbi extends BaseTimeEntity {
     private Integer saveMoney;
 
     @Builder
-    public Gulbi(Member member, Integer year, Integer month, Integer day, String imageUrl,
+    public Gulbi(Member member, Integer year, Integer month, Integer day,
         Category category, String content, String how, Integer expectCost, Integer realCost) {
         this.member = member;
         this.saveYear = year;
         this.saveMonth = month;
         this.saveDay = day;
-        this.imageUrl = imageUrl;
         this.category = category;
         this.content = content;
         this.how = how;
         this.expectCost = expectCost;
         this.realCost = realCost;
         this.saveMoney = expectCost - realCost;
+    }
+
+    public void updateGulbi(GulbiUpdateForm form) {
+        this.saveYear = form.getYear();
+        this.saveMonth = form.getMonth();
+        this.saveDay = form.getDay();
+        this.category = form.getCategory();
+        this.content = form.getContent();
+        this.how = form.getHow();
+        this.expectCost = form.getExpectCost();
+        this.realCost = form.getRealCost();
+        this.saveMoney = this.expectCost - this.realCost;
     }
 
     protected Gulbi() {
