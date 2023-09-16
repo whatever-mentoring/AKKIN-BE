@@ -16,8 +16,6 @@ public class GulbiUpdateForm {
 
     private Integer day;
 
-    private String imageUrl;
-
     private Category category;
 
     private String content;
@@ -34,7 +32,6 @@ public class GulbiUpdateForm {
                 .year(year)
                 .month(month)
                 .day(day)
-                .imageUrl(imageUrl)
                 .category(category)
                 .content(content)
                 .how(how)

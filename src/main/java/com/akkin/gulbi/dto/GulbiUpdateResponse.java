@@ -17,8 +17,6 @@ public class GulbiUpdateResponse {
 
     private Integer day;
 
-    private String imageUrl;
-
     private Category category;
 
     private String content;
@@ -34,7 +32,6 @@ public class GulbiUpdateResponse {
         this.year = gulbi.getSaveYear();
         this.month = gulbi.getSaveMonth();
         this.day = gulbi.getSaveDay();
-        this.imageUrl = gulbi.getImageUrl();
         this.category = gulbi.getCategory();
         this.content = gulbi.getContent();
         this.how = gulbi.getHow();

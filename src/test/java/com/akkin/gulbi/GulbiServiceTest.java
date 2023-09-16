@@ -15,7 +15,7 @@ public class GulbiServiceTest extends UnitTest {
         // given
         Member member = 회원_만들기("testName", "testEmail");
         member = memberRepository.save(member);
-        Gulbi gulbi = 굴비_만들기(member, 2023, 9, 9, "imageUrl", Category.DINING,
+        Gulbi gulbi = 굴비_만들기(member, 2023, 9, 9, Category.DINING,
             "버블티 먹고 싶은데 돈 없을 때 꿀팁", "검은색 스티커를 붙이면 된다",
             500, 0);
 
