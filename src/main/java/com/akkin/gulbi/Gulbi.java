@@ -1,7 +1,7 @@
 package com.akkin.gulbi;
 
 import com.akkin.common.BaseTimeEntity;
-import com.akkin.gulbi.dto.GulbiUpdateForm;
+import com.akkin.gulbi.update.dto.GulbiUpdateForm;
 import com.akkin.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
