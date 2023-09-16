@@ -1,5 +1,7 @@
 package com.akkin.gulbi;
 
+import com.akkin.common.exception.GulbiNotFoundException;
+import com.akkin.common.exception.GulbiNotOwnerException;
 import com.akkin.gulbi.dto.GulbiCreateForm;
 import com.akkin.gulbi.dto.GulbiCreateResponse;
 import com.akkin.gulbi.dto.GulbiCreateResponses;
@@ -7,6 +9,7 @@ import com.akkin.member.Member;
 import com.akkin.member.MemberService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
