@@ -1,15 +1,26 @@
 package com.akkin.login;
 
+import com.akkin.common.exception.AppleOauthLoginException;
+import com.akkin.login.dto.OauthMemberInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class ParseJwtPayload {
 
-    public Map<String, String> parse(String jwt) {
+    public OauthMemberInfo parse(String jwt) {
+        String base64EncodedPayload = getJwtPayload(jwt);
+        String decodedPayload = base64Decode(base64EncodedPayload);
+        return parsePayload(decodedPayload);
+    }
+
+    private String getJwtPayload(String jwt) {
         String[] splitToken = jwt.split("\\.");
         // 올바른 JWT인지 확인
         if (splitToken.length != 3) {
@@ -17,23 +28,21 @@ public class ParseJwtPayload {
         }
 
         // Payload는 두 번째 부분
-        String base64EncodedPayload = splitToken[1];
+        return splitToken[1];
+    }
 
-        // Base64Url 디코딩
-        String payload = new String(Base64.getUrlDecoder().decode(base64EncodedPayload), StandardCharsets.UTF_8);
+    private String base64Decode(String base64EncodedPayload) {
+        return new String(Base64.getUrlDecoder().decode(base64EncodedPayload), StandardCharsets.UTF_8);
+    }
 
+    private OauthMemberInfo parsePayload(String decodedPayload) {
         try {
-            // JSON 문자열을 Map으로 변환
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> payloadMap = objectMapper.readValue(payload, Map.class);
-
-            // name과 email 값을 추출
-            String name = (String) payloadMap.get("name");
-            String email = (String) payloadMap.get("email");
-
-            return payloadMap;
+            Map<String, String> payloadMap = objectMapper.readValue(decodedPayload, Map.class);
+            return new OauthMemberInfo(payloadMap);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to decode payload", e);
+            log.info(e.getMessage());
+            throw new AppleOauthLoginException("Failed to decode payload");
         }
     }
 }
