@@ -4,13 +4,17 @@ import com.akkin.auth.AuthRequired;
 import com.akkin.gulbi.dto.GulbiCreateForm;
 import com.akkin.gulbi.dto.GulbiCreateResponse;
 import com.akkin.gulbi.dto.GulbiCreateResponses;
+import com.akkin.gulbi.dto.GulbiUpdateForm;
+import com.akkin.gulbi.dto.GulbiUpdateResponse;
 import com.akkin.gulbi.service.GulbiDeleteService;
+import com.akkin.gulbi.service.GulbiUpdateService;
 import com.akkin.login.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +28,7 @@ public class GulbiController {
 
     private final GulbiService gulbiService;
     private final GulbiDeleteService gulbiDeleteService;
+    private final GulbiUpdateService gulbiUpdateService;
 
     @AuthRequired
     @PostMapping
@@ -45,6 +50,14 @@ public class GulbiController {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         gulbiDeleteService.deleteGulbi(authMember.getId(), gulbiId);
         return ResponseEntity.ok().build();
+    }
+
+    @AuthRequired
+    @PatchMapping("/{id}")
+    public GulbiUpdateResponse updateGulbi(HttpServletRequest request, @PathVariable("id") Long gulbiId, @RequestBody GulbiUpdateForm form) {
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        GulbiUpdateResponse gulbiUpdateResponse = gulbiUpdateService.updateGulbi(authMember.getId(), gulbiId, form);
+        return gulbiUpdateResponse;
     }
 
 }
