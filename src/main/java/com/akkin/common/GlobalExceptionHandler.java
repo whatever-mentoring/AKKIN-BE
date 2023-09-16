@@ -4,7 +4,9 @@ import com.akkin.common.exception.AppleOauthLoginException;
 import com.akkin.common.exception.ExpireRefreshTokenException;
 import com.akkin.common.exception.GulbiNotFoundException;
 import com.akkin.common.exception.GulbiNotOwnerException;
+import com.akkin.common.exception.InvalidJwtException;
 import com.akkin.common.exception.MemberNotFoundException;
+import com.akkin.common.exception.OauthJwtParseException;
 import com.akkin.common.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,9 +47,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            AppleOauthLoginException.class
+            AppleOauthLoginException.class,
+            InvalidJwtException.class,
+            OauthJwtParseException.class
     })
-    public ResponseEntity<ErrorMessage> handleServerError(Exception e, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> handleInternalServerError(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

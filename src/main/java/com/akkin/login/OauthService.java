@@ -2,6 +2,7 @@ package com.akkin.login;
 
 import com.akkin.common.exception.AppleOauthLoginException;
 import com.akkin.login.dto.AuthorizationResponse;
+import com.akkin.login.dto.OauthMemberInfo;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,10 +49,8 @@ public class OauthService {
             ObjectMapper mapper = new ObjectMapper();
             AuthorizationResponse tokenResponse = mapper.readValue(br, AuthorizationResponse.class);
 
-            Map<String, String> userInfoMap = parseJwtPayload.parse(tokenResponse.getId_token());
-            System.out.println(userInfoMap.get("name"));
-            System.out.println(userInfoMap.get("email"));
-            return memberService.saveOrUpdateMember(userInfoMap.get("name"), userInfoMap.get("email"));
+            OauthMemberInfo oauthMemberInfo = parseJwtPayload.parse(tokenResponse.getId_token());
+            return memberService.saveOrUpdateMember(oauthMemberInfo.getName(), oauthMemberInfo.getEmail());
         }
         else {
             throw new AppleOauthLoginException("애플 로그인 오류");

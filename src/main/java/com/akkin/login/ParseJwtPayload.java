@@ -1,6 +1,8 @@
 package com.akkin.login;
 
 import com.akkin.common.exception.AppleOauthLoginException;
+import com.akkin.common.exception.InvalidJwtException;
+import com.akkin.common.exception.OauthJwtParseException;
 import com.akkin.login.dto.OauthMemberInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +26,7 @@ public class ParseJwtPayload {
         String[] splitToken = jwt.split("\\.");
         // 올바른 JWT인지 확인
         if (splitToken.length != 3) {
-            throw new IllegalArgumentException("Invalid JWT token");
+            throw new InvalidJwtException("Invalid JWT token");
         }
 
         // Payload는 두 번째 부분
@@ -42,7 +44,7 @@ public class ParseJwtPayload {
             return new OauthMemberInfo(payloadMap);
         } catch (Exception e) {
             log.info(e.getMessage());
-            throw new AppleOauthLoginException("Failed to decode payload");
+            throw new OauthJwtParseException("Failed to decode payload");
         }
     }
 }
