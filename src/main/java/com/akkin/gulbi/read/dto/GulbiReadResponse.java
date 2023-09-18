@@ -1,13 +1,13 @@
-package com.akkin.gulbi.dto;
+package com.akkin.gulbi.read.dto;
 
 import com.akkin.gulbi.Category;
 import com.akkin.gulbi.Gulbi;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Setter
 @Getter
-public class GulbiUpdateResponse {
+@NoArgsConstructor
+public class GulbiReadResponse {
 
     private Long id;
 
@@ -16,8 +16,6 @@ public class GulbiUpdateResponse {
     private Integer month;
 
     private Integer day;
-
-    private String imageUrl;
 
     private Category category;
 
@@ -29,12 +27,11 @@ public class GulbiUpdateResponse {
 
     private Integer realCost;
 
-    public GulbiUpdateResponse(Gulbi gulbi) {
+    public GulbiReadResponse(Gulbi gulbi) {
         this.id = gulbi.getId();
         this.year = gulbi.getSaveYear();
         this.month = gulbi.getSaveMonth();
         this.day = gulbi.getSaveDay();
-        this.imageUrl = gulbi.getImageUrl();
         this.category = gulbi.getCategory();
         this.content = gulbi.getContent();
         this.how = gulbi.getHow();

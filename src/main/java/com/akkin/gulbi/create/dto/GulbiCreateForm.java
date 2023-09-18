@@ -1,4 +1,4 @@
-package com.akkin.gulbi.dto;
+package com.akkin.gulbi.create.dto;
 
 import com.akkin.gulbi.Category;
 import com.akkin.gulbi.Gulbi;

@@ -1,7 +1,7 @@
 package com.akkin.common;
 
 import com.akkin.gulbi.GulbiRepository;
-import com.akkin.gulbi.GulbiService;
+import com.akkin.gulbi.create.GulbiCreateService;
 import com.akkin.member.MemberRepository;
 import com.akkin.member.MemberService;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -23,7 +23,7 @@ public class UnitTest {
     public MemberRepository memberRepository;
 
     @Autowired
-    public GulbiService gulbiService;
+    public GulbiCreateService gulbiCreateService;
 
     @Autowired
     public GulbiRepository gulbiRepository;

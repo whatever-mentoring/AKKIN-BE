@@ -1,11 +1,9 @@
-package com.akkin.gulbi.service;
+package com.akkin.gulbi.delete;
 
 import com.akkin.common.exception.GulbiNotFoundException;
 import com.akkin.common.exception.GulbiNotOwnerException;
 import com.akkin.gulbi.Gulbi;
 import com.akkin.gulbi.GulbiRepository;
-import com.akkin.gulbi.dto.GulbiUpdateForm;
-import com.akkin.gulbi.dto.GulbiUpdateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +12,15 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class GulbiUpdateService {
+public class GulbiDeleteService {
 
     private final GulbiRepository gulbiRepository;
 
     @Transactional
-    public GulbiUpdateResponse updateGulbi(Long memberId, Long gulbiId, GulbiUpdateForm form) {
+    public void deleteGulbi(Long memberId, Long gulbiId) {
         Gulbi gulbi = getGulbiOrElseThrow(gulbiId);
         checkOwnerOrElseThrow(gulbi, memberId);
-        gulbi.updateGulbi(form);
-        return new GulbiUpdateResponse(gulbi);
+        gulbiRepository.delete(gulbi);
     }
 
     private Gulbi getGulbiOrElseThrow(Long gulbiId) {
