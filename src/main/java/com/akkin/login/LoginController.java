@@ -34,9 +34,7 @@ public class LoginController {
         AuthMember authMember = new AuthMember(member);
         AuthToken authToken = redisService.issueAuthToken(authMember);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("accessToken", authToken.getAccessToken());
-        headers.add("accessToken", authToken.getRefreshToken());
+        HttpHeaders headers = makeAuthHeader(authToken);
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
@@ -46,9 +44,14 @@ public class LoginController {
         AuthMember authMember = new AuthMember(member);
         AuthToken authToken = redisService.issueAuthToken(authMember);
 
+        HttpHeaders headers = makeAuthHeader(authToken);
+        return ResponseEntity.ok().headers(headers).build();
+    }
+
+    private HttpHeaders makeAuthHeader(AuthToken authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("accessToken", authToken.getAccessToken());
         headers.add("refreshToken", authToken.getRefreshToken());
-        return ResponseEntity.ok().headers(headers).build();
+        return headers;
     }
 }
