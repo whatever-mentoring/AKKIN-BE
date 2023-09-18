@@ -3,10 +3,12 @@ package com.akkin.login;
 import com.akkin.auth.RedisService;
 import com.akkin.auth.dto.AuthToken;
 import com.akkin.login.dto.AuthMember;
+import com.akkin.login.dto.OauthMemberInfo;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +25,19 @@ public class LoginController {
 
     private final MemberService memberService;
 
+    private final OauthService oauthService;
+
     @GetMapping("/oauth2/apple")
     public ResponseEntity<Void> appleOauthLogin(@RequestParam("code") String code) throws Exception {
-        return ResponseEntity.ok().build();
+        OauthMemberInfo oauthMemberInfo = oauthService.authCode(code);
+        Member member = memberService.saveOrUpdateMember(oauthMemberInfo.getName(), oauthMemberInfo.getEmail());
+        AuthMember authMember = new AuthMember(member);
+        AuthToken authToken = redisService.issueAuthToken(authMember);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("accessToken", authToken.getAccessToken());
+        headers.add("accessToken", authToken.getRefreshToken());
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
     @GetMapping("/dummy/{id}")
