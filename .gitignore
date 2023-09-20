@@ -39,3 +39,6 @@ out/
 ### dev ###
 .env
 application-dev.yml
+
+### secret ###
+*.p8
