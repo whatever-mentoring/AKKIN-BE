@@ -1,7 +1,5 @@
 package com.akkin.weekly;
 
-import com.akkin.gulbi.weekly.GulbiWeeklyService;
-import com.akkin.member.MemberService;
 import com.akkin.weekly.dto.MemberWeeklyResponse;
 import com.akkin.weekly.dto.MonthWeekInfo;
 import com.akkin.weekly.dto.WeeklyGulbiEntries;

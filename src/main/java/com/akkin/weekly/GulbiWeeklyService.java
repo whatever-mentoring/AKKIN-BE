@@ -1,4 +1,4 @@
-package com.akkin.gulbi.weekly;
+package com.akkin.weekly;
 
 import com.akkin.gulbi.Gulbi;
 import com.akkin.weekly.dto.WeeklyGulbiEntry;
