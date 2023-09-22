@@ -50,6 +50,7 @@ public class MonthlyService {
     }
 
     private MonthRanking calculateTopSavings(List<Gulbi> gulbis) {
+        // Map<SaveDay, SaveMoney>
         Map<Integer, Integer> savingsByDay = new HashMap<>();
 
         for (Gulbi gulbi : gulbis) {
