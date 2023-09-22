@@ -39,3 +39,4 @@ out/
 ### dev ###
 .env
 application-dev.yml
+*.p8
