@@ -1,4 +1,4 @@
-package com.akkin.login.dto;
+package com.akkin.login.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

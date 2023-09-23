@@ -2,9 +2,9 @@ package com.akkin.login;
 
 import com.akkin.auth.RedisService;
 import com.akkin.auth.dto.AuthToken;
-import com.akkin.login.apple.AppleOAuthUserProvider;
+import com.akkin.login.apple.AppleOauthService;
 import com.akkin.login.apple.dto.AppleUser;
-import com.akkin.login.dto.AppleLoginRequest;
+import com.akkin.login.dto.request.AppleLoginRequest;
 import com.akkin.login.dto.AuthMember;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
@@ -28,11 +28,11 @@ public class LoginController {
 
     private final MemberService memberService;
 
-    private final AppleOAuthUserProvider appleOAuthUserProvider;
+    private final AppleOauthService appleOauthService;
 
     @PostMapping("/oauth2/apple")
     public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
-        AppleUser appleUser = appleOAuthUserProvider.extractToken(appleLoginRequest.getAppleToken());
+        AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
         Member member = memberService.saveOrUpdateMember(appleUser);
         AuthMember authMember = new AuthMember(member);
         AuthToken authToken = redisService.issueAuthToken(authMember);
