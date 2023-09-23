@@ -1,9 +1,7 @@
 package com.akkin.login;
 
-import com.akkin.common.exception.AppleOauthLoginException;
 import com.akkin.common.exception.InvalidJwtException;
 import com.akkin.common.exception.OauthJwtParseException;
-import com.akkin.login.dto.OauthMemberInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

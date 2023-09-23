@@ -2,8 +2,10 @@ package com.akkin.login;
 
 import com.akkin.auth.RedisService;
 import com.akkin.auth.dto.AuthToken;
+import com.akkin.login.apple.AppleOAuthUserProvider;
+import com.akkin.login.apple.dto.AppleUser;
+import com.akkin.login.dto.AppleLoginRequest;
 import com.akkin.login.dto.AuthMember;
-import com.akkin.login.dto.OauthMemberInfo;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -25,18 +28,17 @@ public class LoginController {
 
     private final MemberService memberService;
 
-    private final OauthService oauthService;
+    private final AppleOAuthUserProvider appleOAuthUserProvider;
 
-    @GetMapping("/oauth2/apple")
-    public ResponseEntity<Void> appleOauthLogin(@RequestParam("code") String code) throws Exception {
-        oauthService.authCode(code);
-//        Member member = memberService.saveOrUpdateMember(oauthMemberInfo.getName(), oauthMemberInfo.getEmail());
-//        AuthMember authMember = new AuthMember(member);
-//        AuthToken authToken = redisService.issueAuthToken(authMember);
-//
-//        HttpHeaders headers = makeAuthHeader(authToken);
-//        return new ResponseEntity<>(headers, HttpStatus.OK);
-        return ResponseEntity.ok().build();
+    @PostMapping("/oauth2/apple")
+    public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
+        AppleUser appleUser = appleOAuthUserProvider.extractToken(appleLoginRequest.getAppleToken());
+        Member member = memberService.saveOrUpdateMember(appleUser);
+        AuthMember authMember = new AuthMember(member);
+        AuthToken authToken = redisService.issueAuthToken(authMember);
+
+        HttpHeaders headers = makeAuthHeader(authToken);
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
     @GetMapping("/dummy/{id}")

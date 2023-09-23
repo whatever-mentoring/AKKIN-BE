@@ -1,6 +1,7 @@
 package com.akkin.member;
 
 import com.akkin.common.exception.MemberNotFoundException;
+import com.akkin.login.apple.dto.AppleUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +14,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveOrUpdateMember(String name, String email) {
-        return memberRepository.findByEmail(email)
+    public Member saveOrUpdateMember(AppleUser appleUser) {
+        return memberRepository.findByEmail(appleUser.getEmail())
             .map(member -> {
                 member.updateLoginTime();
                 return member;
             })
-            .orElseGet(() -> memberRepository.save(new Member(name, email)));
+            .orElseGet(() -> memberRepository.save(new Member(appleUser)));
     }
 
     public Member findMemberOrElseThrow(Long memberId) {

@@ -26,6 +26,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
 
 	implementation 'mysql:mysql-connector-java:8.0.33'
