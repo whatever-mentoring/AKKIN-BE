@@ -6,4 +6,6 @@ spring:
     port: 6379
   oauth:
     apple:
+      iss: https://appleid.apple.com
       client_id: test
+      key: ${OAUTH_APPLE_KEY_PATH}

@@ -29,13 +29,14 @@ public class LoginController {
 
     @GetMapping("/oauth2/apple")
     public ResponseEntity<Void> appleOauthLogin(@RequestParam("code") String code) throws Exception {
-        OauthMemberInfo oauthMemberInfo = oauthService.authCode(code);
-        Member member = memberService.saveOrUpdateMember(oauthMemberInfo.getName(), oauthMemberInfo.getEmail());
-        AuthMember authMember = new AuthMember(member);
-        AuthToken authToken = redisService.issueAuthToken(authMember);
-
-        HttpHeaders headers = makeAuthHeader(authToken);
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        oauthService.authCode(code);
+//        Member member = memberService.saveOrUpdateMember(oauthMemberInfo.getName(), oauthMemberInfo.getEmail());
+//        AuthMember authMember = new AuthMember(member);
+//        AuthToken authToken = redisService.issueAuthToken(authMember);
+//
+//        HttpHeaders headers = makeAuthHeader(authToken);
+//        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/dummy/{id}")
