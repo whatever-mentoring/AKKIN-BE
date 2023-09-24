@@ -38,4 +38,8 @@ out/
 
 ### dev ###
 .env
-application-dev.yml
+nohup
+application-db.yml
+
+### secret ###
+*.p8
