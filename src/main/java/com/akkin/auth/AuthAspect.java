@@ -26,14 +26,14 @@ public class AuthAspect {
 
         AuthMember authMember = getAuthMemberFromAccessToken(request.getHeader("accessToken"));
 
-        if (authMember == null){
+        if (authMember == null) {
             authMember = handleRefreshToken(request.getHeader("refreshToken"));
         }
 
         if (authMember == null) {
             throw new UnauthorizedException("유효하지 않은 refresh 토큰");
         }
-        
+
         request.setAttribute("authMember", authMember);
         return pjp.proceed();
     }

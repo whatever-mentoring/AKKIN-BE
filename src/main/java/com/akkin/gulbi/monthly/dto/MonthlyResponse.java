@@ -27,7 +27,8 @@ public class MonthlyResponse {
 
 
     @Builder
-    public MonthlyResponse(Integer dining, Integer traffic, Integer shopping, Integer etc, MonthRanking monthRanking) {
+    public MonthlyResponse(Integer dining, Integer traffic, Integer shopping, Integer etc,
+        MonthRanking monthRanking) {
         this.dining = dining;
         this.traffic = traffic;
         this.shopping = shopping;

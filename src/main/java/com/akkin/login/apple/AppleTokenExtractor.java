@@ -37,8 +37,8 @@ public class AppleTokenExtractor {
     public Claims extractClaims(String appleToken, PublicKey publicKey) {
         try {
             JwtParser jwtParser = Jwts.parserBuilder()
-                    .setSigningKey(publicKey)
-                    .build();
+                .setSigningKey(publicKey)
+                .build();
             return jwtParser.parseClaimsJws(appleToken).getBody();
         } catch (Exception e) {
             // todo: 애플 로그인 성공하면 exception 나누기

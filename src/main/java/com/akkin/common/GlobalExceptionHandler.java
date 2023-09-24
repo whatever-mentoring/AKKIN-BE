@@ -23,35 +23,37 @@ public class GlobalExceptionHandler {
     private ErrorMessage buildErrorMessage(Exception exception, HttpServletRequest request) {
         log.error(exception.getMessage());
         return ErrorMessage.builder()
-                .title(exception.getClass().getSimpleName())
-                .detail(exception.getMessage())
-                .instance(request.getRequestURI())
-                .build();
+            .title(exception.getClass().getSimpleName())
+            .detail(exception.getMessage())
+            .instance(request.getRequestURI())
+            .build();
     }
 
     @ExceptionHandler({
-            ExpireRefreshTokenException.class,
-            GulbiNotOwnerException.class,
-            UnauthorizedException.class
+        ExpireRefreshTokenException.class,
+        GulbiNotOwnerException.class,
+        UnauthorizedException.class
     })
     public ResponseEntity<ErrorMessage> handleUnAuthorize(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({
-            GulbiNotFoundException.class,
-            MemberNotFoundException.class
+        GulbiNotFoundException.class,
+        MemberNotFoundException.class
     })
     public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({
-            AppleOauthLoginException.class,
-            InvalidJwtException.class,
-            OauthJwtParseException.class
+        AppleOauthLoginException.class,
+        InvalidJwtException.class,
+        OauthJwtParseException.class
     })
-    public ResponseEntity<ErrorMessage> handleInternalServerError(Exception e, HttpServletRequest request) {
-        return new ResponseEntity<>(buildErrorMessage(e, request), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ErrorMessage> handleInternalServerError(Exception e,
+        HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+            HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

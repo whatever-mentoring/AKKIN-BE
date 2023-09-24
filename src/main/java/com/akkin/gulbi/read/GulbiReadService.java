@@ -21,9 +21,9 @@ public class GulbiReadService {
     public GulbiReadResponses getGulbis(Long memberId) {
         List<Gulbi> gulbis = gulbiRepository.findByMemberId(memberId);
         List<GulbiCreateResponse> gulbiCreateResponses =
-                gulbis.stream()
-                        .map(GulbiCreateResponse::new)
-                        .collect(Collectors.toList());
+            gulbis.stream()
+                .map(GulbiCreateResponse::new)
+                .collect(Collectors.toList());
 
         return new GulbiReadResponses(gulbiCreateResponses);
     }

@@ -3,6 +3,9 @@ package com.akkin.gulbi.delete;
 import com.akkin.auth.AuthRequired;
 import com.akkin.login.dto.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,15 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping("/api/gulbis")
 @RestController
-public class GulbiDeleteController {
+public class GulbiDeleteController implements GulbiDeleteControllerDocs {
 
     private final GulbiDeleteService gulbiDeleteService;
 
-
-    @Operation(summary = "아낀 항목 삭제")
+    @Override
     @AuthRequired
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGulbi(HttpServletRequest request, @PathVariable("id") Long gulbiId) {
+    public ResponseEntity<Void> deleteGulbi(@PathVariable("id") Long gulbiId,
+        HttpServletRequest request) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         gulbiDeleteService.deleteGulbi(authMember.getId(), gulbiId);
         return ResponseEntity.ok().build();

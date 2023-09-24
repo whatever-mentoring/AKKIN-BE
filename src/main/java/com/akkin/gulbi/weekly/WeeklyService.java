@@ -20,13 +20,14 @@ public class WeeklyService {
 
     public MemberWeeklyResponse getWeekly(Long memberID) {
         MonthWeekInfo monthWeekInfo = getWeekOfMonth();
-        List<WeeklyGulbiEntry> weekly = gulbiWeeklyService.getWeekly(memberID, monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
+        List<WeeklyGulbiEntry> weekly = gulbiWeeklyService.getWeekly(memberID,
+            monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
         WeeklyGulbiEntries entries = new WeeklyGulbiEntries(weekly);
         return MemberWeeklyResponse.builder()
-                .month(monthWeekInfo.getMonth())
-                .weekOfMonth((monthWeekInfo.getWeek()))
-                .entries(entries)
-                .build();
+            .month(monthWeekInfo.getMonth())
+            .weekOfMonth((monthWeekInfo.getWeek()))
+            .entries(entries)
+            .build();
     }
 
     private MonthWeekInfo getWeekOfMonth() {

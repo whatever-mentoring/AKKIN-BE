@@ -37,16 +37,16 @@ public class MonthlyService {
         EnumMap<Category, Integer> categoryExpenses = new EnumMap<>(Category.class);
         for (Gulbi gulbi : gulbis) {
             categoryExpenses.put(gulbi.getCategory(),
-                    categoryExpenses.getOrDefault(gulbi.getCategory(), 0) + gulbi.getSaveDay());
+                categoryExpenses.getOrDefault(gulbi.getCategory(), 0) + gulbi.getSaveDay());
         }
         MonthRanking monthRanking = calculateTopSavings(gulbis);
         return MonthlyResponse.builder()
-                .dining(categoryExpenses.getOrDefault(Category.DINING, 0))
-                .traffic(categoryExpenses.getOrDefault(Category.TRAFFIC, 0))
-                .shopping(categoryExpenses.getOrDefault(Category.SHOPPING, 0))
-                .etc(categoryExpenses.getOrDefault(Category.ETC, 0))
-                .monthRanking(monthRanking)
-                .build();
+            .dining(categoryExpenses.getOrDefault(Category.DINING, 0))
+            .traffic(categoryExpenses.getOrDefault(Category.TRAFFIC, 0))
+            .shopping(categoryExpenses.getOrDefault(Category.SHOPPING, 0))
+            .etc(categoryExpenses.getOrDefault(Category.ETC, 0))
+            .monthRanking(monthRanking)
+            .build();
     }
 
     private MonthRanking calculateTopSavings(List<Gulbi> gulbis) {
@@ -55,11 +55,12 @@ public class MonthlyService {
 
         for (Gulbi gulbi : gulbis) {
             savingsByDay.put(gulbi.getSaveDay(),
-                    savingsByDay.getOrDefault(gulbi.getSaveDay(), 0) + gulbi.getSaveMoney());
+                savingsByDay.getOrDefault(gulbi.getSaveDay(), 0) + gulbi.getSaveMoney());
         }
 
         // 총합을 기준으로 내림차순 정렬하는 TreeMap 생성
-        TreeMap<Integer, Integer> sortedSavings = new TreeMap<>((a, b) -> savingsByDay.get(b).compareTo(savingsByDay.get(a)));
+        TreeMap<Integer, Integer> sortedSavings = new TreeMap<>(
+            (a, b) -> savingsByDay.get(b).compareTo(savingsByDay.get(a)));
         sortedSavings.putAll(savingsByDay);
 
         int firstDay = 0, secondDay = 0, thirdDay = 0;

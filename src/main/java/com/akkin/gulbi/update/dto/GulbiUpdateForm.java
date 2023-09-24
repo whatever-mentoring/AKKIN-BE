@@ -30,15 +30,15 @@ public class GulbiUpdateForm {
 
     public Gulbi dtoToEntity(Member member) {
         return Gulbi.builder()
-                .member(member)
-                .year(year)
-                .month(month)
-                .day(day)
-                .category(category)
-                .content(content)
-                .how(how)
-                .expectCost(expectCost)
-                .realCost(realCost)
-                .build();
+            .member(member)
+            .year(year)
+            .month(month)
+            .day(day)
+            .category(category)
+            .content(content)
+            .how(how)
+            .expectCost(expectCost)
+            .realCost(realCost)
+            .build();
     }
 }

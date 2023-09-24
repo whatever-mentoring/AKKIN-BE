@@ -28,7 +28,8 @@ public class MonthRanking {
     private Integer thirdAmount;
 
     @Builder
-    public MonthRanking(Integer firstDay, Integer firstAmount, Integer secondDay, Integer secondAmount, Integer thirdDay, Integer thirdAmount) {
+    public MonthRanking(Integer firstDay, Integer firstAmount, Integer secondDay,
+        Integer secondAmount, Integer thirdDay, Integer thirdAmount) {
         this.firstDay = firstDay;
         this.firstAmount = firstAmount;
         this.secondDay = secondDay;

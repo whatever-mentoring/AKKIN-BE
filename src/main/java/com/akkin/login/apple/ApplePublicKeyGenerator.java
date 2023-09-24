@@ -22,7 +22,8 @@ public class ApplePublicKeyGenerator {
     private static final int POSITIVE_SIGN_NUMBER = 1;
 
     public PublicKey generate(Map<String, String> headers, ApplePublicKeys publicKeys) {
-        ApplePublicKey applePublicKey = publicKeys.getMatchingKey(headers.get(SIGN_ALGORITHM_HEADER), headers.get(KEY_ID_HEADER));
+        ApplePublicKey applePublicKey = publicKeys.getMatchingKey(
+            headers.get(SIGN_ALGORITHM_HEADER), headers.get(KEY_ID_HEADER));
         return generatePublicKey(applePublicKey);
     }
 
