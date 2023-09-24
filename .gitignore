@@ -38,6 +38,7 @@ out/
 
 ### dev ###
 .env
+nohup
 application-db.yml
 
 ### secret ###
