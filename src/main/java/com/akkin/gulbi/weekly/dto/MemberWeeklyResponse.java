@@ -1,6 +1,7 @@
 package com.akkin.gulbi.weekly.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +17,12 @@ public class MemberWeeklyResponse {
     @Schema(description = "서버 시간 기준 월의 몇 번째 주인지")
     Integer weekOfMonth;
 
-    WeeklyGulbiEntries entries;
+    List<WeeklyGulbiEntry> entries;
 
     @Builder
-    public MemberWeeklyResponse(Integer month, Integer weekOfMonth, WeeklyGulbiEntries entries) {
+    public MemberWeeklyResponse(Integer month, Integer weekOfMonth, List<WeeklyGulbiEntry> weeklyGulbiEntries) {
         this.month = month;
         this.weekOfMonth = weekOfMonth;
-        this.entries = entries;
+        this.entries = weeklyGulbiEntries;
     }
 }

@@ -2,7 +2,6 @@ package com.akkin.gulbi.weekly;
 
 import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import com.akkin.gulbi.weekly.dto.MonthWeekInfo;
-import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntries;
 import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntry;
 import java.util.Calendar;
 import java.util.List;
@@ -21,11 +20,10 @@ public class WeeklyService {
         MonthWeekInfo monthWeekInfo = getWeekOfMonth();
         List<WeeklyGulbiEntry> weekly = gulbiWeeklyService.getWeekly(memberID,
             monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
-        WeeklyGulbiEntries entries = new WeeklyGulbiEntries(weekly);
         return MemberWeeklyResponse.builder()
             .month(monthWeekInfo.getMonth())
             .weekOfMonth((monthWeekInfo.getWeek()))
-            .entries(entries)
+            .weeklyGulbiEntries(weekly)
             .build();
     }
 
