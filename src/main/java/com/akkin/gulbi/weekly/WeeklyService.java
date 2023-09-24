@@ -1,7 +1,9 @@
 package com.akkin.gulbi.weekly;
 
+import static com.akkin.common.date.DateUtils.getWeekOfMonth;
+
 import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
-import com.akkin.gulbi.weekly.dto.MonthWeekInfo;
+import com.akkin.common.date.MonthWeekInfo;
 import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntry;
 import java.util.Calendar;
 import java.util.List;
@@ -25,21 +27,5 @@ public class WeeklyService {
             .weekOfMonth((monthWeekInfo.getWeek()))
             .weeklyGulbiEntries(weekly)
             .build();
-    }
-
-    private MonthWeekInfo getWeekOfMonth() {
-        Calendar calendar = Calendar.getInstance();
-
-        // Calender 에서 1월은 0
-        int month = calendar.get(Calendar.MONTH) + 1;
-        // 몇째 주인지
-        int weekOfMonth = calendar.get(Calendar.WEEK_OF_MONTH);
-        // 그 주의 일요일 날짜
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int daysUntilSunday = Calendar.SUNDAY - dayOfWeek;
-        calendar.add(Calendar.DAY_OF_MONTH, daysUntilSunday);
-        int sunday = calendar.get(Calendar.DAY_OF_MONTH);
-
-        return new MonthWeekInfo(month, weekOfMonth, sunday);
     }
 }

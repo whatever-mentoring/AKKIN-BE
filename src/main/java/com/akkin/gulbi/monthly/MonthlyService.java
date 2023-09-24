@@ -1,5 +1,7 @@
 package com.akkin.gulbi.monthly;
 
+import static com.akkin.common.date.DateUtils.getTodayMonth;
+
 import com.akkin.gulbi.Category;
 import com.akkin.gulbi.Gulbi;
 import com.akkin.gulbi.monthly.dto.MonthRanking;
@@ -22,17 +24,16 @@ public class MonthlyService {
     private final MonthlyRepository monthlyRepository;
 
     public MonthlyResponse getMonthInfo(Long memberId) {
-        int month = getTodayMonth();
-        List<Gulbi> gulbis = monthlyRepository.findByMemberIdAndSaveMonth(memberId, month);
+        List<Gulbi> gulbis = getMonthGulbis(memberId);
         return calculateMonthlyExpenses(gulbis);
     }
 
-    private int getTodayMonth() {
-        LocalDate today = LocalDate.now();
-        return today.getMonthValue();
+    public List<Gulbi> getMonthGulbis(Long memberId) {
+        int month = getTodayMonth();
+        return monthlyRepository.findByMemberIdAndSaveMonth(memberId, month);
     }
 
-    private MonthlyResponse calculateMonthlyExpenses(List<Gulbi> gulbis) {
+    public MonthlyResponse calculateMonthlyExpenses(List<Gulbi> gulbis) {
         EnumMap<Category, Integer> categoryExpenses = new EnumMap<>(Category.class);
         for (Gulbi gulbi : gulbis) {
             categoryExpenses.put(gulbi.getCategory(),

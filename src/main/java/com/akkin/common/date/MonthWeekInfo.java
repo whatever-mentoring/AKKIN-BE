@@ -1,4 +1,4 @@
-package com.akkin.gulbi.weekly.dto;
+package com.akkin.common.date;
 
 import lombok.Getter;
 import lombok.Setter;
