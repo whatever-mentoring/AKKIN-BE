@@ -3,9 +3,11 @@ package com.akkin.gulbi.update.dto;
 import com.akkin.gulbi.Category;
 import com.akkin.gulbi.Gulbi;
 import com.akkin.member.Member;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+@Schema(description = "사용자가 수정하려는 아낀 항목 정보")
 @Setter
 @Getter
 public class GulbiUpdateForm {
@@ -28,15 +30,15 @@ public class GulbiUpdateForm {
 
     public Gulbi dtoToEntity(Member member) {
         return Gulbi.builder()
-                .member(member)
-                .year(year)
-                .month(month)
-                .day(day)
-                .category(category)
-                .content(content)
-                .how(how)
-                .expectCost(expectCost)
-                .realCost(realCost)
-                .build();
+            .member(member)
+            .year(year)
+            .month(month)
+            .day(day)
+            .category(category)
+            .content(content)
+            .how(how)
+            .expectCost(expectCost)
+            .realCost(realCost)
+            .build();
     }
 }

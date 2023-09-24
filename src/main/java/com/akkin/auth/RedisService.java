@@ -31,7 +31,8 @@ public class RedisService {
         String accessToken = UUID.randomUUID().toString();
         String refreshToken = UUID.randomUUID().toString();
         whiteTokenRepository.save(new WhiteToken(authMember.getId(), accessToken, refreshToken));
-        redisTemplate.opsForValue().set(accessToken, authMember, ACCESS_TOKEN_EXPIRE, TimeUnit.SECONDS);
+        redisTemplate.opsForValue()
+            .set(accessToken, authMember, ACCESS_TOKEN_EXPIRE, TimeUnit.SECONDS);
         return new AuthToken(accessToken, refreshToken);
     }
 
@@ -42,7 +43,8 @@ public class RedisService {
     @Transactional
     public AuthToken checkRefreshToken(String refreshToken) {
         WhiteToken whiteToken = whiteTokenRepository.findByRefreshToken(refreshToken)
-            .orElseThrow(() -> new ExpireRefreshTokenException(ExpireRefreshTokenException.NON_EXISTENT_TOKEN_MSG));
+            .orElseThrow(() -> new ExpireRefreshTokenException(
+                ExpireRefreshTokenException.NON_EXISTENT_TOKEN_MSG));
 
         LocalDateTime currentTime = LocalDateTime.now();
         if (currentTime.isAfter(whiteToken.getExpiredAt())) {
@@ -55,7 +57,8 @@ public class RedisService {
 
         String newAccessToken = generateToken();
         String newRefreshToken = generateToken();
-        redisTemplate.opsForValue().set(newAccessToken, authMember, ACCESS_TOKEN_EXPIRE, TimeUnit.SECONDS);
+        redisTemplate.opsForValue()
+            .set(newAccessToken, authMember, ACCESS_TOKEN_EXPIRE, TimeUnit.SECONDS);
         whiteToken.reIssuance(newAccessToken, newRefreshToken);
 
         return new AuthToken(newAccessToken, newRefreshToken);

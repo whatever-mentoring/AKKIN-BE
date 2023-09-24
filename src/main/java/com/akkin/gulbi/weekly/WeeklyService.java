@@ -4,12 +4,11 @@ import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import com.akkin.gulbi.weekly.dto.MonthWeekInfo;
 import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntries;
 import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntry;
+import java.util.Calendar;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Calendar;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -20,13 +19,14 @@ public class WeeklyService {
 
     public MemberWeeklyResponse getWeekly(Long memberID) {
         MonthWeekInfo monthWeekInfo = getWeekOfMonth();
-        List<WeeklyGulbiEntry> weekly = gulbiWeeklyService.getWeekly(memberID, monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
+        List<WeeklyGulbiEntry> weekly = gulbiWeeklyService.getWeekly(memberID,
+            monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
         WeeklyGulbiEntries entries = new WeeklyGulbiEntries(weekly);
         return MemberWeeklyResponse.builder()
-                .month(monthWeekInfo.getMonth())
-                .weekOfMonth((monthWeekInfo.getWeek()))
-                .entries(entries)
-                .build();
+            .month(monthWeekInfo.getMonth())
+            .weekOfMonth((monthWeekInfo.getWeek()))
+            .entries(entries)
+            .build();
     }
 
     private MonthWeekInfo getWeekOfMonth() {

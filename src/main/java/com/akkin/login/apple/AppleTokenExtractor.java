@@ -6,12 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.security.PublicKey;
 import java.util.Base64;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
@@ -37,8 +36,8 @@ public class AppleTokenExtractor {
     public Claims extractClaims(String appleToken, PublicKey publicKey) {
         try {
             JwtParser jwtParser = Jwts.parserBuilder()
-                    .setSigningKey(publicKey)
-                    .build();
+                .setSigningKey(publicKey)
+                .build();
             return jwtParser.parseClaimsJws(appleToken).getBody();
         } catch (Exception e) {
             // todo: 애플 로그인 성공하면 exception 나누기

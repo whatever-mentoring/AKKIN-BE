@@ -2,9 +2,11 @@ package com.akkin.gulbi.read.dto;
 
 import com.akkin.gulbi.Category;
 import com.akkin.gulbi.Gulbi;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "사용자가 입력한 아낀 항목 정보")
 @Getter
 @NoArgsConstructor
 public class GulbiReadResponse {

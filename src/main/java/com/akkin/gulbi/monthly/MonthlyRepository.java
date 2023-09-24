@@ -1,9 +1,8 @@
 package com.akkin.gulbi.monthly;
 
 import com.akkin.gulbi.Gulbi;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MonthlyRepository extends JpaRepository<Gulbi, Long> {
 

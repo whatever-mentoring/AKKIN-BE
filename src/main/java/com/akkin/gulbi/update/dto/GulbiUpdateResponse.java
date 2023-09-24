@@ -2,9 +2,11 @@ package com.akkin.gulbi.update.dto;
 
 import com.akkin.gulbi.Category;
 import com.akkin.gulbi.Gulbi;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+@Schema(description = "수정이 반영된 결과")
 @Setter
 @Getter
 public class GulbiUpdateResponse {

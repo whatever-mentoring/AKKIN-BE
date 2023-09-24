@@ -2,6 +2,7 @@ package com.akkin.member;
 
 import com.akkin.common.BaseTimeEntity;
 import com.akkin.gulbi.Gulbi;
+import com.akkin.login.apple.dto.AppleUser;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -11,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import com.akkin.login.apple.dto.AppleUser;
 import lombok.Builder;
 import lombok.Getter;
 
