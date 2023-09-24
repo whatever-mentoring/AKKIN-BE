@@ -68,4 +68,8 @@ public class RedisService {
         return UUID.randomUUID().toString();
     }
 
+    public void deleteAuthToken(String accessToken) {
+        redisTemplate.delete(accessToken);
+        whiteTokenRepository.deleteByAccessToken(accessToken);
+    }
 }
