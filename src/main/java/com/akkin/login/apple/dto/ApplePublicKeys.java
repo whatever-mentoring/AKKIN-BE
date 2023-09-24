@@ -1,8 +1,7 @@
 package com.akkin.login.apple.dto;
 
-import lombok.Getter;
-
 import java.util.List;
+import lombok.Getter;
 
 @Getter
 public class ApplePublicKeys {

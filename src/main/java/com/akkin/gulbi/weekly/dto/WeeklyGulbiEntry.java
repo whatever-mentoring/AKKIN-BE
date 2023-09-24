@@ -2,7 +2,6 @@ package com.akkin.gulbi.weekly.dto;
 
 import com.akkin.gulbi.Gulbi;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

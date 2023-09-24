@@ -2,10 +2,9 @@ package com.akkin.gulbi.weekly;
 
 import com.akkin.gulbi.Gulbi;
 import io.lettuce.core.dynamic.annotation.Param;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface GulbiWeeklyRepository extends JpaRepository<Gulbi, Long> {
 

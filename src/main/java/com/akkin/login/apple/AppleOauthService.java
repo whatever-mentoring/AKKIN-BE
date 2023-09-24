@@ -3,11 +3,10 @@ package com.akkin.login.apple;
 import com.akkin.login.apple.dto.ApplePublicKeys;
 import com.akkin.login.apple.dto.AppleUser;
 import io.jsonwebtoken.Claims;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.security.PublicKey;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component

@@ -1,6 +1,6 @@
-package com.akkin.gulbi.monthly;
+package com.akkin.gulbi.weekly;
 
-import com.akkin.gulbi.monthly.dto.MonthlyResponse;
+import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -10,10 +10,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.servlet.http.HttpServletRequest;
 
-@Tag(name = "월간 아낀 항목 통계", description = "월간 아낀 항목 통계 API")
-public interface MonthlyControllerDocs {
+@Tag(name = "주간 아낀 항목 통계", description = "주간 아낀 항목 통계 API")
+public interface WeeklyControllerDocs {
 
-    @Operation(summary = "월간 아낀 항목 통계 가져오기", parameters = {
+    @Operation(summary = "주간 아낀 항목 통계 가져오기", parameters = {
         @Parameter(
             in = ParameterIn.HEADER,
             name = "accessToken",
@@ -28,10 +28,10 @@ public interface MonthlyControllerDocs {
             description = "Refresh Token")
     },
         responses = {
-            @ApiResponse(responseCode = "200", description = "서버 기준 해당 월의 아낀 통계",
+            @ApiResponse(responseCode = "200", description = "서버 기준 해당 주의 아낀 통계",
                 content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = MonthlyResponse.class))
+                    schema = @Schema(implementation = MemberWeeklyResponse.class))
                 })
         })
-    MonthlyResponse getMonthInfo(HttpServletRequest request);
+    MemberWeeklyResponse getGulbis(HttpServletRequest request);
 }

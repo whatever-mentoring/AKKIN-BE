@@ -8,13 +8,12 @@ import com.akkin.common.exception.InvalidJwtException;
 import com.akkin.common.exception.MemberNotFoundException;
 import com.akkin.common.exception.OauthJwtParseException;
 import com.akkin.common.exception.UnauthorizedException;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestControllerAdvice

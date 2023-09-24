@@ -2,9 +2,6 @@ package com.akkin.login.apple;
 
 import com.akkin.login.apple.dto.ApplePublicKey;
 import com.akkin.login.apple.dto.ApplePublicKeys;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ApplePublicKeyGenerator {
