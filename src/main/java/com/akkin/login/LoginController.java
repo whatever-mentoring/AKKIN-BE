@@ -8,6 +8,7 @@ import com.akkin.login.dto.request.AppleLoginRequest;
 import com.akkin.login.dto.AuthMember;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class LoginController {
 
     private final AppleOauthService appleOauthService;
 
+    @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/oauth2/apple")
     public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
@@ -41,6 +43,7 @@ public class LoginController {
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
+    @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     @GetMapping("/dummy/{id}")
     public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) throws Exception {
         Member member = memberService.findMemberOrElseThrow(id);

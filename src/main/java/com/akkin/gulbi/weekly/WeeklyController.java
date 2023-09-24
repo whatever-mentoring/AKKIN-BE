@@ -3,6 +3,7 @@ package com.akkin.gulbi.weekly;
 import com.akkin.auth.AuthRequired;
 import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import com.akkin.login.dto.AuthMember;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class WeeklyController {
 
     private final WeeklyService weeklyService;
 
+    @Operation(summary = "아낀 항목 주간 통계")
     @AuthRequired
     @GetMapping("/weekly")
     public MemberWeeklyResponse getGulbis(HttpServletRequest request) {

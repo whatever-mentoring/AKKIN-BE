@@ -4,6 +4,7 @@ import com.akkin.auth.AuthRequired;
 import com.akkin.gulbi.create.dto.GulbiCreateForm;
 import com.akkin.gulbi.create.dto.GulbiCreateResponse;
 import com.akkin.login.dto.AuthMember;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ public class GulbiCreateController {
 
     private final GulbiCreateService gulbiCreateService;
 
+    @Operation(summary = "아낀 항목 생성")
     @AuthRequired
     @PostMapping
     public GulbiCreateResponse saveGulbi(@RequestBody GulbiCreateForm form, HttpServletRequest request) {

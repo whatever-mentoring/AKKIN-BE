@@ -2,6 +2,7 @@ package com.akkin.gulbi.delete;
 
 import com.akkin.auth.AuthRequired;
 import com.akkin.login.dto.AuthMember;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ public class GulbiDeleteController {
     private final GulbiDeleteService gulbiDeleteService;
 
 
+    @Operation(summary = "아낀 항목 삭제")
     @AuthRequired
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGulbi(HttpServletRequest request, @PathVariable("id") Long gulbiId) {

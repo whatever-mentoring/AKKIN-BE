@@ -3,6 +3,7 @@ package com.akkin.gulbi.monthly;
 import com.akkin.auth.AuthRequired;
 import com.akkin.gulbi.monthly.dto.MonthlyResponse;
 import com.akkin.login.dto.AuthMember;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class MonthlyController {
 
     private final MonthlyService monthlyService;
 
+    @Operation(summary = "월간 통계 보기")
     @AuthRequired
     @GetMapping("/monthly")
     public MonthlyResponse getMonthInfo(HttpServletRequest request) {

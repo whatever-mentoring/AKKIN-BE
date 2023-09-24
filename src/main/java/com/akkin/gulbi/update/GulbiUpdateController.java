@@ -4,6 +4,7 @@ import com.akkin.auth.AuthRequired;
 import com.akkin.gulbi.update.dto.GulbiUpdateForm;
 import com.akkin.gulbi.update.dto.GulbiUpdateResponse;
 import com.akkin.login.dto.AuthMember;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ public class GulbiUpdateController {
 
     private final GulbiUpdateService gulbiUpdateService;
 
+    @Operation(summary = "아낀 항목 수정")
     @AuthRequired
     @PatchMapping("/{id}")
     public GulbiUpdateResponse updateGulbi(HttpServletRequest request, @PathVariable("id") Long gulbiId, @RequestBody GulbiUpdateForm form) {
