@@ -1,8 +1,8 @@
-package com.akkin.weekly;
+package com.akkin.gulbi.weekly;
 
 import com.akkin.auth.AuthRequired;
+import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import com.akkin.login.dto.AuthMember;
-import com.akkin.weekly.dto.MemberWeeklyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

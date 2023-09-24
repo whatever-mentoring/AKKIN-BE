@@ -1,4 +1,4 @@
-package com.akkin.weekly;
+package com.akkin.gulbi.weekly;
 
 import com.akkin.gulbi.Gulbi;
 import io.lettuce.core.dynamic.annotation.Param;

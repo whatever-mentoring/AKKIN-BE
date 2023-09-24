@@ -1,4 +1,4 @@
-package com.akkin.weekly.dto;
+package com.akkin.gulbi.weekly.dto;
 
 import lombok.Builder;
 import lombok.Getter;

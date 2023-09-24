@@ -1,7 +1,7 @@
-package com.akkin.weekly;
+package com.akkin.gulbi.weekly;
 
 import com.akkin.gulbi.Gulbi;
-import com.akkin.weekly.dto.WeeklyGulbiEntry;
+import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
