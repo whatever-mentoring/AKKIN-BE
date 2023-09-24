@@ -9,10 +9,10 @@ services:
   mysql:
     image: mysql:8.0.3
     environment:
-      MYSQL_DATABASE: akkin
-      MYSQL_USER: akkin
-      MYSQL_PASSWORD: akkin
-      MYSQL_ROOT_PASSWORD: akkin
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
