@@ -1,4 +1,4 @@
-package com.akkin.auth;
+package com.akkin.auth.whitelist;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

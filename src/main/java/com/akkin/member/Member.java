@@ -2,7 +2,7 @@ package com.akkin.member;
 
 import com.akkin.common.BaseTimeEntity;
 import com.akkin.gulbi.Gulbi;
-import com.akkin.login.apple.dto.AppleUser;
+import com.akkin.auth.login.apple.dto.AppleUser;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

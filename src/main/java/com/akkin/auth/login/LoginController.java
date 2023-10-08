@@ -1,11 +1,13 @@
-package com.akkin.login;
+package com.akkin.auth.login;
 
-import com.akkin.auth.RedisService;
-import com.akkin.auth.dto.AuthToken;
-import com.akkin.login.apple.AppleOauthService;
-import com.akkin.login.apple.dto.AppleUser;
-import com.akkin.login.dto.AuthMember;
-import com.akkin.login.dto.request.AppleLoginRequest;
+import static com.akkin.auth.whitelist.WhiteTokenService.accessTokenMap;
+
+import com.akkin.auth.login.dto.response.AuthToken;
+import com.akkin.auth.login.apple.AppleOauthService;
+import com.akkin.auth.login.apple.dto.AppleUser;
+import com.akkin.auth.login.dto.AuthMember;
+import com.akkin.auth.login.dto.request.AppleLoginRequest;
+import com.akkin.auth.whitelist.WhiteTokenService;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class LoginController {
 
-    private final RedisService redisService;
+    private final WhiteTokenService whiteTokenService;
 
     private final MemberService memberService;
 
@@ -41,7 +43,9 @@ public class LoginController {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
         Member member = memberService.saveOrUpdateMember(appleUser);
         AuthMember authMember = new AuthMember(member);
-        AuthToken authToken = redisService.issueAuthToken(authMember);
+        AuthToken authToken = new AuthToken();
+        whiteTokenService.addWhiteToken(authMember.getId(), authToken);
+        accessTokenMap.put(authToken.getAccessToken(), authMember);
 
         HttpHeaders headers = makeAuthHeader(authToken);
         return new ResponseEntity<>(headers, HttpStatus.OK);
@@ -52,7 +56,9 @@ public class LoginController {
     public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) throws Exception {
         Member member = memberService.findMemberOrElseThrow(id);
         AuthMember authMember = new AuthMember(member);
-        AuthToken authToken = redisService.issueAuthToken(authMember);
+        AuthToken authToken = new AuthToken();
+        whiteTokenService.addWhiteToken(authMember.getId(), authToken);
+        accessTokenMap.put(authToken.getAccessToken(), authMember);
 
         HttpHeaders headers = makeAuthHeader(authToken);
         return ResponseEntity.ok().headers(headers).build();
@@ -76,7 +82,7 @@ public class LoginController {
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) throws Exception {
         String accessToken = request.getHeader("accessToken");
-        redisService.deleteAuthToken(accessToken);
+        accessTokenMap.remove(accessToken);
         return ResponseEntity.ok().build();
     }
 }

@@ -1,11 +1,9 @@
-package com.akkin.auth;
+package com.akkin.auth.whitelist;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WhiteTokenRepository extends JpaRepository<WhiteToken, Long> {
 
-    Optional<WhiteToken> findByRefreshToken(String refreshToken);
-
-    void deleteByAccessToken(String accessToken);
+    Optional<WhiteToken> findByMemberIdAndRefreshToken(Long memberId, String refreshToken);
 }

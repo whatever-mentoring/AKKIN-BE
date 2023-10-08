@@ -1,6 +1,6 @@
-package com.akkin.login.apple;
+package com.akkin.auth.login.apple;
 
-import com.akkin.login.apple.dto.ApplePublicKeys;
+import com.akkin.auth.login.apple.dto.ApplePublicKeys;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

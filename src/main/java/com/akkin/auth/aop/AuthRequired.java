@@ -1,4 +1,4 @@
-package com.akkin.auth;
+package com.akkin.auth.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

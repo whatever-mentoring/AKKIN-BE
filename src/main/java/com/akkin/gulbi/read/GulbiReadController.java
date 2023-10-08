@@ -1,8 +1,8 @@
 package com.akkin.gulbi.read;
 
-import com.akkin.auth.AuthRequired;
+import com.akkin.auth.aop.AuthRequired;
 import com.akkin.gulbi.read.dto.GulbiReadResponses;
-import com.akkin.login.dto.AuthMember;
+import com.akkin.auth.login.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
