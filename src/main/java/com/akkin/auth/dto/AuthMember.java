@@ -1,4 +1,4 @@
-package com.akkin.auth.login.dto;
+package com.akkin.auth.dto;
 
 import com.akkin.member.Member;
 import java.time.LocalDateTime;

@@ -2,7 +2,7 @@ package com.akkin.gulbi.monthly;
 
 import com.akkin.auth.aop.AuthRequired;
 import com.akkin.gulbi.monthly.dto.MonthlyResponse;
-import com.akkin.auth.login.dto.AuthMember;
+import com.akkin.auth.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.akkin.auth.login.dto.response;
+package com.akkin.auth.dto.response;
 
 import java.util.UUID;
 import lombok.Getter;

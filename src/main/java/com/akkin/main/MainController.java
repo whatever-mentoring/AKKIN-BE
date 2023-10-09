@@ -5,7 +5,7 @@ import com.akkin.gulbi.Gulbi;
 import com.akkin.gulbi.monthly.MonthlyService;
 import com.akkin.gulbi.weekly.WeeklyService;
 import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
-import com.akkin.auth.login.dto.AuthMember;
+import com.akkin.auth.dto.AuthMember;
 import com.akkin.main.dto.MainResponse;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;

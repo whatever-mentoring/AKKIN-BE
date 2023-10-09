@@ -1,12 +1,12 @@
-package com.akkin.auth.login;
+package com.akkin.auth.controller;
 
 import static com.akkin.auth.whitelist.WhiteTokenService.accessTokenMap;
 
-import com.akkin.auth.login.dto.response.AuthToken;
-import com.akkin.auth.login.apple.AppleOauthService;
-import com.akkin.auth.login.apple.dto.AppleUser;
-import com.akkin.auth.login.dto.AuthMember;
-import com.akkin.auth.login.dto.request.AppleLoginRequest;
+import com.akkin.auth.dto.response.AuthToken;
+import com.akkin.auth.apple.AppleOauthService;
+import com.akkin.auth.apple.dto.AppleUser;
+import com.akkin.auth.dto.AuthMember;
+import com.akkin.auth.dto.request.AppleLoginRequest;
 import com.akkin.auth.whitelist.WhiteTokenService;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;

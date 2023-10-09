@@ -1,7 +1,7 @@
-package com.akkin.auth.login.apple;
+package com.akkin.auth.apple;
 
-import com.akkin.auth.login.apple.dto.ApplePublicKey;
-import com.akkin.auth.login.apple.dto.ApplePublicKeys;
+import com.akkin.auth.apple.dto.ApplePublicKey;
+import com.akkin.auth.apple.dto.ApplePublicKeys;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;

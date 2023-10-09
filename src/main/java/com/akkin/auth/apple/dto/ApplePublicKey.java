@@ -1,4 +1,4 @@
-package com.akkin.auth.login.apple.dto;
+package com.akkin.auth.apple.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.akkin.gulbi.delete;
 
 import com.akkin.auth.aop.AuthRequired;
-import com.akkin.auth.login.dto.AuthMember;
+import com.akkin.auth.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

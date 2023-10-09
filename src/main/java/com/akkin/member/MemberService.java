@@ -1,7 +1,7 @@
 package com.akkin.member;
 
 import com.akkin.common.exception.MemberNotFoundException;
-import com.akkin.auth.login.apple.dto.AppleUser;
+import com.akkin.auth.apple.dto.AppleUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
-package com.akkin.auth.login.apple;
+package com.akkin.auth.apple;
 
-import com.akkin.auth.login.apple.dto.ApplePublicKeys;
-import com.akkin.auth.login.apple.dto.AppleUser;
+import com.akkin.auth.apple.dto.ApplePublicKeys;
+import com.akkin.auth.apple.dto.AppleUser;
 import io.jsonwebtoken.Claims;
 import java.security.PublicKey;
 import java.util.Map;

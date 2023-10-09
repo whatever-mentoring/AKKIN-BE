@@ -3,7 +3,7 @@ package com.akkin.gulbi.update;
 import com.akkin.auth.aop.AuthRequired;
 import com.akkin.gulbi.update.dto.GulbiUpdateForm;
 import com.akkin.gulbi.update.dto.GulbiUpdateResponse;
-import com.akkin.auth.login.dto.AuthMember;
+import com.akkin.auth.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;

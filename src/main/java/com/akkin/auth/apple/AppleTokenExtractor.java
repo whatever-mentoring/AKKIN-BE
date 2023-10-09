@@ -1,4 +1,4 @@
-package com.akkin.auth.login.apple;
+package com.akkin.auth.apple;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;

@@ -2,11 +2,13 @@ package com.akkin.auth.aop;
 
 import static com.akkin.auth.whitelist.WhiteTokenService.accessTokenMap;
 
-import com.akkin.auth.login.dto.AuthMember;
-import com.akkin.auth.login.dto.response.AuthToken;
+import com.akkin.auth.dto.AuthMember;
+import com.akkin.auth.dto.response.AuthToken;
 import com.akkin.auth.whitelist.WhiteToken;
 import com.akkin.auth.whitelist.WhiteTokenService;
 import com.akkin.common.exception.UnauthorizedException;
+import com.akkin.member.Member;
+import com.akkin.member.MemberService;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,9 @@ public class AuthAspect {
 
     @Autowired
     private WhiteTokenService whiteTokenService;
+
+    @Autowired
+    private MemberService memberService;
 
     @Around("@annotation(AuthRequired)")
     public Object handleAuth(ProceedingJoinPoint pjp) throws Throwable {
@@ -58,8 +63,9 @@ public class AuthAspect {
 
     private AuthMember getAuthMember(String accessToken, String refreshToken) {
         AuthMember authMember = accessTokenMap.get(accessToken);
+        // WAS 재시작 등으로 인해 로컬 캐시가 날아간 이후에 발생하는 인증 처리
         if (authMember == null) {
-            throw new UnauthorizedException("로그인하지 않은 사용자: " + accessToken);
+            return checkRefreshToken(accessToken, refreshToken);
         }
         // access 토큰 검증
         if (isAccessTokenValid(authMember.getCreatedAt())) {
@@ -77,9 +83,20 @@ public class AuthAspect {
         throw new UnauthorizedException("로그인 필요");
     }
 
+    private AuthMember checkRefreshToken(String accessToken, String refreshToken) {
+        WhiteToken whiteToken = whiteTokenService.getWhiteToken(accessToken, refreshToken);
+        Member member = memberService.findMemberOrElseThrow(whiteToken.getMemberId());
+        AuthToken authToken = new AuthToken();
+        AuthMember authMember = new AuthMember(member);
+        accessTokenMap.remove(accessToken);
+        accessTokenMap.put(authToken.getAccessToken(), authMember);
+        whiteTokenService.updateWhiteToken(whiteToken, authToken);
+        return authMember;
+    }
+
     private boolean isAccessTokenValid(LocalDateTime accessTokenCreatedAt) {
         LocalDateTime now = LocalDateTime.now();
-        if (Duration.between(accessTokenCreatedAt, now).toHours() >= 1) {
+        if (Duration.between(accessTokenCreatedAt, now).toSeconds() > 3600) {
             return false;
         }
         return true;

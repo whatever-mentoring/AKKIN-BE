@@ -1,4 +1,4 @@
-package com.akkin.auth.login.dto.request;
+package com.akkin.auth.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

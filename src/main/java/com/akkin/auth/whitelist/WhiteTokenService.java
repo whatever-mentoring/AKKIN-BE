@@ -1,9 +1,9 @@
 package com.akkin.auth.whitelist;
 
-import com.akkin.auth.login.dto.AuthMember;
-import com.akkin.auth.login.dto.response.AuthToken;
+import com.akkin.auth.dto.AuthMember;
+import com.akkin.auth.dto.response.AuthToken;
 import com.akkin.common.exception.ExpireRefreshTokenException;
-import java.time.LocalDateTime;
+import com.akkin.common.exception.UnauthorizedException;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,6 +38,11 @@ public class WhiteTokenService {
     @Transactional
     public void updateWhiteToken(WhiteToken whiteToken, AuthToken authToken) {
         whiteToken.reIssuance(authToken.getAccessToken(), authToken.getRefreshToken());
+    }
+
+    public WhiteToken getWhiteToken(String accessToken, String refreshToken) {
+        return whiteTokenRepository.findByAccessTokenAndRefreshToken(accessToken, refreshToken)
+            .orElseThrow(() -> new UnauthorizedException("존재하지 않은 access 및 refresh 토큰"));
     }
 
 }
