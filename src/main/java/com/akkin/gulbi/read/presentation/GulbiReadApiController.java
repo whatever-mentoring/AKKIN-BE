@@ -1,7 +1,8 @@
-package com.akkin.gulbi.weekly;
+package com.akkin.gulbi.read.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
-import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
+import com.akkin.gulbi.read.GulbiReadService;
+import com.akkin.gulbi.read.dto.GulbiReadResponses;
 import com.akkin.auth.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -10,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/members")
+@RequestMapping("/api/gulbis")
 @RestController
-public class WeeklyController implements WeeklyControllerDocs {
+public class GulbiReadApiController implements GulbiReadApiControllerDocs {
 
-    private final WeeklyService weeklyService;
+    private final GulbiReadService gulbiReadService;
 
     @Override
     @AuthRequired
-    @GetMapping("/weekly")
-    public MemberWeeklyResponse getGulbis(HttpServletRequest request) {
+    @GetMapping
+    public GulbiReadResponses getGulbis(HttpServletRequest request) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        return weeklyService.getWeekly(authMember.getId());
+        return gulbiReadService.getGulbis(authMember.getId());
     }
 }

@@ -1,7 +1,8 @@
-package com.akkin.gulbi.delete;
+package com.akkin.gulbi.delete.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
 import com.akkin.auth.dto.AuthMember;
+import com.akkin.gulbi.delete.GulbiDeleteService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/gulbis")
 @RestController
-public class GulbiDeleteController implements GulbiDeleteControllerDocs {
+public class GulbiDeleteApiController implements GulbiDeleteApiControllerDocs {
 
     private final GulbiDeleteService gulbiDeleteService;
 

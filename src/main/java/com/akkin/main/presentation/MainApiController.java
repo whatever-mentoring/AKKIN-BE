@@ -1,4 +1,4 @@
-package com.akkin.main;
+package com.akkin.main.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
 import com.akkin.gulbi.Gulbi;
@@ -6,6 +6,7 @@ import com.akkin.gulbi.monthly.MonthlyService;
 import com.akkin.gulbi.weekly.WeeklyService;
 import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import com.akkin.auth.dto.AuthMember;
+import com.akkin.main.MainService;
 import com.akkin.main.dto.MainResponse;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class MainController implements MainControllerDocs {
+public class MainApiController implements MainApiControllerDocs {
 
     private final MainService mainService;
 

@@ -1,21 +1,19 @@
-package com.akkin.gulbi.create;
+package com.akkin.gulbi.read.presentation;
 
-import com.akkin.gulbi.create.dto.GulbiCreateForm;
-import com.akkin.gulbi.create.dto.GulbiCreateResponse;
+import com.akkin.gulbi.read.dto.GulbiReadResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.servlet.http.HttpServletRequest;
 
-@Tag(name = "아낀 항목 생성", description = "아낀 항목 생성 API")
-public interface GulbiCreateControllerDocs {
+@Tag(name = "[DEBUG] 전체 아낀 항목", description = "주의: 아낀 항목을 많이 넣고 실행하는 응답이 매우 느림")
+public interface GulbiReadApiControllerDocs {
 
-    @Operation(summary = "아낀 항목 생성", parameters = {
+    @Operation(summary = "[DEBUG] 전체 아낀 항목", parameters = {
         @Parameter(
             in = ParameterIn.HEADER,
             name = "accessToken",
@@ -29,13 +27,12 @@ public interface GulbiCreateControllerDocs {
             schema = @Schema(type = "string"),
             description = "Refresh Token")
     },
-        requestBody = @RequestBody(description = "사용자가 등록하려는 아낀 정보", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = GulbiCreateForm.class))}),
         responses = {
-            @ApiResponse(responseCode = "200", description = "서버에 저장된 아낀 정보",
+            @ApiResponse(responseCode = "200", description = "사용자의 모든 아낀 항목 정보",
                 content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = GulbiCreateResponse.class))
+                    schema = @Schema(implementation = GulbiReadResponses.class))
                 })
         })
-    GulbiCreateResponse saveGulbi(GulbiCreateForm form, HttpServletRequest request);
+    GulbiReadResponses getGulbis(HttpServletRequest request);
+
 }

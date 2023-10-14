@@ -1,6 +1,7 @@
-package com.akkin.gulbi.update;
+package com.akkin.gulbi.update.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
+import com.akkin.gulbi.update.GulbiUpdateService;
 import com.akkin.gulbi.update.dto.GulbiUpdateForm;
 import com.akkin.gulbi.update.dto.GulbiUpdateResponse;
 import com.akkin.auth.dto.AuthMember;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/gulbis")
 @RestController
-public class GulbiUpdateController implements GulbiUpdateControllerDocs {
+public class GulbiUpdateApiController implements GulbiUpdateApiControllerDocs {
 
     private final GulbiUpdateService gulbiUpdateService;
 

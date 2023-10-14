@@ -1,4 +1,4 @@
-package com.akkin.gulbi.update;
+package com.akkin.gulbi.update.presentation;
 
 import com.akkin.gulbi.update.dto.GulbiUpdateForm;
 import com.akkin.gulbi.update.dto.GulbiUpdateResponse;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "아낀 항목 수정", description = "아낀 항목 수정 API")
-public interface GulbiUpdateControllerDocs {
+public interface GulbiUpdateApiControllerDocs {
 
     @Operation(summary = "아낀 항목 수정", parameters = {
         @Parameter(

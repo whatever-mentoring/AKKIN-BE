@@ -1,7 +1,8 @@
-package com.akkin.gulbi.read;
+package com.akkin.gulbi.monthly.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
-import com.akkin.gulbi.read.dto.GulbiReadResponses;
+import com.akkin.gulbi.monthly.MonthlyService;
+import com.akkin.gulbi.monthly.dto.MonthlyResponse;
 import com.akkin.auth.dto.AuthMember;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -10,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/gulbis")
+@RequestMapping("/api/members")
 @RestController
-public class GulbiReadController implements GulbiReadControllerDocs {
+public class MonthlyApiController implements MonthlyApiControllerDocs {
 
-    private final GulbiReadService gulbiReadService;
+    private final MonthlyService monthlyService;
 
-    @Override
     @AuthRequired
-    @GetMapping
-    public GulbiReadResponses getGulbis(HttpServletRequest request) {
+    @GetMapping("/monthly")
+    public MonthlyResponse getMonthInfo(HttpServletRequest request) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        return gulbiReadService.getGulbis(authMember.getId());
+        return monthlyService.getMonthInfo(authMember.getId());
     }
 }

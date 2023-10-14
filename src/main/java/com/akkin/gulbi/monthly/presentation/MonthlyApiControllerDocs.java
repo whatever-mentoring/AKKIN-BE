@@ -1,4 +1,4 @@
-package com.akkin.gulbi.monthly;
+package com.akkin.gulbi.monthly.presentation;
 
 import com.akkin.gulbi.monthly.dto.MonthlyResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.servlet.http.HttpServletRequest;
 
 @Tag(name = "월간 아낀 항목 통계", description = "월간 아낀 항목 통계 API")
-public interface MonthlyControllerDocs {
+public interface MonthlyApiControllerDocs {
 
     @Operation(summary = "월간 아낀 항목 통계 가져오기", parameters = {
         @Parameter(

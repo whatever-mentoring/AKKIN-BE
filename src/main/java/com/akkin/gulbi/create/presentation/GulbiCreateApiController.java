@@ -1,6 +1,7 @@
-package com.akkin.gulbi.create;
+package com.akkin.gulbi.create.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
+import com.akkin.gulbi.create.GulbiCreateService;
 import com.akkin.gulbi.create.dto.GulbiCreateForm;
 import com.akkin.gulbi.create.dto.GulbiCreateResponse;
 import com.akkin.auth.dto.AuthMember;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/gulbis")
 @RestController
-public class GulbiCreateController implements GulbiCreateControllerDocs {
+public class GulbiCreateApiController implements GulbiCreateApiControllerDocs {
 
     private final GulbiCreateService gulbiCreateService;
 

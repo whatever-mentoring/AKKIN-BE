@@ -1,4 +1,4 @@
-package com.akkin.auth.controller;
+package com.akkin.auth;
 
 import static com.akkin.auth.whitelist.WhiteTokenService.accessTokenMap;
 
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class LoginController {
+public class LoginApiController {
 
     private final WhiteTokenService whiteTokenService;
 

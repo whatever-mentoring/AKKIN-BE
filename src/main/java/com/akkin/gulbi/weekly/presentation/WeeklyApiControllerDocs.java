@@ -1,4 +1,4 @@
-package com.akkin.gulbi.weekly;
+package com.akkin.gulbi.weekly.presentation;
 
 import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.servlet.http.HttpServletRequest;
 
 @Tag(name = "주간 아낀 항목 통계", description = "주간 아낀 항목 통계 API")
-public interface WeeklyControllerDocs {
+public interface WeeklyApiControllerDocs {
 
     @Operation(summary = "주간 아낀 항목 통계 가져오기", parameters = {
         @Parameter(
