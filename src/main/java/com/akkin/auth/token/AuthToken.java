@@ -52,4 +52,8 @@ public class AuthToken {
         this.createdAt = LocalDateTime.now();
         this.expiredAt = this.createdAt.plusYears(1);
     }
+
+    public void setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
+    }
 }

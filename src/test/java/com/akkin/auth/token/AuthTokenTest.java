@@ -8,6 +8,7 @@ import com.akkin.auth.apple.dto.AppleUser;
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.common.UnitTest;
 import com.akkin.member.Member;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -79,11 +80,52 @@ public class AuthTokenTest extends UnitTest {
 
     @Test
     public void 액세스토큰만_만료시_토큰재발급() {
+        // given
+        Member member = memberRepository.save(회원_만들기("test", "test@test.com"));
+        AuthToken beforeAuthToken = authTokenService.issue(member);
+        String beforeAccessToken = beforeAuthToken.getAccessToken();
+        String beforeRefreshToken = beforeAuthToken.getRefreshToken();
 
+        // when
+        AuthToken newAuthToken = authTokenService.reIssueAuthToken(beforeAuthToken);
+
+        // then
+        assertThat(newAuthToken.getAccessToken()).isNotEqualTo(beforeAccessToken);
+        assertThat(newAuthToken.getRefreshToken()).isNotEqualTo(beforeRefreshToken);
+        assertThat(newAuthToken.getMemberId()).isEqualTo(beforeAuthToken.getMemberId());
     }
 
     @Test
     public void 리프레시토큰도_만료되면_예외발생() {
+        // given
+        Member member = memberRepository.save(회원_만들기("test", "test@test.com"));
+        AuthToken authToken = authTokenService.issue(member);
+        authToken.setExpiredAt(LocalDateTime.now().minusYears(1));
 
+        // when
+        boolean result = authTokenService.isRefreshTokenValid(authToken.getExpiredAt());
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void WAS_재시작으로_인증캐시가_없어진경우_토큰재발급() {
+        // given
+        Member member = memberRepository.save(회원_만들기("test", "test@test.com"));
+        AuthToken beforeAuthToken = authTokenService.issue(member);
+        // WAS 재시작해서 Map 정보가 없어졌다 가정
+        accessTokenMap.remove(beforeAuthToken.getAccessToken());
+        String beforeAccessToken = beforeAuthToken.getAccessToken();
+        String beforeRefreshToken = beforeAuthToken.getRefreshToken();
+
+        // when
+        beforeAuthToken = authTokenService.getAuthToken(beforeAccessToken, beforeRefreshToken);
+        AuthToken newAuthToken = authTokenService.reIssueAuthToken(beforeAuthToken);
+
+        // then
+        assertThat(newAuthToken.getAccessToken()).isNotEqualTo(beforeAccessToken);
+        assertThat(newAuthToken.getRefreshToken()).isNotEqualTo(beforeRefreshToken);
+        assertThat(newAuthToken.getMemberId()).isEqualTo(beforeAuthToken.getMemberId());
     }
 }

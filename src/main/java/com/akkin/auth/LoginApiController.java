@@ -36,6 +36,9 @@ public class LoginApiController {
 
     private final AppleOauthService appleOauthService;
 
+    public static final String ACCESS_TOKEN_HEADER = "accessToken";
+    public static final String REFRESH_TOKEN_HEADER = "refreshToken";
+
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/login/oauth2/apple")
     public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
@@ -57,8 +60,8 @@ public class LoginApiController {
 
     private HttpHeaders makeAuthHeader(AuthToken authToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("accessToken", authToken.getAccessToken());
-        headers.add("refreshToken", authToken.getRefreshToken());
+        headers.add(ACCESS_TOKEN_HEADER, authToken.getAccessToken());
+        headers.add(REFRESH_TOKEN_HEADER, authToken.getRefreshToken());
         return headers;
     }
 
@@ -72,7 +75,7 @@ public class LoginApiController {
     }, description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) throws Exception {
-        String accessToken = request.getHeader("accessToken");
+        String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
         accessTokenMap.remove(accessToken);
         return ResponseEntity.ok().build();
     }

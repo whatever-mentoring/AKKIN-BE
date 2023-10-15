@@ -1,5 +1,7 @@
 package com.akkin.auth.aop;
 
+import static com.akkin.auth.LoginApiController.ACCESS_TOKEN_HEADER;
+import static com.akkin.auth.LoginApiController.REFRESH_TOKEN_HEADER;
 import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
 
 import com.akkin.auth.dto.AuthMember;
@@ -26,12 +28,7 @@ public class AuthAspect {
     @Autowired
     private AuthTokenService authTokenService;
 
-    @Autowired
-    private MemberService memberService;
-
-    private final String ACCESS_TOKEN_HEADER = "accessToken";
-    private final String REFRESH_TOKEN_HEADER = "refreshToken";
-    private final String AUTH_MEMBER_ATTRIBUTE_NAME = "authMember";
+    private final String AUTH_MEMBER_ATTRIBUTE = "authMember";
 
     @Around("@annotation(AuthRequired)")
     public Object handleAuth(ProceedingJoinPoint pjp) throws Throwable {
@@ -40,7 +37,7 @@ public class AuthAspect {
         String refreshToken = parseRefreshToken(request);
 
         AuthMember authMember = getAuthMember(accessToken, refreshToken);
-        request.setAttribute(AUTH_MEMBER_ATTRIBUTE_NAME, authMember);
+        request.setAttribute(AUTH_MEMBER_ATTRIBUTE, authMember);
         return pjp.proceed();
     }
 
@@ -68,55 +65,20 @@ public class AuthAspect {
         AuthMember authMember = accessTokenMap.get(accessToken);
         // WAS 재시작 등으로 인해 로컬 캐시가 날아간 이후에 발생하는 인증 처리
         if (authMember == null) {
-            return checkRefreshToken(accessToken, refreshToken);
+            AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
+            authTokenService.reIssueAuthToken(authToken);
+            return accessTokenMap.get(authToken.getAccessToken());
         }
         // access 토큰 검증
-        if (isAccessTokenValid(authMember.getCreatedAt())) {
+        if (authTokenService.isAccessTokenValid(authMember.getCreatedAt())) {
             return authMember;
         }
         // access 토큰이 만료됐다면 refresh 토큰 검증
         AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
-        if (isRefreshTokenValid(authToken.getExpiredAt())) {
-            // 기존 인증 캐시 삭제
-            accessTokenMap.remove(accessToken);
-            // 새로운 인증 토큰 재발급 및 DB 갱신
-            authTokenService.updateAuthToken(authToken);
-            accessTokenMap.put(authToken.getAccessToken(), authMember);
-            return authMember;
+        if (authTokenService.isRefreshTokenValid(authToken.getExpiredAt())) {
+            authToken = authTokenService.reIssueAuthToken(authToken);
+            return accessTokenMap.get(authToken.getAccessToken());
         }
         throw new UnauthorizedException("로그인 필요");
-    }
-
-    private AuthMember checkRefreshToken(String accessToken, String refreshToken) {
-        // DB에 저장된 인증 정보가 있는지 확인
-        AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
-        // 리프레시 토큰이 유효하면 인증 토큰 재발급
-        if (isRefreshTokenValid(authToken.getExpiredAt())) {
-            Member member = memberService.findMember(authToken.getMemberId());
-            // 기존 인증 캐시 삭제
-            accessTokenMap.remove(accessToken);
-            // 새로운 인증 토큰 재발급 및 DB 갱신
-            authTokenService.updateAuthToken(authToken);
-            AuthMember authMember = new AuthMember(member);
-            accessTokenMap.put(authToken.getAccessToken(), authMember);
-            return authMember;
-        }
-        throw new UnauthorizedException("로그인 필요");
-    }
-
-    private boolean isAccessTokenValid(LocalDateTime accessTokenCreatedAt) {
-        LocalDateTime now = LocalDateTime.now();
-        if (Duration.between(accessTokenCreatedAt, now).toSeconds() > 3600) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isRefreshTokenValid(LocalDateTime refreshTokenExpiredAt) {
-        LocalDateTime now = LocalDateTime.now();
-        if (now.isAfter(refreshTokenExpiredAt)) {
-            return false;
-        }
-        return true;
     }
 }
