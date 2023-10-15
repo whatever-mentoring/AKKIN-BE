@@ -8,6 +8,7 @@ import com.akkin.common.UnitTest;
 import com.akkin.member.Member;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("NonAsciiCharacters")
 public class GulbiServiceTest extends UnitTest {
 
     @Test

@@ -1,13 +1,12 @@
 package com.akkin.auth;
 
-import static com.akkin.auth.whitelist.WhiteTokenService.accessTokenMap;
+import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
 
-import com.akkin.auth.dto.response.AuthToken;
 import com.akkin.auth.apple.AppleOauthService;
 import com.akkin.auth.apple.dto.AppleUser;
-import com.akkin.auth.dto.AuthMember;
 import com.akkin.auth.dto.request.AppleLoginRequest;
-import com.akkin.auth.whitelist.WhiteTokenService;
+import com.akkin.auth.token.AuthToken;
+import com.akkin.auth.token.AuthTokenService;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class LoginApiController {
 
-    private final WhiteTokenService whiteTokenService;
+    private final AuthTokenService authTokenService;
 
     private final MemberService memberService;
 
@@ -42,11 +41,7 @@ public class LoginApiController {
     public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
         Member member = memberService.saveOrUpdateMember(appleUser);
-        AuthMember authMember = new AuthMember(member);
-        AuthToken authToken = new AuthToken();
-        whiteTokenService.addWhiteToken(authMember.getId(), authToken);
-        accessTokenMap.put(authToken.getAccessToken(), authMember);
-
+        AuthToken authToken = authTokenService.issue(member);
         HttpHeaders headers = makeAuthHeader(authToken);
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
@@ -54,12 +49,8 @@ public class LoginApiController {
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     @GetMapping("/login/dummy/{id}")
     public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) throws Exception {
-        Member member = memberService.findMemberOrElseThrow(id);
-        AuthMember authMember = new AuthMember(member);
-        AuthToken authToken = new AuthToken();
-        whiteTokenService.addWhiteToken(authMember.getId(), authToken);
-        accessTokenMap.put(authToken.getAccessToken(), authMember);
-
+        Member member = memberService.findMember(id);
+        AuthToken authToken = authTokenService.issue(member);
         HttpHeaders headers = makeAuthHeader(authToken);
         return ResponseEntity.ok().headers(headers).build();
     }

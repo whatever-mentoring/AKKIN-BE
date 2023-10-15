@@ -1,6 +1,7 @@
-package com.akkin.auth.whitelist;
+package com.akkin.auth.token;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class WhiteToken {
+public class AuthToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +34,10 @@ public class WhiteToken {
     @Column(nullable = false)
     private LocalDateTime expiredAt;
 
-    @Builder
-    public WhiteToken(Long memberId, String accessToken, String refreshToken) {
+    public AuthToken(Long memberId) {
         this.memberId = memberId;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+        this.accessToken = UUID.randomUUID().toString();
+        this.refreshToken = UUID.randomUUID().toString();
     }
 
     @PrePersist
@@ -46,9 +46,9 @@ public class WhiteToken {
         this.expiredAt = this.createdAt.plusYears(1);
     }
 
-    public void reIssuance(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+    public void reIssuance() {
+        this.accessToken = UUID.randomUUID().toString();
+        this.refreshToken = UUID.randomUUID().toString();
         this.createdAt = LocalDateTime.now();
         this.expiredAt = this.createdAt.plusYears(1);
     }

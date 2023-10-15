@@ -20,7 +20,7 @@ public class GulbiCreateService {
 
     @Transactional
     public GulbiCreateResponse createGulbi(Long memberId, GulbiCreateForm form) {
-        Member member = memberService.findMemberOrElseThrow(memberId);
+        Member member = memberService.findMember(memberId);
         Gulbi gulbi = gulbiRepository.save(form.dtoToEntity(member));
         return new GulbiCreateResponse(gulbi);
     }

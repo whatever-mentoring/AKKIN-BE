@@ -23,7 +23,7 @@ public class MemberService {
             .orElseGet(() -> memberRepository.save(new Member(appleUser)));
     }
 
-    public Member findMemberOrElseThrow(Long memberId) {
+    public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 멤버입니다. : " + memberId));
     }

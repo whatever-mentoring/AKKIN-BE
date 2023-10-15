@@ -1,11 +1,10 @@
 package com.akkin.auth.aop;
 
-import static com.akkin.auth.whitelist.WhiteTokenService.accessTokenMap;
+import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
 
 import com.akkin.auth.dto.AuthMember;
-import com.akkin.auth.dto.response.AuthToken;
-import com.akkin.auth.whitelist.WhiteToken;
-import com.akkin.auth.whitelist.WhiteTokenService;
+import com.akkin.auth.token.AuthToken;
+import com.akkin.auth.token.AuthTokenService;
 import com.akkin.common.exception.UnauthorizedException;
 import com.akkin.member.Member;
 import com.akkin.member.MemberService;
@@ -25,10 +24,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class AuthAspect {
 
     @Autowired
-    private WhiteTokenService whiteTokenService;
+    private AuthTokenService authTokenService;
 
     @Autowired
     private MemberService memberService;
+
+    private final String ACCESS_TOKEN_HEADER = "accessToken";
+    private final String REFRESH_TOKEN_HEADER = "refreshToken";
+    private final String AUTH_MEMBER_ATTRIBUTE_NAME = "authMember";
 
     @Around("@annotation(AuthRequired)")
     public Object handleAuth(ProceedingJoinPoint pjp) throws Throwable {
@@ -37,7 +40,7 @@ public class AuthAspect {
         String refreshToken = parseRefreshToken(request);
 
         AuthMember authMember = getAuthMember(accessToken, refreshToken);
-        request.setAttribute("authMember", authMember);
+        request.setAttribute(AUTH_MEMBER_ATTRIBUTE_NAME, authMember);
         return pjp.proceed();
     }
 
@@ -46,7 +49,7 @@ public class AuthAspect {
     }
 
     private String parseAccessToken(HttpServletRequest request) {
-        String accessToken = request.getHeader("accessToken");
+        String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
         if (accessToken == null) {
             throw new UnauthorizedException("Access token 없음");
         }
@@ -54,7 +57,7 @@ public class AuthAspect {
     }
 
     private String parseRefreshToken(HttpServletRequest request) {
-        String refreshToken = request.getHeader("refreshToken");
+        String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
         if (refreshToken == null) {
             throw new UnauthorizedException("Refresh token 없음");
         }
@@ -71,27 +74,34 @@ public class AuthAspect {
         if (isAccessTokenValid(authMember.getCreatedAt())) {
             return authMember;
         }
-        // refresh 토큰 검증
-        WhiteToken whiteToken = whiteTokenService.getWhiteToken(authMember.getId(), refreshToken);
-        if (isRefreshTokenValid(whiteToken.getExpiredAt())) {
-            AuthToken authToken = new AuthToken();
+        // access 토큰이 만료됐다면 refresh 토큰 검증
+        AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
+        if (isRefreshTokenValid(authToken.getExpiredAt())) {
+            // 기존 인증 캐시 삭제
             accessTokenMap.remove(accessToken);
+            // 새로운 인증 토큰 재발급 및 DB 갱신
+            authTokenService.updateAuthToken(authToken);
             accessTokenMap.put(authToken.getAccessToken(), authMember);
-            whiteTokenService.updateWhiteToken(whiteToken, authToken);
             return authMember;
         }
         throw new UnauthorizedException("로그인 필요");
     }
 
     private AuthMember checkRefreshToken(String accessToken, String refreshToken) {
-        WhiteToken whiteToken = whiteTokenService.getWhiteToken(accessToken, refreshToken);
-        Member member = memberService.findMemberOrElseThrow(whiteToken.getMemberId());
-        AuthToken authToken = new AuthToken();
-        AuthMember authMember = new AuthMember(member);
-        accessTokenMap.remove(accessToken);
-        accessTokenMap.put(authToken.getAccessToken(), authMember);
-        whiteTokenService.updateWhiteToken(whiteToken, authToken);
-        return authMember;
+        // DB에 저장된 인증 정보가 있는지 확인
+        AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
+        // 리프레시 토큰이 유효하면 인증 토큰 재발급
+        if (isRefreshTokenValid(authToken.getExpiredAt())) {
+            Member member = memberService.findMember(authToken.getMemberId());
+            // 기존 인증 캐시 삭제
+            accessTokenMap.remove(accessToken);
+            // 새로운 인증 토큰 재발급 및 DB 갱신
+            authTokenService.updateAuthToken(authToken);
+            AuthMember authMember = new AuthMember(member);
+            accessTokenMap.put(authToken.getAccessToken(), authMember);
+            return authMember;
+        }
+        throw new UnauthorizedException("로그인 필요");
     }
 
     private boolean isAccessTokenValid(LocalDateTime accessTokenCreatedAt) {
