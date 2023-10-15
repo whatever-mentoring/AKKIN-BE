@@ -1,7 +1,7 @@
 package com.akkin.member;
 
 import com.akkin.common.exception.MemberNotFoundException;
-import com.akkin.login.apple.dto.AppleUser;
+import com.akkin.auth.apple.dto.AppleUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class MemberService {
             .orElseGet(() -> memberRepository.save(new Member(appleUser)));
     }
 
-    public Member findMemberOrElseThrow(Long memberId) {
+    public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 멤버입니다. : " + memberId));
     }
