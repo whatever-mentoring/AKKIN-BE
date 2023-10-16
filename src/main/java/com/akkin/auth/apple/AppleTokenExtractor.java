@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppleTokenExtractor {
 
-    private static final String JWT_SPLIT = "\\.";
+    private static final String IDENTITY_TOKEN_VALUE_DELIMITER  = "\\.";
     private static final int HEADER_INDEX = 0;
 
     private final ObjectMapper objectMapper;
 
     public Map<String, String> extractHeader(String appleToken) {
         try {
-            String encodedHeader = appleToken.split(JWT_SPLIT)[HEADER_INDEX];
+            String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER )[HEADER_INDEX];
             String decodedHeader = new String(Base64.getUrlDecoder().decode(encodedHeader));
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
@@ -35,10 +35,11 @@ public class AppleTokenExtractor {
 
     public Claims extractClaims(String appleToken, PublicKey publicKey) {
         try {
-            JwtParser jwtParser = Jwts.parserBuilder()
-                .setSigningKey(publicKey)
-                .build();
-            return jwtParser.parseClaimsJws(appleToken).getBody();
+            return Jwts.parser()
+                .verifyWith(publicKey)
+                .build()
+                .parseSignedClaims(appleToken)
+                .getPayload();
         } catch (Exception e) {
             // todo: 애플 로그인 성공하면 exception 나누기
             throw new RuntimeException("애플 사용자 claim 추출 오류");
