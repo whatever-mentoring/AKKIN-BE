@@ -76,4 +76,17 @@ public class AuthTokenService {
         authMember.setCreatedAt(authToken.getCreatedAt());
         return authToken;
     }
+
+    @Transactional
+    public void deleteAuthToken(String accessToken) {
+        if (accessToken == null) {
+            return;
+        }
+        AuthMember authMember = accessTokenMap.get(accessToken);
+        if (authMember == null) {
+            return;
+        }
+        authTokenRepository.deleteByMemberId(authMember.getId());
+        accessTokenMap.remove(accessToken);
+    }
 }

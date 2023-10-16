@@ -13,4 +13,6 @@ public interface AuthTokenRepository extends JpaRepository<AuthToken, Long> {
     List<AuthToken> findAllByMemberId(Long memberId);
 
     Optional<AuthToken> findByMemberId(Long memberId);
+
+    void deleteByMemberId(Long memberId);
 }

@@ -51,7 +51,7 @@ public class LoginApiController {
 
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     @GetMapping("/login/dummy/{id}")
-    public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) {
         Member member = memberService.findMember(id);
         AuthToken authToken = authTokenService.issue(member);
         HttpHeaders headers = makeAuthHeader(authToken);
@@ -74,9 +74,9 @@ public class LoginApiController {
             description = "Access Token")
     }, description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
     @GetMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) throws Exception {
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
         String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
-        accessTokenMap.remove(accessToken);
+        authTokenService.deleteAuthToken(accessToken);
         return ResponseEntity.ok().build();
     }
 }

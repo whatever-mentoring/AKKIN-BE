@@ -3,10 +3,12 @@ package com.akkin.auth.token;
 import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
 import static com.akkin.fixture.MemberFixture.회원_만들기;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.akkin.auth.apple.dto.AppleUser;
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.common.UnitTest;
+import com.akkin.common.exception.UnauthorizedException;
 import com.akkin.member.Member;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -127,5 +129,32 @@ public class AuthTokenTest extends UnitTest {
         assertThat(newAuthToken.getAccessToken()).isNotEqualTo(beforeAccessToken);
         assertThat(newAuthToken.getRefreshToken()).isNotEqualTo(beforeRefreshToken);
         assertThat(newAuthToken.getMemberId()).isEqualTo(beforeAuthToken.getMemberId());
+    }
+
+    @Test
+    public void 로그아웃하면_DB_토큰_삭제() {
+        // given
+        Member member = memberRepository.save(회원_만들기("test", "test@test.com"));
+        AuthToken authToken = authTokenService.issue(member);
+        authTokenService.deleteAuthToken(authToken.getAccessToken());
+
+        // when & then
+        assertThrows(UnauthorizedException.class, () ->
+                authTokenService.getAuthToken(authToken.getAccessToken(), authToken.getRefreshToken())
+        );
+    }
+
+    @Test
+    public void 로그아웃하면_로컬캐시_토큰_삭제() {
+        // given
+        Member member = memberRepository.save(회원_만들기("test", "test@test.com"));
+        AuthToken authToken = authTokenService.issue(member);
+        authTokenService.deleteAuthToken(authToken.getAccessToken());
+
+        // when
+        AuthMember authMember = accessTokenMap.get(authToken.getAccessToken());
+
+        // then
+        assertThat(authMember).isNull();
     }
 }
