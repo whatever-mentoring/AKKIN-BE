@@ -8,9 +8,11 @@ import io.jsonwebtoken.Jwts;
 import java.security.PublicKey;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class AppleTokenExtractor {
@@ -22,7 +24,9 @@ public class AppleTokenExtractor {
 
     public Map<String, String> extractHeader(String appleToken) {
         try {
+            log.info("appleToken : "  + appleToken);
             String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
+            log.info("encodedHeader : "  + encodedHeader);
             String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
