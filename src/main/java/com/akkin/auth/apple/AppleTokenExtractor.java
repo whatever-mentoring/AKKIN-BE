@@ -27,7 +27,7 @@ public class AppleTokenExtractor {
             log.info("appleToken : "  + appleToken);
             String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
             log.info("encodedHeader : "  + encodedHeader);
-            String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
+            String decodedHeader = new String(Base64Utils.decodeFromString(encodedHeader));
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
             throw new RuntimeException("Invalid Header");
