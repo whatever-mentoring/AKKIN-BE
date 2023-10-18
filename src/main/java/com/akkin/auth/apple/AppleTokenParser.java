@@ -6,24 +6,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.security.PublicKey;
+import java.util.Base64;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class AppleTokenParser {
 
-    private static final String IDENTITY_TOKEN_VALUE_DELIMITER  = "\\.";
+    private static final String IDENTITY_TOKEN_VALUE_DELIMITER = "\\.";
     private static final int HEADER_INDEX = 0;
 
     private final ObjectMapper objectMapper;
 
     public Map<String, String> parseHeader(String appleToken) {
         try {
-            String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER )[HEADER_INDEX];
-            String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
+            log.info("appleToken : "  + appleToken);
+            String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
+            log.info("encodedHeader : "  + encodedHeader);
+            String decodedHeader = new String(Base64.getUrlDecoder().decode(encodedHeader));
+            log.info("decodedHeader : "  + decodedHeader);
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
             throw new RuntimeException("Invalid Header");
