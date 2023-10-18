@@ -1,5 +1,6 @@
 package com.akkin.auth.apple.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +26,15 @@ public class ApplePublicKey {
 
     public boolean isSameKid(String kid) {
         return this.kid.equals(kid);
+    }
+
+    @Builder
+    public ApplePublicKey(String kty, String kid, String use, String alg, String n, String e) {
+        this.kty = kty;
+        this.kid = kid;
+        this.use = use;
+        this.alg = alg;
+        this.n = n;
+        this.e = e;
     }
 }

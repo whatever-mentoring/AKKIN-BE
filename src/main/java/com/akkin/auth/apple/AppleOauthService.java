@@ -12,15 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppleOauthService {
 
-    private final AppleTokenExtractor appleTokenExtractor;
+    private final AppleTokenParser appleTokenParser;
     private final AppleClient appleClient;
     private final ApplePublicKeyGenerator applePublicKeyGenerator;
 
     public AppleUser createAppleUser(String appleToken) {
-        Map<String, String> appleTokenHeader = appleTokenExtractor.extractHeader(appleToken);
+        Map<String, String> appleTokenHeader = appleTokenParser.parseHeader(appleToken);
         ApplePublicKeys applePublicKeys = appleClient.getApplePublicKeys();
         PublicKey publicKey = applePublicKeyGenerator.generate(appleTokenHeader, applePublicKeys);
-        Claims claims = appleTokenExtractor.extractClaims(appleToken, publicKey);
+        Claims claims = appleTokenParser.extractClaims(appleToken, publicKey);
         return new AppleUser(claims.getSubject(), claims.get("email", String.class));
     }
 }
