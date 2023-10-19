@@ -56,4 +56,7 @@ public class AuthToken {
     public void setExpiredAt(LocalDateTime expiredAt) {
         this.expiredAt = expiredAt;
     }
+
+    protected AuthToken() {
+    }
 }
