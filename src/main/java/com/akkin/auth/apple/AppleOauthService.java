@@ -18,7 +18,7 @@ public class AppleOauthService {
     private final ApplePublicKeyGenerator applePublicKeyGenerator;
 
     public AppleUser createAppleUser(String appleToken) {
-        appleToken = new String(Base64Utils.decodeFromUrlSafeString(appleToken));
+//        appleToken = new String(Base64Utils.decodeFromUrlSafeString(appleToken));
         Map<String, String> appleTokenHeader = appleTokenParser.parseHeader(appleToken);
         ApplePublicKeys applePublicKeys = appleClient.getApplePublicKeys();
         PublicKey publicKey = applePublicKeyGenerator.generate(appleTokenHeader, applePublicKeys);
