@@ -1,13 +1,16 @@
 package com.akkin.auth.apple.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ApplePublicKeys {
 
     // 불변성 보장
-    private final List<ApplePublicKey> keys;
+    private List<ApplePublicKey> keys;
 
     public ApplePublicKeys(List<ApplePublicKey> keys) {
         this.keys = List.copyOf(keys);

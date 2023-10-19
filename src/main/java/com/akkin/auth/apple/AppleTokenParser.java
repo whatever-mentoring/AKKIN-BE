@@ -4,13 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.security.PublicKey;
-import java.util.Base64;
 import java.util.Map;
+
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Base64Utils;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,26 +30,29 @@ public class AppleTokenParser {
             log.info("appleToken : "  + appleToken);
             String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
             log.info("encodedHeader : "  + encodedHeader);
-            String decodedHeader = new String(Base64.getUrlDecoder().decode(encodedHeader));
+            String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
             log.info("decodedHeader : "  + decodedHeader);
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
-            throw new RuntimeException("Invalid Header");
+            throw new RuntimeException("token encoding or decoding 오류");
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Invalid base64 decode");
+            throw new RuntimeException("json mapping 처리 오류");
         }
     }
 
     public Claims extractClaims(String appleToken, PublicKey publicKey) {
         try {
             return Jwts.parser()
-                .verifyWith(publicKey)
-                .build()
-                .parseSignedClaims(appleToken)
-                .getPayload();
-        } catch (Exception e) {
-            // todo: 애플 로그인 성공하면 exception 나누기
-            throw new RuntimeException("애플 사용자 claim 추출 오류");
+                    .verifyWith(publicKey)
+                    .build()
+                    .parseSignedClaims(appleToken)
+                    .getPayload();
+        } catch (UnsupportedJwtException e) {
+            throw new UnsupportedJwtException("지원되지 않는 jwt 타입");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("비어있는 jwt");
+        } catch (JwtException e) {
+            throw new JwtException("jwt 검증 or 분석 오류");
         }
     }
 
