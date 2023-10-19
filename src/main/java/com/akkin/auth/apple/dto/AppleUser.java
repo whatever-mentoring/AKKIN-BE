@@ -7,18 +7,15 @@ public class AppleUser {
 
     private String name;
 
-    private String socialId;
-
     private String email;
 
-    public AppleUser(String name, String socialId, String email) {
+    public AppleUser(String name, String email) {
         this.name = name;
-        this.socialId = socialId;
         this.email = email;
     }
 
-    public AppleUser(String socialId, String email) {
-        this.socialId = socialId;
+    public AppleUser(String email) {
+        this.name = "apple";
         this.email = email;
     }
 }

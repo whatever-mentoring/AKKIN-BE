@@ -32,8 +32,6 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
-    private String socialId;
-
     @Builder
     public Member(String name, String email) {
         this.name = name;
@@ -43,7 +41,6 @@ public class Member extends BaseTimeEntity {
     public Member(AppleUser appleUser) {
         this.name = appleUser.getName();
         this.email = appleUser.getEmail();
-        this.socialId = appleUser.getSocialId();
     }
 
     protected Member() {

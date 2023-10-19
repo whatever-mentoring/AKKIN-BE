@@ -17,12 +17,14 @@ public class AppleOauthService {
     private final AppleClient appleClient;
     private final ApplePublicKeyGenerator applePublicKeyGenerator;
 
+    private final String DEFAULT_NAME = "apple";
+
     public AppleUser createAppleUser(String appleToken) {
 //        appleToken = new String(Base64Utils.decodeFromUrlSafeString(appleToken));
         Map<String, String> appleTokenHeader = appleTokenParser.parseHeader(appleToken);
         ApplePublicKeys applePublicKeys = appleClient.getApplePublicKeys();
         PublicKey publicKey = applePublicKeyGenerator.generate(appleTokenHeader, applePublicKeys);
         Claims claims = appleTokenParser.extractClaims(appleToken, publicKey);
-        return new AppleUser(claims.getSubject(), claims.get("email", String.class));
+        return new AppleUser(DEFAULT_NAME, claims.get("email", String.class));
     }
 }
