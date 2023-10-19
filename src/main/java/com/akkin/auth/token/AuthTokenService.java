@@ -9,9 +9,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -36,6 +38,9 @@ public class AuthTokenService {
             accessTokenMap.remove(accessToken);
             authToken.reIssuance();
         }
+        log.info("memberId: " + member.getId());
+        log.info("access 토근 발급: " + authToken.getAccessToken());
+        log.info("refresh 토근 발급: " + authToken.getRefreshToken());
         AuthMember authMember = new AuthMember(member);
         accessTokenMap.put(authToken.getAccessToken(), authMember);
         return authToken;
