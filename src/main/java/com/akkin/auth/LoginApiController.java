@@ -5,6 +5,7 @@ import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
 import com.akkin.auth.apple.AppleOauthService;
 import com.akkin.auth.apple.dto.AppleUser;
 import com.akkin.auth.dto.request.AppleLoginRequest;
+import com.akkin.auth.dto.response.TokenResponse;
 import com.akkin.auth.token.AuthToken;
 import com.akkin.auth.token.AuthTokenService;
 import com.akkin.member.Member;
@@ -41,28 +42,19 @@ public class LoginApiController {
 
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/login/oauth2/apple")
-    public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
+    public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
         Member member = memberService.saveOrUpdateMember(appleUser);
         AuthToken authToken = authTokenService.issue(member);
-        HttpHeaders headers = makeAuthHeader(authToken);
-        return ResponseEntity.ok().headers(headers).build();
+        return ResponseEntity.ok(new TokenResponse(authToken));
     }
 
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     @GetMapping("/login/dummy/{id}")
-    public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) {
+    public ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") Long id) {
         Member member = memberService.findMember(id);
         AuthToken authToken = authTokenService.issue(member);
-        HttpHeaders headers = makeAuthHeader(authToken);
-        return ResponseEntity.ok().headers(headers).build();
-    }
-
-    private HttpHeaders makeAuthHeader(AuthToken authToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(ACCESS_TOKEN_HEADER, authToken.getAccessToken());
-        headers.add(REFRESH_TOKEN_HEADER, authToken.getRefreshToken());
-        return headers;
+        return ResponseEntity.ok(new TokenResponse(authToken));
     }
 
     @Operation(summary = "로그아웃", parameters = {
