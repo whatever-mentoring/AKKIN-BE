@@ -46,7 +46,7 @@ public class LoginApiController {
         Member member = memberService.saveOrUpdateMember(appleUser);
         AuthToken authToken = authTokenService.issue(member);
         HttpHeaders headers = makeAuthHeader(authToken);
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).build();
     }
 
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
