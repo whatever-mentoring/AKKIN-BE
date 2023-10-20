@@ -1,15 +1,15 @@
 package com.akkin.auth.token;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
-import lombok.Builder;
-import lombok.Getter;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -34,7 +34,7 @@ public class AuthToken {
     @Column(nullable = false)
     private LocalDateTime expiredAt;
 
-    public AuthToken(Long memberId) {
+    public AuthToken(final Long memberId) {
         this.memberId = memberId;
         this.accessToken = UUID.randomUUID().toString();
         this.refreshToken = UUID.randomUUID().toString();
@@ -53,7 +53,10 @@ public class AuthToken {
         this.expiredAt = this.createdAt.plusYears(1);
     }
 
-    public void setExpiredAt(LocalDateTime expiredAt) {
+    public void setExpiredAt(final LocalDateTime expiredAt) {
         this.expiredAt = expiredAt;
+    }
+
+    protected AuthToken() {
     }
 }

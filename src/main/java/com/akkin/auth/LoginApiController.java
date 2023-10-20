@@ -1,10 +1,9 @@
 package com.akkin.auth;
 
-import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
-
 import com.akkin.auth.apple.AppleOauthService;
 import com.akkin.auth.apple.dto.AppleUser;
 import com.akkin.auth.dto.request.AppleLoginRequest;
+import com.akkin.auth.dto.response.TokenResponse;
 import com.akkin.auth.token.AuthToken;
 import com.akkin.auth.token.AuthTokenService;
 import com.akkin.member.Member;
@@ -15,8 +14,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
 
 @RequiredArgsConstructor
 @RestController
@@ -36,33 +35,21 @@ public class LoginApiController {
 
     private final AppleOauthService appleOauthService;
 
-    public static final String ACCESS_TOKEN_HEADER = "accessToken";
-    public static final String REFRESH_TOKEN_HEADER = "refreshToken";
-
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/login/oauth2/apple")
-    public ResponseEntity<Void> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
+    public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody final AppleLoginRequest appleLoginRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
         Member member = memberService.saveOrUpdateMember(appleUser);
         AuthToken authToken = authTokenService.issue(member);
-        HttpHeaders headers = makeAuthHeader(authToken);
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return ResponseEntity.ok(new TokenResponse(authToken));
     }
 
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     @GetMapping("/login/dummy/{id}")
-    public ResponseEntity<Void> demoOauthLogin(@PathVariable("id") Long id) {
+    public ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") final Long id) {
         Member member = memberService.findMember(id);
         AuthToken authToken = authTokenService.issue(member);
-        HttpHeaders headers = makeAuthHeader(authToken);
-        return ResponseEntity.ok().headers(headers).build();
-    }
-
-    private HttpHeaders makeAuthHeader(AuthToken authToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(ACCESS_TOKEN_HEADER, authToken.getAccessToken());
-        headers.add(REFRESH_TOKEN_HEADER, authToken.getRefreshToken());
-        return headers;
+        return ResponseEntity.ok(new TokenResponse(authToken));
     }
 
     @Operation(summary = "로그아웃", parameters = {

@@ -9,3 +9,11 @@ spring:
       iss: https://appleid.apple.com
       client_id: test
       key: ${OAUTH_APPLE_KEY_PATH}
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic

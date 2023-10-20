@@ -35,7 +35,7 @@ public class AuthTokenTest extends UnitTest {
         // given
         Member member1 = memberRepository.save(회원_만들기("test", "test@test.com"));
 
-        AppleUser appleUser = new AppleUser("test", "testId", "test@test.com");
+        AppleUser appleUser = new AppleUser("test", "test@test.com");
         Member member2 = memberService.saveOrUpdateMember(appleUser);
 
         // when
@@ -51,7 +51,7 @@ public class AuthTokenTest extends UnitTest {
         // given
         Member member1 = memberRepository.save(회원_만들기("test", "test@test.com"));
 
-        AppleUser appleUser = new AppleUser("test", "testId", "test@test.com");
+        AppleUser appleUser = new AppleUser("test", "test@test.com");
         Member member2 = memberService.saveOrUpdateMember(appleUser);
         AuthToken newAuthToken = authTokenService.issue(member2);
 
@@ -67,7 +67,7 @@ public class AuthTokenTest extends UnitTest {
     public void 재인증시_DB엔_컬럼_하나만_있어야함() {
         // given
         Member member1 = memberRepository.save(회원_만들기("test", "test@test.com"));
-        AppleUser appleUser = new AppleUser("test", "testId", "test@test.com");
+        AppleUser appleUser = new AppleUser("test", "test@test.com");
         authTokenService.issue(member1);
 
         Member member2 = memberService.saveOrUpdateMember(appleUser);
