@@ -26,7 +26,7 @@ public class AuthTokenService {
     public static ConcurrentHashMap<String, AuthMember> accessTokenMap = new ConcurrentHashMap(256);
 
     @Transactional
-    public AuthToken issue(Member member) {
+    public AuthToken issue(final Member member) {
         final Optional<AuthToken> byMemberId = authTokenRepository.findByMemberId(member.getId());
         AuthToken authToken;
         if(byMemberId.isEmpty()) {
@@ -83,11 +83,11 @@ public class AuthTokenService {
     }
 
     @Transactional
-    public void deleteAuthToken(String accessToken) {
+    public void deleteAuthToken(final String accessToken) {
         if (accessToken == null) {
             return;
         }
-        AuthMember authMember = accessTokenMap.get(accessToken);
+        final AuthMember authMember = accessTokenMap.get(accessToken);
         if (authMember == null) {
             return;
         }
