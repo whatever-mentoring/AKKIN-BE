@@ -57,7 +57,7 @@ public class AppleTokenParserTest {
         String appleToken = Jwts.builder()
                 .header().add("kid", "W2R4HXF3K")
                 .and()
-                .claim("id", "1234")
+                .claim("email", "test@test.com")
                 .issuer("https://appleid.apple.com")
                 .issuedAt(now)
                 .audience().add("com.akkin.AKKIN")
@@ -69,10 +69,8 @@ public class AppleTokenParserTest {
 
         // when
         Claims claims = appleTokenParser.extractClaims(appleToken, publicKey);
-        String audience = claims.getAudience().iterator().next();
 
         // then
-        assertThat(claims).isNotEmpty();
-        assertThat(audience).isEqualTo("com.akkin.AKKIN");
+        assertThat(claims.get("email")).isEqualTo("test@test.com");
     }
 }

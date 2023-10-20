@@ -3,11 +3,11 @@ package com.akkin.auth.apple;
 import com.akkin.auth.apple.dto.ApplePublicKeys;
 import com.akkin.auth.apple.dto.AppleUser;
 import io.jsonwebtoken.Claims;
-import java.security.PublicKey;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
+
+import java.security.PublicKey;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
@@ -20,7 +20,6 @@ public class AppleOauthService {
     private final String DEFAULT_NAME = "apple";
 
     public AppleUser createAppleUser(String appleToken) {
-//        appleToken = new String(Base64Utils.decodeFromUrlSafeString(appleToken));
         Map<String, String> appleTokenHeader = appleTokenParser.parseHeader(appleToken);
         ApplePublicKeys applePublicKeys = appleClient.getApplePublicKeys();
         PublicKey publicKey = applePublicKeyGenerator.generate(appleTokenHeader, applePublicKeys);

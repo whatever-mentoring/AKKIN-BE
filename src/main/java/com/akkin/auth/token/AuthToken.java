@@ -1,15 +1,15 @@
 package com.akkin.auth.token;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
-import lombok.Builder;
-import lombok.Getter;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Entity

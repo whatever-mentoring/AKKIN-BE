@@ -27,11 +27,11 @@ public class AppleTokenParser {
 
     public Map<String, String> parseHeader(String appleToken) {
         try {
-            log.info("appleToken : "  + appleToken);
+            log.info("appleToken : " + appleToken);
             String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
-            log.info("encodedHeader : "  + encodedHeader);
+            log.info("encodedHeader : " + encodedHeader);
             String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
-            log.info("decodedHeader : "  + decodedHeader);
+            log.info("decodedHeader : " + decodedHeader);
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
             throw new RuntimeException("token encoding or decoding 오류");
@@ -55,5 +55,4 @@ public class AppleTokenParser {
             throw new JwtException("jwt 검증 or 분석 오류");
         }
     }
-
 }

@@ -1,17 +1,11 @@
 package com.akkin.auth.aop;
 
-import static com.akkin.auth.LoginApiController.ACCESS_TOKEN_HEADER;
-import static com.akkin.auth.LoginApiController.REFRESH_TOKEN_HEADER;
 import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
 
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.auth.token.AuthToken;
 import com.akkin.auth.token.AuthTokenService;
 import com.akkin.common.exception.UnauthorizedException;
-import com.akkin.member.Member;
-import com.akkin.member.MemberService;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,7 +22,9 @@ public class AuthAspect {
     @Autowired
     private AuthTokenService authTokenService;
 
-    private final String AUTH_MEMBER_ATTRIBUTE = "authMember";
+    public static final String AUTH_MEMBER_ATTRIBUTE = "authMember";
+    public static final String ACCESS_TOKEN_HEADER = "accessToken";
+    public static final String REFRESH_TOKEN_HEADER = "refreshToken";
 
     @Around("@annotation(AuthRequired)")
     public Object handleAuth(ProceedingJoinPoint pjp) throws Throwable {

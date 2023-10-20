@@ -1,7 +1,5 @@
 package com.akkin.auth;
 
-import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
-
 import com.akkin.auth.apple.AppleOauthService;
 import com.akkin.auth.apple.dto.AppleUser;
 import com.akkin.auth.dto.request.AppleLoginRequest;
@@ -16,8 +14,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
 
 @RequiredArgsConstructor
 @RestController
@@ -36,9 +34,6 @@ public class LoginApiController {
     private final MemberService memberService;
 
     private final AppleOauthService appleOauthService;
-
-    public static final String ACCESS_TOKEN_HEADER = "accessToken";
-    public static final String REFRESH_TOKEN_HEADER = "refreshToken";
 
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/login/oauth2/apple")
