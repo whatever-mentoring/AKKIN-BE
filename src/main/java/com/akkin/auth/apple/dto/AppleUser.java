@@ -5,16 +5,16 @@ import lombok.Getter;
 @Getter
 public class AppleUser {
 
-    private String name;
+    private final String name;
 
-    private String email;
+    private final String email;
 
-    public AppleUser(String name, String email) {
+    public AppleUser(final String name, final String email) {
         this.name = name;
         this.email = email;
     }
 
-    public AppleUser(String email) {
+    public AppleUser(final String email) {
         this.name = "apple";
         this.email = email;
     }

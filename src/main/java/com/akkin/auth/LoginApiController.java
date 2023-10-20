@@ -37,7 +37,7 @@ public class LoginApiController {
 
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/login/oauth2/apple")
-    public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody AppleLoginRequest appleLoginRequest) {
+    public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody final AppleLoginRequest appleLoginRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
         Member member = memberService.saveOrUpdateMember(appleUser);
         AuthToken authToken = authTokenService.issue(member);
@@ -46,7 +46,7 @@ public class LoginApiController {
 
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     @GetMapping("/login/dummy/{id}")
-    public ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") Long id) {
+    public ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") final Long id) {
         Member member = memberService.findMember(id);
         AuthToken authToken = authTokenService.issue(member);
         return ResponseEntity.ok(new TokenResponse(authToken));

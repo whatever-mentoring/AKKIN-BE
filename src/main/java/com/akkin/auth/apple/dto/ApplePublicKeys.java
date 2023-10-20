@@ -16,7 +16,7 @@ public class ApplePublicKeys {
         this.keys = List.copyOf(keys);
     }
 
-    public ApplePublicKey getMatchingKey(String alg, String kid) {
+    public ApplePublicKey getMatchingKey(final String alg, final String kid) {
         return keys.stream()
             .filter(key -> key.isSameAlg(alg) && key.isSameKid(kid))
             .findFirst()

@@ -34,7 +34,7 @@ public class AuthToken {
     @Column(nullable = false)
     private LocalDateTime expiredAt;
 
-    public AuthToken(Long memberId) {
+    public AuthToken(final Long memberId) {
         this.memberId = memberId;
         this.accessToken = UUID.randomUUID().toString();
         this.refreshToken = UUID.randomUUID().toString();
@@ -53,7 +53,7 @@ public class AuthToken {
         this.expiredAt = this.createdAt.plusYears(1);
     }
 
-    public void setExpiredAt(LocalDateTime expiredAt) {
+    public void setExpiredAt(final LocalDateTime expiredAt) {
         this.expiredAt = expiredAt;
     }
 

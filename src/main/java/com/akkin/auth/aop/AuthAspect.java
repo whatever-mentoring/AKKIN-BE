@@ -57,8 +57,8 @@ public class AuthAspect {
         return refreshToken;
     }
 
-    private AuthMember getAuthMember(String accessToken, String refreshToken) {
-        AuthMember authMember = accessTokenMap.get(accessToken);
+    private AuthMember getAuthMember(final String accessToken, final String refreshToken) {
+        final AuthMember authMember = accessTokenMap.get(accessToken);
         // WAS 재시작 등으로 인해 로컬 캐시가 날아간 이후에 발생하는 인증 처리
         if (authMember == null) {
             AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);

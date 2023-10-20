@@ -25,12 +25,12 @@ public class AppleTokenParser {
 
     private final ObjectMapper objectMapper;
 
-    public Map<String, String> parseHeader(String appleToken) {
+    public Map<String, String> parseHeader(final String appleToken) {
         try {
             log.info("appleToken : " + appleToken);
-            String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
+            final String encodedHeader = appleToken.split(IDENTITY_TOKEN_VALUE_DELIMITER)[HEADER_INDEX];
             log.info("encodedHeader : " + encodedHeader);
-            String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
+            final String decodedHeader = new String(Base64Utils.decodeFromUrlSafeString(encodedHeader));
             log.info("decodedHeader : " + decodedHeader);
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
@@ -40,7 +40,7 @@ public class AppleTokenParser {
         }
     }
 
-    public Claims extractClaims(String appleToken, PublicKey publicKey) {
+    public Claims extractClaims(final String appleToken, final PublicKey publicKey) {
         try {
             return Jwts.parser()
                     .verifyWith(publicKey)
