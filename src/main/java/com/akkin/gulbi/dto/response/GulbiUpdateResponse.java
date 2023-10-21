@@ -1,4 +1,4 @@
-package com.akkin.gulbi.dto;
+package com.akkin.gulbi.dto.response;
 
 import com.akkin.gulbi.domain.Category;
 import com.akkin.gulbi.domain.Gulbi;

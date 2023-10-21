@@ -1,10 +1,10 @@
 package com.akkin.gulbi.presentation;
 
-import com.akkin.gulbi.dto.GulbiCreateForm;
-import com.akkin.gulbi.dto.GulbiCreateResponse;
-import com.akkin.gulbi.dto.GulbiReadResponses;
-import com.akkin.gulbi.dto.GulbiUpdateForm;
-import com.akkin.gulbi.dto.GulbiUpdateResponse;
+import com.akkin.gulbi.dto.request.GulbiCreateForm;
+import com.akkin.gulbi.dto.response.GulbiCreateResponse;
+import com.akkin.gulbi.dto.response.GulbiReadResponses;
+import com.akkin.gulbi.dto.request.GulbiUpdateForm;
+import com.akkin.gulbi.dto.response.GulbiUpdateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

@@ -1,4 +1,4 @@
-package com.akkin.gulbi.dto;
+package com.akkin.gulbi.dto.response;
 
 import com.akkin.gulbi.domain.Category;
 import com.akkin.gulbi.domain.Gulbi;
@@ -6,11 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "사용자가 입력한 아낀 항목 정보")
+@Schema(description = "서버에 저장된 아낀 정보")
 @Getter
 @NoArgsConstructor
-public class GulbiReadResponse {
+public class GulbiCreateResponse {
 
+    @Schema(description = "아낀 항목 식별자")
     private Long id;
 
     private Integer year;
@@ -21,7 +22,7 @@ public class GulbiReadResponse {
 
     private Category category;
 
-    private String content;
+    private String saveContent;
 
     private String how;
 
@@ -29,13 +30,13 @@ public class GulbiReadResponse {
 
     private Integer realCost;
 
-    public GulbiReadResponse(Gulbi gulbi) {
+    public GulbiCreateResponse(Gulbi gulbi) {
         this.id = gulbi.getId();
         this.year = gulbi.getSaveYear();
         this.month = gulbi.getSaveMonth();
         this.day = gulbi.getSaveDay();
         this.category = gulbi.getCategory();
-        this.content = gulbi.getContent();
+        this.saveContent = gulbi.getContent();
         this.how = gulbi.getHow();
         this.expectCost = gulbi.getExpectCost();
         this.realCost = gulbi.getRealCost();

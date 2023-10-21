@@ -1,6 +1,5 @@
-package com.akkin.gulbi.dto;
+package com.akkin.gulbi.dto.response;
 
-import com.akkin.gulbi.dto.GulbiCreateResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Getter;
