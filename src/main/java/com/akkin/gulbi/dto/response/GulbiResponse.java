@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "사용자가 입력한 아낀 항목 정보")
 @Getter
 @NoArgsConstructor
-public class GulbiReadResponse {
+public class GulbiResponse {
 
     private Long id;
 
@@ -29,7 +29,7 @@ public class GulbiReadResponse {
 
     private Integer realCost;
 
-    public GulbiReadResponse(Gulbi gulbi) {
+    public GulbiResponse(Gulbi gulbi) {
         this.id = gulbi.getId();
         this.year = gulbi.getSaveYear();
         this.month = gulbi.getSaveMonth();

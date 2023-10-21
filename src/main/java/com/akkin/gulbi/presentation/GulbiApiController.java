@@ -4,10 +4,9 @@ import com.akkin.auth.aop.AuthRequired;
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.gulbi.application.GulbiService;
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
-import com.akkin.gulbi.dto.response.GulbiCreateResponse;
-import com.akkin.gulbi.dto.response.GulbiReadResponses;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
-import com.akkin.gulbi.dto.response.GulbiUpdateResponse;
+import com.akkin.gulbi.dto.response.GulbiResponses;
+import java.net.URI;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,44 +22,46 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/gulbis")
 @RestController
-public class GulbiApiController implements GulbiApiControllerDocs{
+public class GulbiApiController implements GulbiApiControllerDocs {
 
     private final GulbiService gulbiService;
 
     @Override
     @AuthRequired
     @PostMapping
-    public GulbiCreateResponse saveGulbi(@RequestBody GulbiCreateForm form, HttpServletRequest request) {
-        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        return gulbiService.createGulbi(authMember.getId(), form);
+    public ResponseEntity<Void> saveGulbi(@RequestBody final GulbiCreateForm form, HttpServletRequest request) {
+        final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        gulbiService.create(authMember.getId(), form);
+        return ResponseEntity.created(URI.create("/api/gulbis")).build();
     }
 
     @Override
     @AuthRequired
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGulbi(@PathVariable("id") Long gulbiId,
+    public ResponseEntity<Void> deleteGulbi(@PathVariable("id") final Long gulbiId,
         HttpServletRequest request) {
-        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        gulbiService.deleteGulbi(authMember.getId(), gulbiId);
-        return ResponseEntity.ok().build();
+        final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        gulbiService.delete(authMember.getId(), gulbiId);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     @AuthRequired
     @GetMapping
-    public GulbiReadResponses getGulbis(HttpServletRequest request) {
-        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        return gulbiService.getGulbis(authMember.getId());
+    public ResponseEntity<GulbiResponses> getGulbis(HttpServletRequest request) {
+        final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        GulbiResponses response = gulbiService.getGulbis(authMember.getId());
+        return ResponseEntity.ok(response);
     }
 
     @Override
     @AuthRequired
     @PatchMapping("/{id}")
-    public GulbiUpdateResponse updateGulbi(HttpServletRequest request,
-        @PathVariable("id") Long gulbiId, @RequestBody GulbiUpdateForm form) {
-        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        GulbiUpdateResponse gulbiUpdateResponse = gulbiService.updateGulbi(authMember.getId(),
-            gulbiId, form);
-        return gulbiUpdateResponse;
+    public ResponseEntity<Void> updateGulbi(@PathVariable("id") final Long gulbiId,
+        @RequestBody final GulbiUpdateForm form,
+        HttpServletRequest request) {
+        final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        gulbiService.update(authMember.getId(), gulbiId, form);
+        return ResponseEntity.ok().build();
     }
 }
