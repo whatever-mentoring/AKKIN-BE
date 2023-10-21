@@ -1,13 +1,13 @@
 package com.akkin.common;
 
-import com.akkin.common.exception.AppleOauthLoginException;
-import com.akkin.common.exception.ExpireRefreshTokenException;
-import com.akkin.common.exception.GulbiNotFoundException;
-import com.akkin.common.exception.GulbiNotOwnerException;
-import com.akkin.common.exception.InvalidJwtException;
-import com.akkin.common.exception.MemberNotFoundException;
-import com.akkin.common.exception.OauthJwtParseException;
-import com.akkin.common.exception.UnauthorizedException;
+import com.akkin.auth.exception.AppleOauthLoginException;
+import com.akkin.auth.exception.ExpireRefreshTokenException;
+import com.akkin.gulbi.exception.GulbiNotFoundException;
+import com.akkin.gulbi.exception.GulbiNotOwnerException;
+import com.akkin.auth.exception.InvalidJwtException;
+import com.akkin.member.exception.MemberNotFoundException;
+import com.akkin.auth.exception.OauthJwtParseException;
+import com.akkin.auth.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

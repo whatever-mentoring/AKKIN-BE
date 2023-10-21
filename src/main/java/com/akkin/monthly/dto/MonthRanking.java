@@ -3,33 +3,35 @@ package com.akkin.monthly.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class MonthRanking {
 
     @Schema(description = "가장 많이 아낀 날")
-    private Integer firstDay;
+    private final Integer firstDay;
 
     @Schema(description = "가장 많이 아낀 금액 합")
-    private Integer firstAmount;
+    private final Integer firstAmount;
 
     @Schema(description = "2번쨰로 많이 아낀 날")
-    private Integer secondDay;
+    private final Integer secondDay;
 
     @Schema(description = "2번쨰로 많이 아낀 금액 합")
-    private Integer secondAmount;
+    private final Integer secondAmount;
 
     @Schema(description = "3번쨰로 많이 아낀 날")
-    private Integer thirdDay;
+    private final Integer thirdDay;
 
     @Schema(description = "3번쨰로 많이 아낀 금액 합")
-    private Integer thirdAmount;
+    private final Integer thirdAmount;
 
     @Builder
-    public MonthRanking(Integer firstDay, Integer firstAmount, Integer secondDay,
-        Integer secondAmount, Integer thirdDay, Integer thirdAmount) {
+    public MonthRanking(final Integer firstDay,
+                        final Integer firstAmount,
+                        final Integer secondDay,
+                        final Integer secondAmount,
+                        final Integer thirdDay,
+                        final Integer thirdAmount) {
         this.firstDay = firstDay;
         this.firstAmount = firstAmount;
         this.secondDay = secondDay;

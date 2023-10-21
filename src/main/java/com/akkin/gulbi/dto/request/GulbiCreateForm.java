@@ -2,7 +2,7 @@ package com.akkin.gulbi.dto.request;
 
 import com.akkin.gulbi.domain.Category;
 import com.akkin.gulbi.domain.Gulbi;
-import com.akkin.member.Member;
+import com.akkin.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,5 +53,4 @@ public class GulbiCreateForm {
             .realCost(realCost)
             .build();
     }
-
 }

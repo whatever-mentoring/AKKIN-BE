@@ -1,11 +1,12 @@
 package com.akkin.weekly.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
-import com.akkin.weekly.WeeklyService;
-import com.akkin.weekly.dto.MemberWeeklyResponse;
 import com.akkin.auth.dto.AuthMember;
+import com.akkin.weekly.application.GulbiWeeklyService;
+import com.akkin.weekly.dto.MemberWeeklyResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WeeklyApiController implements WeeklyApiControllerDocs {
 
-    private final WeeklyService weeklyService;
+    private final GulbiWeeklyService gulbiWeeklyService;
 
     @Override
     @AuthRequired
     @GetMapping("/weekly")
-    public MemberWeeklyResponse getGulbis(HttpServletRequest request) {
-        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        return weeklyService.getWeekly(authMember.getId());
+    public ResponseEntity<MemberWeeklyResponse> getWeekInfo(HttpServletRequest request) {
+        final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        final MemberWeeklyResponse response = gulbiWeeklyService.getWeekly(authMember.getId());
+        return ResponseEntity.ok(response);
     }
 }

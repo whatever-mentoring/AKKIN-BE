@@ -38,8 +38,7 @@ public class GulbiApiController implements GulbiApiControllerDocs {
     @Override
     @AuthRequired
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGulbi(@PathVariable("id") final Long gulbiId,
-        HttpServletRequest request) {
+    public ResponseEntity<Void> deleteGulbi(@PathVariable("id") final Long gulbiId, HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         gulbiService.delete(authMember.getId(), gulbiId);
         return ResponseEntity.noContent().build();

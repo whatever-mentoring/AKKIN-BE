@@ -13,5 +13,4 @@ public enum Category {
 
     private final String eng;
     private final String kor;
-
 }

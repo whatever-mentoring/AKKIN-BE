@@ -12,35 +12,40 @@ import lombok.Setter;
 public class MainResponse {
 
     @Schema(description = "서버 기준 월")
-    private Integer month;
+    private final Integer month;
 
     @Schema(description = "서버 기준 달의 몇째 주")
-    private Integer weekOfMonth;
+    private final Integer weekOfMonth;
 
     @Schema(description = "주간 아낀 비용 총합")
-    private Integer weeklyTotalCost;
+    private final Integer weeklyTotalCost;
 
     @Schema(description = "월간 아낀 식비 총합")
-    private Integer monthlyDining;
+    private final Integer monthlyDining;
 
     @Schema(description = "월간 아낀 교통비 총합")
-    private Integer monthlyTraffic;
+    private final Integer monthlyTraffic;
 
     @Schema(description = "월간 아낀 쇼핑비 총합")
-    private Integer monthlyShopping;
+    private final Integer monthlyShopping;
 
     @Schema(description = "월간 아낀 기타 총합")
-    private Integer monthlyEtc;
+    private final Integer monthlyEtc;
 
     @Schema(description = "월간 아낀 비용 총합")
-    private Integer monthlyTotalCost;
+    private final Integer monthlyTotalCost;
 
-    private List<AkkinEntry> entries;
+    private final List<AkkinEntry> entries;
 
     @Builder
-    public MainResponse(Integer month, Integer weekOfMonth, Integer weeklyTotalCost,
-        Integer monthlyDining, Integer monthlyTraffic, Integer monthlyShopping,
-        Integer monthlyEtc, List<AkkinEntry> entries) {
+    public MainResponse(final Integer month,
+                        final Integer weekOfMonth,
+                        final Integer weeklyTotalCost,
+                        final Integer monthlyDining,
+                        final Integer monthlyTraffic,
+                        final Integer monthlyShopping,
+                        final Integer monthlyEtc,
+                        final List<AkkinEntry> entries) {
         this.month = month;
         this.weekOfMonth = weekOfMonth;
         this.weeklyTotalCost = weeklyTotalCost;

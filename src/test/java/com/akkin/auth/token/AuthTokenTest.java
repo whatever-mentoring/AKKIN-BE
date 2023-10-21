@@ -1,15 +1,16 @@
 package com.akkin.auth.token;
 
-import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
+import static com.akkin.auth.application.AuthTokenService.accessTokenMap;
 import static com.akkin.fixture.MemberFixture.회원_만들기;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.akkin.auth.apple.dto.AppleUser;
+import com.akkin.auth.domain.AuthToken;
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.common.UnitTest;
-import com.akkin.common.exception.UnauthorizedException;
-import com.akkin.member.Member;
+import com.akkin.auth.exception.UnauthorizedException;
+import com.akkin.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;

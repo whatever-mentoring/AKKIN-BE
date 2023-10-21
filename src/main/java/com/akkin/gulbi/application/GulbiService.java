@@ -1,7 +1,7 @@
 package com.akkin.gulbi.application;
 
-import com.akkin.common.exception.GulbiNotFoundException;
-import com.akkin.common.exception.GulbiNotOwnerException;
+import com.akkin.gulbi.exception.GulbiNotFoundException;
+import com.akkin.gulbi.exception.GulbiNotOwnerException;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
@@ -9,8 +9,8 @@ import com.akkin.gulbi.dto.response.GulbiCreateResponse;
 import com.akkin.gulbi.dto.response.GulbiResponses;
 import com.akkin.gulbi.dto.response.GulbiUpdateResponse;
 import com.akkin.gulbi.persistence.GulbiRepository;
-import com.akkin.member.Member;
-import com.akkin.member.MemberService;
+import com.akkin.member.domain.Member;
+import com.akkin.member.application.MemberService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

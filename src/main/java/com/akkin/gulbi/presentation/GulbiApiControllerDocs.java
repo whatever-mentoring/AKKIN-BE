@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Tag(name = "Gulbi", description = "아낀항목 관련 API 입니다.")
+@Tag(name = "Gulbi", description = "아낀 항목 관련 API")
 public interface GulbiApiControllerDocs {
 
     @Operation(summary = "아낀 항목 생성")

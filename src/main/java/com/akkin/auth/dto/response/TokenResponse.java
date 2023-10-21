@@ -1,6 +1,6 @@
 package com.akkin.auth.dto.response;
 
-import com.akkin.auth.token.AuthToken;
+import com.akkin.auth.domain.AuthToken;
 import lombok.Getter;
 
 @Getter

@@ -1,9 +1,8 @@
 package com.akkin.gulbi.domain;
 
 import com.akkin.common.BaseTimeEntity;
-import com.akkin.common.exception.GulbiNotOwnerException;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
-import com.akkin.member.Member;
+import com.akkin.member.domain.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,8 +55,15 @@ public class Gulbi extends BaseTimeEntity {
     private Integer saveMoney;
 
     @Builder
-    public Gulbi(Member member, Integer year, Integer month, Integer day,
-        Category category, String content, String how, Integer expectCost, Integer realCost) {
+    public Gulbi(   final Member member,
+                    final Integer year,
+                    final Integer month,
+                    final Integer day,
+                    final Category category,
+                    final String content,
+                    final String how,
+                    final Integer expectCost,
+                    final Integer realCost) {
         this.member = member;
         this.saveYear = year;
         this.saveMonth = month;
