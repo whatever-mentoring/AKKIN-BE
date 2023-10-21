@@ -3,11 +3,11 @@ package com.akkin.main;
 import static com.akkin.common.date.DateUtils.getWeekOfMonth;
 
 import com.akkin.common.date.MonthWeekInfo;
-import com.akkin.gulbi.Category;
-import com.akkin.gulbi.Gulbi;
-import com.akkin.gulbi.monthly.dto.AkkinEntry;
-import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
-import com.akkin.gulbi.weekly.dto.WeeklyGulbiEntry;
+import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.monthly.dto.AkkinEntry;
+import com.akkin.weekly.dto.MemberWeeklyResponse;
+import com.akkin.weekly.dto.WeeklyGulbiEntry;
 import com.akkin.main.dto.MainResponse;
 import java.util.ArrayList;
 import java.util.Calendar;

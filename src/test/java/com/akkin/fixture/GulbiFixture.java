@@ -1,7 +1,7 @@
 package com.akkin.fixture;
 
-import com.akkin.gulbi.Category;
-import com.akkin.gulbi.Gulbi;
+import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.member.Member;
 
 @SuppressWarnings("NonAsciiCharacters")

@@ -5,6 +5,8 @@ import static com.akkin.fixture.GulbiFixture.굴비_만들기;
 import static com.akkin.fixture.MemberFixture.회원_만들기;
 
 import com.akkin.common.UnitTest;
+import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.member.Member;
 import org.junit.jupiter.api.Test;
 

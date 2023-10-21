@@ -1,6 +1,6 @@
 package com.akkin.main.dto;
 
-import com.akkin.gulbi.monthly.dto.AkkinEntry;
+import com.akkin.monthly.dto.AkkinEntry;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;

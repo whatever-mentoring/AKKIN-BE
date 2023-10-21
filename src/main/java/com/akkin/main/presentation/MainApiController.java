@@ -1,10 +1,10 @@
 package com.akkin.main.presentation;
 
 import com.akkin.auth.aop.AuthRequired;
-import com.akkin.gulbi.Gulbi;
-import com.akkin.gulbi.monthly.MonthlyService;
-import com.akkin.gulbi.weekly.WeeklyService;
-import com.akkin.gulbi.weekly.dto.MemberWeeklyResponse;
+import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.monthly.MonthlyService;
+import com.akkin.weekly.WeeklyService;
+import com.akkin.weekly.dto.MemberWeeklyResponse;
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.main.MainService;
 import com.akkin.main.dto.MainResponse;
