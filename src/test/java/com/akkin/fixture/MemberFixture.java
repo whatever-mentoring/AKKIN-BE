@@ -1,6 +1,6 @@
 package com.akkin.fixture;
 
-import com.akkin.member.Member;
+import com.akkin.member.domain.Member;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberFixture {

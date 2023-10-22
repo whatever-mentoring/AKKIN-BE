@@ -1,6 +1,6 @@
 package com.akkin.auth.dto;
 
-import com.akkin.member.Member;
+import com.akkin.member.domain.Member;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

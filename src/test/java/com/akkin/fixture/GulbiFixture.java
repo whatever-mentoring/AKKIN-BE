@@ -1,8 +1,8 @@
 package com.akkin.fixture;
 
-import com.akkin.gulbi.Category;
-import com.akkin.gulbi.Gulbi;
-import com.akkin.member.Member;
+import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.member.domain.Member;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class GulbiFixture {

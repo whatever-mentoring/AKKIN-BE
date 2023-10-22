@@ -1,11 +1,11 @@
 package com.akkin.auth.aop;
 
-import static com.akkin.auth.token.AuthTokenService.accessTokenMap;
+import static com.akkin.auth.application.AuthTokenService.accessTokenMap;
 
 import com.akkin.auth.dto.AuthMember;
-import com.akkin.auth.token.AuthToken;
-import com.akkin.auth.token.AuthTokenService;
-import com.akkin.common.exception.UnauthorizedException;
+import com.akkin.auth.domain.AuthToken;
+import com.akkin.auth.application.AuthTokenService;
+import com.akkin.auth.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,10 +29,10 @@ public class AuthAspect {
     @Around("@annotation(AuthRequired)")
     public Object handleAuth(ProceedingJoinPoint pjp) throws Throwable {
         HttpServletRequest request = getCurrentRequest();
-        String accessToken = parseAccessToken(request);
-        String refreshToken = parseRefreshToken(request);
+        final String accessToken = parseAccessToken(request);
+        final String refreshToken = parseRefreshToken(request);
 
-        AuthMember authMember = getAuthMember(accessToken, refreshToken);
+        final AuthMember authMember = getAuthMember(accessToken, refreshToken);
         request.setAttribute(AUTH_MEMBER_ATTRIBUTE, authMember);
         return pjp.proceed();
     }
@@ -42,7 +42,7 @@ public class AuthAspect {
     }
 
     private String parseAccessToken(HttpServletRequest request) {
-        String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
+        final String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
         if (accessToken == null) {
             throw new UnauthorizedException("Access token 없음");
         }
@@ -50,7 +50,7 @@ public class AuthAspect {
     }
 
     private String parseRefreshToken(HttpServletRequest request) {
-        String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
+        final String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
         if (refreshToken == null) {
             throw new UnauthorizedException("Refresh token 없음");
         }
@@ -61,7 +61,7 @@ public class AuthAspect {
         final AuthMember authMember = accessTokenMap.get(accessToken);
         // WAS 재시작 등으로 인해 로컬 캐시가 날아간 이후에 발생하는 인증 처리
         if (authMember == null) {
-            AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
+            final AuthToken authToken = authTokenService.getAuthToken(accessToken, refreshToken);
             authTokenService.reIssueAuthToken(authToken);
             return accessTokenMap.get(authToken.getAccessToken());
         }
