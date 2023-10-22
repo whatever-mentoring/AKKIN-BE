@@ -1,6 +1,6 @@
 package com.akkin.main.application;
 
-import static com.akkin.common.date.DateUtils.getWeekOfMonth;
+import static com.akkin.common.date.DateUtil.getWeekOfMonth;
 
 import com.akkin.common.date.MonthWeekInfo;
 import com.akkin.gulbi.domain.Category;
@@ -9,6 +9,7 @@ import com.akkin.monthly.dto.AkkinEntry;
 import com.akkin.weekly.dto.MemberWeeklyResponse;
 import com.akkin.weekly.dto.WeeklyGulbiEntry;
 import com.akkin.main.dto.MainResponse;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.EnumMap;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class MainService {
 
     public MainResponse getMainResponse(List<Gulbi> monthGulbis, MemberWeeklyResponse weekly) {
-        MonthWeekInfo weekOfMonth = getWeekOfMonth();
+        MonthWeekInfo weekOfMonth = getWeekOfMonth(LocalDate.now());
         int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         Integer weeklyTotalCost = 0;
         EnumMap<Category, Integer> categoryExpenses = new EnumMap<>(Category.class);

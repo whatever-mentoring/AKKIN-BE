@@ -33,7 +33,7 @@ public class MainApiController implements MainApiControllerDocs {
     public ResponseEntity<MainResponse> enterMain(HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         final List<Gulbi> monthGulbis = monthlyService.getMonthGulbis(authMember.getId());
-        final MemberWeeklyResponse weekly = weeklyService.getWeekly(authMember.getId());
+        final MemberWeeklyResponse weekly = weeklyService.calc(authMember.getId());
         final MainResponse response = mainService.getMainResponse(monthGulbis, weekly);
         return ResponseEntity.ok(response);
     }

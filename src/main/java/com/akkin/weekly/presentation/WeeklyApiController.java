@@ -23,7 +23,7 @@ public class WeeklyApiController implements WeeklyApiControllerDocs {
     @GetMapping("/weekly")
     public ResponseEntity<MemberWeeklyResponse> getWeekInfo(HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        final MemberWeeklyResponse response = gulbiWeeklyService.getWeekly(authMember.getId());
+        final MemberWeeklyResponse response = gulbiWeeklyService.calc(authMember.getId());
         return ResponseEntity.ok(response);
     }
 }

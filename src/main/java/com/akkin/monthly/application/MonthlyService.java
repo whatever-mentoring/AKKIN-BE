@@ -1,6 +1,6 @@
 package com.akkin.monthly.application;
 
-import static com.akkin.common.date.DateUtils.getTodayMonth;
+import static com.akkin.common.date.DateUtil.getTodayMonth;
 
 import com.akkin.gulbi.domain.Category;
 import com.akkin.gulbi.domain.Gulbi;

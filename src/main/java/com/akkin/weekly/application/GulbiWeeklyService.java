@@ -1,12 +1,14 @@
 package com.akkin.weekly.application;
 
-import static com.akkin.common.date.DateUtils.getWeekOfMonth;
+import static com.akkin.common.date.DateUtil.getWeekOfMonth;
 
 import com.akkin.common.date.MonthWeekInfo;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.weekly.dto.MemberWeeklyResponse;
 import com.akkin.weekly.persistence.GulbiWeeklyRepository;
 import com.akkin.weekly.dto.WeeklyGulbiEntry;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,8 @@ public class GulbiWeeklyService {
 
     private final GulbiWeeklyRepository gulbiWeeklyRepository;
 
-    public MemberWeeklyResponse getWeekly(final Long memberID) {
-        final MonthWeekInfo monthWeekInfo = getWeekOfMonth();
+    public MemberWeeklyResponse calc(final Long memberID) {
+        final MonthWeekInfo monthWeekInfo = getWeekOfMonth(LocalDate.now());
         final List<WeeklyGulbiEntry> weekly = getWeekly(memberID,
             monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
         return MemberWeeklyResponse.builder()

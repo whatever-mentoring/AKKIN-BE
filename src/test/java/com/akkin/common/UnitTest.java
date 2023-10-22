@@ -2,6 +2,7 @@ package com.akkin.common;
 
 import com.akkin.auth.persistence.AuthTokenRepository;
 import com.akkin.auth.application.AuthTokenService;
+import com.akkin.common.date.DateUtil;
 import com.akkin.gulbi.application.GulbiService;
 import com.akkin.gulbi.persistence.GulbiRepository;
 import com.akkin.member.persistence.MemberRepository;
@@ -35,4 +36,7 @@ public class UnitTest {
 
     @Autowired
     public AuthTokenService authTokenService;
+
+    @Autowired
+    public DateUtil dateUtil;
 }
