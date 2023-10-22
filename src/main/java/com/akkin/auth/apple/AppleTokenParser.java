@@ -34,9 +34,9 @@ public class AppleTokenParser {
             log.info("decodedHeader : " + decodedHeader);
             return objectMapper.readValue(decodedHeader, Map.class);
         } catch (JsonMappingException e) {
-            throw new RuntimeException("token encoding or decoding 오류");
+            throw new RuntimeException("appleToken 값이 jwt 형식인지, 값이 정상적인지 확인해주세요.");
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("json mapping 처리 오류");
+            throw new RuntimeException("디코드된 헤더를 Map 형태로 분류할 수 없습니다. 헤더를 확인해주세요.");
         }
     }
 

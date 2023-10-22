@@ -13,9 +13,4 @@ public class AppleUser {
         this.name = name;
         this.email = email;
     }
-
-    public AppleUser(final String email) {
-        this.name = "apple";
-        this.email = email;
-    }
 }
