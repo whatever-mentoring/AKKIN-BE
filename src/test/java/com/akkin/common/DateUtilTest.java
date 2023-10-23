@@ -1,41 +1,44 @@
 package com.akkin.common;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+
+import com.akkin.common.date.MonthWeekInfo;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @SuppressWarnings("NonAsciiCharacters")
-public class DateUtilTest {
+public class DateUtilTest extends UnitTest{
 
     @Test
     public void 입력된_날짜의_이전과_다음_주_정보를_보여준다() {
         // given
-        LocalDate now = LocalDate.now();
-
+        LocalDate day = LocalDate.of(2023, 10, 1);
 
         // when
+        MonthWeekInfo weekOfMonth = dateUtil.getWeekOfMonth(day);
 
         // then
+        assertThat(weekOfMonth.getStartOfPrevWeek()).isEqualTo(LocalDate.of(2023, 9, 24));
+        assertThat(weekOfMonth.getEndOfPrevWeek()).isEqualTo(LocalDate.of(2023, 9, 30));
+        assertThat(weekOfMonth.getStartOfNextWeek()).isEqualTo(LocalDate.of(2023, 10, 8));
+        assertThat(weekOfMonth.getEndOfNextWeek()).isEqualTo(LocalDate.of(2023, 10, 14));
     }
 
     @Test
-    public void 입력된_날짜가_최신_주이면_다음_주_정보_보여주지_않음() {
+    public void 입력된_날짜가_최신_주면_현재_주_정보를_보여줌() {
         // given
         LocalDate now = LocalDate.now();
-
-
-        // when
-
-        // then
-    }
-
-    @Test
-    public void 서버의_현재_날짜를_기준으로_정보를_보여준다() {
-        // given
-        LocalDate now = LocalDate.now();
-
+        LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+        LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
         // when
+        MonthWeekInfo weekOfMonth = dateUtil.getWeekOfMonth(now);
 
         // then
+        assertThat(weekOfMonth.getStartOfNextWeek()).isEqualTo(startOfWeek);
+        assertThat(weekOfMonth.getEndOfNextWeek()).isEqualTo(endOfWeek);
     }
 }
