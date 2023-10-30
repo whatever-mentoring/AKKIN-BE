@@ -10,16 +10,14 @@ import lombok.Setter;
 public class MonthWeekInfo {
 
     final int month;
-    final int week;
     final int sunday;
     final LocalDate startOfPrevWeek;
     final LocalDate endOfPrevWeek;
     final LocalDate startOfNextWeek;
     final LocalDate endOfNextWeek;
 
-    public MonthWeekInfo(final int month, final int week, final int sunday) {
+    public MonthWeekInfo(final int month, final int sunday) {
         this.month = month;
-        this.week = week;
         this.sunday = sunday;
         this.startOfPrevWeek = null;
         this.endOfPrevWeek = null;
@@ -28,14 +26,12 @@ public class MonthWeekInfo {
     }
 
     public MonthWeekInfo(final int month,
-                        final int week,
                         final int sunday,
                         final LocalDate startOfPrevWeek,
                         final LocalDate endOfPrevWeek,
                         final LocalDate startOfNextWeek,
                         final LocalDate endOfNextWeek) {
         this.month = month;
-        this.week = week;
         this.sunday = sunday;
         this.startOfPrevWeek = startOfPrevWeek;
         this.endOfPrevWeek = endOfPrevWeek;

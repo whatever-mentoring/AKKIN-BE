@@ -28,7 +28,6 @@ public class GulbiWeeklyService {
             monthWeekInfo.getMonth(), monthWeekInfo.getSunday());
         return MemberWeeklyResponse.builder()
             .month(monthWeekInfo.getMonth())
-            .weekOfMonth((monthWeekInfo.getWeek()))
             .weeklyGulbiEntries(weekly)
             .build();
     }

@@ -40,7 +40,6 @@ public class MainService {
         }
         return MainResponse.builder()
             .month(weekOfMonth.getMonth())
-            .weekOfMonth(weekOfMonth.getWeek())
             .weeklyTotalCost(weeklyTotalCost)
             .monthlyDining(categoryExpenses.getOrDefault(Category.DINING, 0))
             .monthlyTraffic(categoryExpenses.getOrDefault(Category.TRAFFIC, 0))

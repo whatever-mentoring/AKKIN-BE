@@ -37,7 +37,6 @@ public class DateUtil {
         if (!now.isAfter(endOfWeek)) {
             return new MonthWeekInfo(
                 date.getMonthValue(),
-                weekOfMonth,
                 startOfWeek.getDayOfMonth(),
                 startOfPrevWeek,
                 endOfPrevWeek,
@@ -51,7 +50,6 @@ public class DateUtil {
 
         return new MonthWeekInfo(
             date.getMonthValue(),
-            weekOfMonth,
             startOfWeek.getDayOfMonth(),
             startOfPrevWeek,
             endOfPrevWeek,

@@ -14,9 +14,6 @@ public class MainResponse {
     @Schema(description = "서버 기준 월")
     private final Integer month;
 
-    @Schema(description = "서버 기준 달의 몇째 주")
-    private final Integer weekOfMonth;
-
     @Schema(description = "주간 아낀 비용 총합")
     private final Integer weeklyTotalCost;
 
@@ -39,7 +36,6 @@ public class MainResponse {
 
     @Builder
     public MainResponse(final Integer month,
-                        final Integer weekOfMonth,
                         final Integer weeklyTotalCost,
                         final Integer monthlyDining,
                         final Integer monthlyTraffic,
@@ -47,7 +43,6 @@ public class MainResponse {
                         final Integer monthlyEtc,
                         final List<AkkinEntry> entries) {
         this.month = month;
-        this.weekOfMonth = weekOfMonth;
         this.weeklyTotalCost = weeklyTotalCost;
         this.monthlyDining = monthlyDining;
         this.monthlyTraffic = monthlyTraffic;
