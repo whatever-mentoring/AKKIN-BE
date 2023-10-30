@@ -1,7 +1,6 @@
 package com.akkin.common.date;
 
 import java.time.LocalDate;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

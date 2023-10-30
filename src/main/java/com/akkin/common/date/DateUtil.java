@@ -16,9 +16,6 @@ public class DateUtil {
     public static MonthWeekInfo getWeekOfMonth(LocalDate date) {
         final LocalDate firstDayOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
 
-        // 해당 날짜가 해당 월의 몇 번째 주인지 계산
-        final int weekOfMonth = ((date.getDayOfMonth() + firstDayOfMonth.getDayOfWeek().getValue() % 7) / 7) + 1;
-
         // 그 주의 시작하는 요일과 끝나는 요일을 구함
         final LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
         final LocalDate endOfWeek = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
@@ -26,9 +23,6 @@ public class DateUtil {
         // 이전 주의 시작과 끝 구하기
         final LocalDate startOfPrevWeek = startOfWeek.minusWeeks(1);
         final LocalDate endOfPrevWeek = endOfWeek.minusWeeks(1);
-
-        System.out.println("이전 주 시작: " + startOfPrevWeek);
-        System.out.println("이전 주 끝: " + endOfPrevWeek);
 
         // 현재 일자와 비교하여 다음주 정보 출력 결정
         LocalDate now = LocalDate.now();

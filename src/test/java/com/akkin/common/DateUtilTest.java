@@ -1,74 +1,75 @@
 package com.akkin.common;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-
-import com.akkin.common.date.MonthWeekInfo;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import com.akkin.common.date.WeekInfo;;
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.Test;
+
 @SuppressWarnings("NonAsciiCharacters")
-public class DateUtilTest extends UnitTest{
+public class DateUtilTest extends UnitTest {
 
     @Test
-    public void 입력된_날짜의_이전과_다음_주_정보를_보여준다() {
+    public void 입력된_날짜의_이전_주_보기() {
         // given
-        LocalDate day = LocalDate.of(2023, 10, 1);
+        WeekInfo weekInfo = new WeekInfo(2023, 10, 1);
 
         // when
-        MonthWeekInfo weekOfMonth = dateUtil.getWeekOfMonth(day);
+        LocalDateTime startOfPrevWeek = weekInfo.getStartOfPrevWeek();
+        LocalDateTime endOfPrevWeek = weekInfo.getEndOfPrevWeek();
 
         // then
-        assertThat(weekOfMonth.getStartOfPrevWeek()).isEqualTo(LocalDate.of(2023, 9, 24));
-        assertThat(weekOfMonth.getEndOfPrevWeek()).isEqualTo(LocalDate.of(2023, 9, 30));
-        assertThat(weekOfMonth.getStartOfNextWeek()).isEqualTo(LocalDate.of(2023, 10, 8));
-        assertThat(weekOfMonth.getEndOfNextWeek()).isEqualTo(LocalDate.of(2023, 10, 14));
+        assertThat(startOfPrevWeek).isEqualTo(LocalDateTime.of(2023, 9, 24, 0, 0, 0));
+        assertThat(endOfPrevWeek).isEqualTo(LocalDateTime.of(2023, 9, 30, 23, 59, 59));
     }
 
     @Test
-    public void 최신_주면_현재_주_정보를_보여줌() {
+    public void 입력된_날짜의_시작과_끝_보기() {
         // given
-        LocalDate now = LocalDate.now();
-        LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+        WeekInfo weekInfo = new WeekInfo(2023, 10, 1);
 
         // when
-        MonthWeekInfo weekOfMonth = dateUtil.getWeekOfMonth(now);
+        LocalDateTime startOfCurrentWeek = weekInfo.getStartOfCurrentWeek();
+        LocalDateTime endOfCurrentWeek = weekInfo.getEndOfCurrentWeek();
 
         // then
-        assertThat(weekOfMonth.getStartOfNextWeek()).isEqualTo(startOfWeek);
-        assertThat(weekOfMonth.getEndOfNextWeek()).isEqualTo(endOfWeek);
+        assertThat(startOfCurrentWeek).isEqualTo(LocalDateTime.of(2023, 10, 1, 0, 0, 0));
+        assertThat(endOfCurrentWeek).isEqualTo(LocalDateTime.of(2023, 10, 7, 23, 59, 59));
     }
 
     @Test
-    public void 다음날이_달이_바뀌는_경우() {
+    public void 입력된_날짜의_다음_주_보기() {
         // given
-        LocalDate day = LocalDate.of(2023, 8, 31);
+        WeekInfo weekInfo = new WeekInfo(2023, 10, 1);
 
         // when
-        MonthWeekInfo weekOfMonth = dateUtil.getWeekOfMonth(day);
+        LocalDateTime startOfNextWeek = weekInfo.getStartOfNextWeek();
+        LocalDateTime endOfNextWeek = weekInfo.getEndOfNextWeek();
 
         // then
-        assertThat(weekOfMonth.getStartOfPrevWeek()).isEqualTo(LocalDate.of(2023, 8, 20));
-        assertThat(weekOfMonth.getEndOfPrevWeek()).isEqualTo(LocalDate.of(2023, 8, 26));
-        assertThat(weekOfMonth.getStartOfNextWeek()).isEqualTo(LocalDate.of(2023, 9, 3));
-        assertThat(weekOfMonth.getEndOfNextWeek()).isEqualTo(LocalDate.of(2023, 9, 9));
+        assertThat(startOfNextWeek).isEqualTo(LocalDateTime.of(2023, 10, 8, 0, 0, 0));
+        assertThat(endOfNextWeek).isEqualTo(LocalDateTime.of(2023, 10, 14, 23, 59, 59));
     }
 
     @Test
-    public void 오늘_달이_바뀐_경우() {
+    public void 이번주가_달이_바뀌는_경우() {
         // given
-        LocalDate day = LocalDate.of(2023, 9, 1);
+        WeekInfo weekInfo = new WeekInfo(2023, 8, 31);
 
         // when
-        MonthWeekInfo weekOfMonth = dateUtil.getWeekOfMonth(day);
+        LocalDateTime startOfPrevWeek = weekInfo.getStartOfPrevWeek();
+        LocalDateTime endOfPrevWeek = weekInfo.getEndOfPrevWeek();
+        LocalDateTime startOfCurrentWeek = weekInfo.getStartOfCurrentWeek();
+        LocalDateTime endOfCurrentWeek = weekInfo.getEndOfCurrentWeek();
+        LocalDateTime startOfNextWeek = weekInfo.getStartOfNextWeek();
+        LocalDateTime endOfNextWeek = weekInfo.getEndOfNextWeek();
 
         // then
-        assertThat(weekOfMonth.getStartOfPrevWeek()).isEqualTo(LocalDate.of(2023, 8, 20));
-        assertThat(weekOfMonth.getEndOfPrevWeek()).isEqualTo(LocalDate.of(2023, 8, 26));
-        assertThat(weekOfMonth.getStartOfNextWeek()).isEqualTo(LocalDate.of(2023, 9, 3));
-        assertThat(weekOfMonth.getEndOfNextWeek()).isEqualTo(LocalDate.of(2023, 9, 9));
+        assertThat(startOfPrevWeek).isEqualTo(LocalDateTime.of(2023, 8, 20, 0, 0, 0));
+        assertThat(endOfPrevWeek).isEqualTo(LocalDateTime.of(2023, 8, 26, 23, 59, 59));
+        assertThat(startOfCurrentWeek).isEqualTo(LocalDateTime.of(2023, 8, 27, 0, 0, 0));
+        assertThat(endOfCurrentWeek).isEqualTo(LocalDateTime.of(2023, 9, 2, 23, 59, 59));
+        assertThat(startOfNextWeek).isEqualTo(LocalDateTime.of(2023, 9, 3, 0, 0, 0));
+        assertThat(endOfNextWeek).isEqualTo(LocalDateTime.of(2023, 9, 9, 23, 59, 59));
     }
 }
