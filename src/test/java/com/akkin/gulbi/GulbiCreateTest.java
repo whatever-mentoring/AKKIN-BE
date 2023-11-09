@@ -1,8 +1,11 @@
 package com.akkin.gulbi;
 
+import static com.akkin.fixture.GulbiFixture.교통_500원_아낀_항목_만들기;
+import static com.akkin.fixture.GulbiFixture.기타_500원_아낀_항목_만들기;
+import static com.akkin.fixture.GulbiFixture.쇼핑_500원_아낀_항목_만들기;
+import static com.akkin.fixture.GulbiFixture.식비_500원_아낀_항목_만들기;
+import static com.akkin.fixture.MemberFixture.회원1_만들기;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static com.akkin.fixture.GulbiFixture.굴비_만들기;
-import static com.akkin.fixture.MemberFixture.회원_만들기;
 
 import com.akkin.common.UnitTest;
 import com.akkin.gulbi.domain.Category;
@@ -16,11 +19,9 @@ public class GulbiCreateTest extends UnitTest {
     @Test
     public void 아낀_항목_식비_생성_테스트() {
         // given
-        Member member = 회원_만들기("testName", "testEmail");
+        Member member = 회원1_만들기();
         member = memberRepository.save(member);
-        Gulbi gulbi = 굴비_만들기(member, 2023, 9, 9, Category.DINING,
-            "버블티 먹고 싶은데 돈 없을 때 꿀팁", "검은색 스티커를 붙이면 된다",
-            500, 0);
+        Gulbi gulbi = 식비_500원_아낀_항목_만들기(member, 2023, 9, 9);
 
         // when
         gulbi = gulbiRepository.save(gulbi);
@@ -28,15 +29,13 @@ public class GulbiCreateTest extends UnitTest {
         // then
         assertThat(gulbi.getCategory()).isEqualTo(Category.DINING);
     }
-    
+
     @Test
     public void 아낀_항목_교통_생성_테스트() {
         // given
-        Member member = 회원_만들기("testName", "testEmail");
+        Member member = 회원1_만들기();
         member = memberRepository.save(member);
-        Gulbi gulbi = 굴비_만들기(member, 2023, 9, 9, Category.TRAFFIC,
-            "운동 꿀팁", "지하철 안 타고 걸어가면 된다",
-            1400, 0);
+        Gulbi gulbi = 교통_500원_아낀_항목_만들기(member, 2023, 9, 9);
 
         // when
         gulbi = gulbiRepository.save(gulbi);
@@ -48,11 +47,9 @@ public class GulbiCreateTest extends UnitTest {
     @Test
     public void 아낀_항목_식비_쇼핑_생성_테스트() {
         // given
-        Member member = 회원_만들기("testName", "testEmail");
+        Member member = 회원1_만들기();
         member = memberRepository.save(member);
-        Gulbi gulbi = 굴비_만들기(member, 2023, 9, 9, Category.SHOPPING,
-            "공짜로 쇼핑함", "아이쇼핑",
-            200000, 0);
+        Gulbi gulbi = 쇼핑_500원_아낀_항목_만들기(member, 2023, 9, 9);
 
         // when
         gulbi = gulbiRepository.save(gulbi);
@@ -64,11 +61,9 @@ public class GulbiCreateTest extends UnitTest {
     @Test
     public void 아낀_항목_식비_기타_생성_테스트() {
         // given
-        Member member = 회원_만들기("testName", "testEmail");
+        Member member = 회원1_만들기();
         member = memberRepository.save(member);
-        Gulbi gulbi = 굴비_만들기(member, 2023, 9, 9, Category.ETC,
-            "기타 content", "기타 how",
-            200000, 0);
+        Gulbi gulbi = 기타_500원_아낀_항목_만들기(member, 2023, 9, 9);
 
         // when
         gulbi = gulbiRepository.save(gulbi);

@@ -7,8 +7,8 @@ import com.akkin.member.domain.Member;
 @SuppressWarnings("NonAsciiCharacters")
 public class GulbiFixture {
 
-    public static Gulbi 굴비_만들기(Member member, Integer year, Integer month, Integer day,
-        Category category, String content, String how, Integer expectCost, Integer realCost) {
+    public static Gulbi 아낀_항목_만들기(Member member, int year, int month, int day,
+        Category category, String content, String how, int expectCost, int realCost) {
         return Gulbi.builder()
             .member(member)
             .year(year)
@@ -19,6 +19,62 @@ public class GulbiFixture {
             .how(how)
             .expectCost(expectCost)
             .realCost(realCost)
+            .build();
+    }
+
+    public static Gulbi 식비_500원_아낀_항목_만들기(Member member, int year, int month, int day) {
+        return Gulbi.builder()
+            .member(member)
+            .year(year)
+            .month(month)
+            .day(day)
+            .category(Category.DINING)
+            .content("DINING_content")
+            .how("DINING_how")
+            .expectCost(1000)
+            .realCost(500)
+            .build();
+    }
+
+    public static Gulbi 교통_500원_아낀_항목_만들기(Member member, int year, int month, int day) {
+        return Gulbi.builder()
+            .member(member)
+            .year(year)
+            .month(month)
+            .day(day)
+            .category(Category.TRAFFIC)
+            .content("TRAFFIC_content")
+            .how("TRAFFIC_how")
+            .expectCost(1000)
+            .realCost(500)
+            .build();
+    }
+
+    public static Gulbi 쇼핑_500원_아낀_항목_만들기(Member member, int year, int month, int day) {
+        return Gulbi.builder()
+            .member(member)
+            .year(year)
+            .month(month)
+            .day(day)
+            .category(Category.SHOPPING)
+            .content("SHOPPING_content")
+            .how("SHOPPING_how")
+            .expectCost(1000)
+            .realCost(500)
+            .build();
+    }
+
+    public static Gulbi 기타_500원_아낀_항목_만들기(Member member, int year, int month, int day) {
+        return Gulbi.builder()
+            .member(member)
+            .year(year)
+            .month(month)
+            .day(day)
+            .category(Category.ETC)
+            .content("ETC_content")
+            .how("ETC_how")
+            .expectCost(1000)
+            .realCost(500)
             .build();
     }
 
