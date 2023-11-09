@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Schema(description = "사용자가 등록하려는 아낀 정보")
-@Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class GulbiCreateForm {
 
     @Schema(description = "아낀 년도")
@@ -40,7 +37,7 @@ public class GulbiCreateForm {
     @Schema(description = "실제 비용")
     private Integer realCost;
 
-    public Gulbi dtoToEntity(Member member) {
+    public Gulbi dtoToEntity(final Member member) {
         return Gulbi.builder()
             .member(member)
             .year(year)
@@ -52,5 +49,23 @@ public class GulbiCreateForm {
             .expectCost(expectCost)
             .realCost(realCost)
             .build();
+    }
+
+    public GulbiCreateForm( final Integer year,
+                            final Integer month,
+                            final Integer day,
+                            final Category category,
+                            final String saveContent,
+                            final String how,
+                            final Integer expectCost,
+                            final Integer realCost) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.category = category;
+        this.saveContent = saveContent;
+        this.how = how;
+        this.expectCost = expectCost;
+        this.realCost = realCost;
     }
 }

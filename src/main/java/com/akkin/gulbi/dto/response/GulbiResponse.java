@@ -26,9 +26,9 @@ public class GulbiResponse {
 
     private String how;
 
-    private Integer expectCost;
+    private Integer expectCost; // 기존 비용
 
-    private Integer realCost;
+    private Integer realCost;   // 실제 아낀 비용
 
     public GulbiResponse(final Long id,
                          final Integer year,

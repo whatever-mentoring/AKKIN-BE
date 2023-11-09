@@ -28,7 +28,7 @@ public class GulbiUpdateForm {
 
     private Integer realCost;
 
-    public Gulbi dtoToEntity(Member member) {
+    public Gulbi dtoToEntity(final Member member) {
         return Gulbi.builder()
             .member(member)
             .year(year)
@@ -40,5 +40,23 @@ public class GulbiUpdateForm {
             .expectCost(expectCost)
             .realCost(realCost)
             .build();
+    }
+
+    public GulbiUpdateForm( final Integer year,
+                            final Integer month,
+                            final Integer day,
+                            final Category category,
+                            final String content,
+                            final String how,
+                            final Integer expectCost,
+                            final Integer realCost) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.category = category;
+        this.content = content;
+        this.how = how;
+        this.expectCost = expectCost;
+        this.realCost = realCost;
     }
 }

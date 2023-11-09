@@ -2,6 +2,7 @@ package com.akkin.fixture;
 
 import com.akkin.gulbi.domain.Category;
 import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.gulbi.dto.request.GulbiCreateForm;
 import com.akkin.member.domain.Member;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -78,4 +79,7 @@ public class GulbiFixture {
             .build();
     }
 
+    public static GulbiCreateForm 아낀_항목_생성_폼_만들기(Category category) {
+        return new GulbiCreateForm(2023, 10, 9, category, "content", "how", 1000, 500);
+    }
 }
