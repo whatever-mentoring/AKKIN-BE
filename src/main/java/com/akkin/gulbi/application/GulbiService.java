@@ -1,18 +1,16 @@
 package com.akkin.gulbi.application;
 
+import com.akkin.gulbi.dto.response.GulbiResponse;
 import com.akkin.gulbi.exception.GulbiNotFoundException;
 import com.akkin.gulbi.exception.GulbiNotOwnerException;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
-import com.akkin.gulbi.dto.response.GulbiCreateResponse;
-import com.akkin.gulbi.dto.response.GulbiResponses;
-import com.akkin.gulbi.dto.response.GulbiUpdateResponse;
+import com.akkin.gulbi.dto.response.GulbiListResponse;
 import com.akkin.gulbi.persistence.GulbiRepository;
 import com.akkin.member.domain.Member;
 import com.akkin.member.application.MemberService;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,24 +43,18 @@ public class GulbiService {
             .orElseThrow(() -> new GulbiNotFoundException("존재하지 않은 아낀 항목"));
     }
 
-    public GulbiResponses getGulbis(final Long memberId) {
-        final List<Gulbi> gulbis = gulbiRepository.findByMemberId(memberId);
-        final List<GulbiCreateResponse> gulbiCreateResponses =
-            gulbis.stream()
-                .map(GulbiCreateResponse::new)
-                .collect(Collectors.toList());
-
-        return new GulbiResponses(gulbiCreateResponses);
+    public GulbiListResponse getGulbis(final Long memberId) {
+        final List<GulbiResponse> gulbis = gulbiRepository.findGulbiResponseByMemberId(memberId);
+        return new GulbiListResponse(gulbis);
     }
 
     @Transactional
-    public GulbiUpdateResponse update(final Long memberId, final Long gulbiId,
+    public void update(final Long memberId, final Long gulbiId,
         final GulbiUpdateForm form) {
         final Gulbi gulbi = getGulbiOrElseThrow(gulbiId);
         if (!gulbi.isWriter(memberId)) {
             throw new GulbiNotOwnerException("작성자가 아닙니다.");
         }
         gulbi.updateGulbi(form);
-        return new GulbiUpdateResponse(gulbi);
     }
 }

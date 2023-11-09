@@ -8,11 +8,11 @@ import lombok.Setter;
 @Schema(description = "아낀 항목들의 리스트 반환")
 @Setter
 @Getter
-public class GulbiResponses {
+public class GulbiListResponse {
 
-    List<GulbiCreateResponse> entries;
+    List<GulbiResponse> entries;
 
-    public GulbiResponses(List<GulbiCreateResponse> entries) {
+    public GulbiListResponse(List<GulbiResponse> entries) {
         this.entries = entries;
     }
 }

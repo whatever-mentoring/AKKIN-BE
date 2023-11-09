@@ -1,11 +1,6 @@
 package com.akkin.main.presentation;
 
-import com.akkin.main.dto.MainResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.servlet.http.HttpServletRequest;
@@ -19,5 +14,5 @@ public interface MainApiControllerDocs {
         responseCode = "200",
         description = "메인 정보 조회 성공."
     )
-    ResponseEntity<MainResponse> enterMain(HttpServletRequest request);
+    ResponseEntity<Void> enterMain(HttpServletRequest request);
 }

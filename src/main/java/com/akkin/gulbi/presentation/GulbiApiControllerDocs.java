@@ -1,7 +1,7 @@
 package com.akkin.gulbi.presentation;
 
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
-import com.akkin.gulbi.dto.response.GulbiResponses;
+import com.akkin.gulbi.dto.response.GulbiListResponse;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -33,7 +33,7 @@ public interface GulbiApiControllerDocs {
         responseCode = "200",
         description = "아낀 항목 조회 성공."
     )
-    ResponseEntity<GulbiResponses> getGulbis(HttpServletRequest request);
+    ResponseEntity<GulbiListResponse> getGulbis(HttpServletRequest request);
 
     @Operation(summary = "아낀 항목 수정")
     @ApiResponse(

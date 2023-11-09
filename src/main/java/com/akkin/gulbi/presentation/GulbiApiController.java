@@ -5,7 +5,7 @@ import com.akkin.auth.dto.AuthMember;
 import com.akkin.gulbi.application.GulbiService;
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
-import com.akkin.gulbi.dto.response.GulbiResponses;
+import com.akkin.gulbi.dto.response.GulbiListResponse;
 import java.net.URI;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -47,9 +47,9 @@ public class GulbiApiController implements GulbiApiControllerDocs {
     @Override
     @AuthRequired
     @GetMapping
-    public ResponseEntity<GulbiResponses> getGulbis(HttpServletRequest request) {
+    public ResponseEntity<GulbiListResponse> getGulbis(HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        GulbiResponses response = gulbiService.getGulbis(authMember.getId());
+        GulbiListResponse response = gulbiService.getGulbis(authMember.getId());
         return ResponseEntity.ok(response);
     }
 

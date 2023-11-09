@@ -3,6 +3,7 @@ package com.akkin.gulbi.dto.response;
 import com.akkin.gulbi.domain.Category;
 import com.akkin.gulbi.domain.Gulbi;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,15 +30,23 @@ public class GulbiResponse {
 
     private Integer realCost;
 
-    public GulbiResponse(Gulbi gulbi) {
-        this.id = gulbi.getId();
-        this.year = gulbi.getSaveYear();
-        this.month = gulbi.getSaveMonth();
-        this.day = gulbi.getSaveDay();
-        this.category = gulbi.getCategory();
-        this.content = gulbi.getContent();
-        this.how = gulbi.getHow();
-        this.expectCost = gulbi.getExpectCost();
-        this.realCost = gulbi.getRealCost();
+    public GulbiResponse(final Long id,
+                         final Integer year,
+                         final Integer month,
+                         final Integer day,
+                         final Category category,
+                         final String content,
+                         final String how,
+                         final Integer expectCost,
+                         final Integer realCost) {
+        this.id = id;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.category = category;
+        this.content = content;
+        this.how = how;
+        this.expectCost = expectCost;
+        this.realCost = realCost;
     }
 }
