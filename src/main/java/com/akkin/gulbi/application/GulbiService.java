@@ -12,6 +12,8 @@ import com.akkin.member.domain.Member;
 import com.akkin.member.application.MemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,14 +40,29 @@ public class GulbiService {
         gulbiRepository.delete(gulbi);
     }
 
-    private Gulbi getGulbiOrElseThrow(final Long gulbiId) {
+    public Gulbi getGulbiOrElseThrow(final Long gulbiId) {
         return gulbiRepository.findById(gulbiId)
             .orElseThrow(() -> new GulbiNotFoundException("존재하지 않은 아낀 항목"));
     }
 
-    public GulbiListResponse getGulbis(final Long memberId) {
-        final List<GulbiResponse> gulbis = gulbiRepository.findGulbiResponseByMemberId(memberId);
-        return new GulbiListResponse(gulbis);
+    public GulbiListResponse getFirstPage(final Long memberId, final int pageSize) {
+        final PageRequest pageRequest  = PageRequest.of(0, pageSize);
+        final List<GulbiResponse> firstPage = gulbiRepository.findFirstPage(memberId, pageRequest);
+        long nextId = 0L;
+        if (!firstPage.isEmpty()) {
+            nextId = firstPage.get(firstPage.size() - 1).getId();
+        }
+        return new GulbiListResponse(firstPage, nextId);
+    }
+
+    public GulbiListResponse getNextPage(final Long memberId, final long lastId, final int pageSize) {
+        final PageRequest pageRequest  = PageRequest.of(0, pageSize);
+        final List<GulbiResponse> nextPage = gulbiRepository.findGulbiResponseByMemberId(memberId, lastId, pageRequest);
+        long nextId = 0L;
+        if (!nextPage.isEmpty()) {
+            nextId = nextPage.get(nextPage.size() - 1).getId();
+        }
+        return new GulbiListResponse(nextPage, nextId);
     }
 
     @Transactional

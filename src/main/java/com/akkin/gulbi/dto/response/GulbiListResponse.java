@@ -10,9 +10,12 @@ import lombok.Setter;
 @Getter
 public class GulbiListResponse {
 
-    List<GulbiResponse> entries;
+    private final List<GulbiResponse> entries;
 
-    public GulbiListResponse(List<GulbiResponse> entries) {
+    private final long lastId;
+
+    public GulbiListResponse(final List<GulbiResponse> entries, final long lastId) {
         this.entries = entries;
+        this.lastId = lastId;
     }
 }

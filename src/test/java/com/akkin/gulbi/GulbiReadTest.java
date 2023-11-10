@@ -6,6 +6,7 @@ import static com.akkin.fixture.MemberFixture.회원2_만들기;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.akkin.common.UnitTest;
+import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.gulbi.dto.response.GulbiListResponse;
 import com.akkin.member.domain.Member;
 import org.junit.jupiter.api.Test;
@@ -24,9 +25,43 @@ public class GulbiReadTest extends UnitTest {
         gulbiRepository.save(기타_500원_아낀_항목_만들기(member2, 2023, 9, 9));
 
         // when
-        GulbiListResponse gulbis = gulbiService.getGulbis(member1.getId());
+        GulbiListResponse gulbis = gulbiService.getFirstPage(member1.getId(), 3);
 
         // then
         assertThat(gulbis.getEntries().size()).isEqualTo(2);
+    }
+
+    @Test
+    public void 마지막_조회한_아낀_항목_ID가_맞아야한다() {
+        // given
+        Member member1 = memberRepository.save(회원1_만들기());
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        Gulbi lastGulbi = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+
+        // when
+        GulbiListResponse gulbis = gulbiService.getFirstPage(member1.getId(), 3);
+
+        // then
+        assertThat(gulbis.getLastId()).isEqualTo(lastGulbi.getId());
+    }
+
+    @Test
+    public void 다음_정보를_가져올_수_있어야한다() {
+        // given
+        final int pageSize = 3;
+        Member member1 = memberRepository.save(회원1_만들기());
+        Gulbi first = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
+        GulbiListResponse gulbis = gulbiService.getFirstPage(member1.getId(), pageSize);
+
+        // when
+        gulbis = gulbiService.getNextPage(member1.getId(), gulbis.getLastId(), pageSize);
+
+        // then
+        assertThat(gulbis.getLastId()).isEqualTo(first.getId());
     }
 }

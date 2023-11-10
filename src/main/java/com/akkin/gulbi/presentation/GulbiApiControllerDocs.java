@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Tag(name = "Gulbi", description = "아낀 항목 관련 API")
 public interface GulbiApiControllerDocs {
@@ -33,7 +36,8 @@ public interface GulbiApiControllerDocs {
         responseCode = "200",
         description = "아낀 항목 조회 성공."
     )
-    ResponseEntity<GulbiListResponse> getGulbis(HttpServletRequest request);
+    ResponseEntity<GulbiListResponse> getGulbis(@RequestParam(value = "lastId", required = false) Optional<Long> lastId,
+                                                HttpServletRequest request);
 
     @Operation(summary = "아낀 항목 수정")
     @ApiResponse(
