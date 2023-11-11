@@ -55,7 +55,7 @@ public class GulbiApiController implements GulbiApiControllerDocs {
                                                        HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         GulbiListResponse response;
-        if (lastId.isEmpty() || lastId.get() == 1L) {
+        if (lastId.isEmpty() || lastId.get() <= 1L) {
             response = gulbiService.getFirstPage(authMember.getId(), PAGE_SIZE);
         } else {
             response = gulbiService.getNextPage(authMember.getId(), lastId.get(), PAGE_SIZE);
