@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("NonAsciiCharacters")
 public class GulbiReadTest extends UnitTest {
 
+    private final Long FIRST_PAGE_INDEX = Long.MAX_VALUE;
+
     @Test
     public void 내_것만_가져와야_한다() {
         // given
@@ -26,7 +28,7 @@ public class GulbiReadTest extends UnitTest {
         gulbiRepository.save(기타_500원_아낀_항목_만들기(member2, 2023, 9, 9));
 
         // when
-        GulbiListResponse gulbis = gulbiService.getFirstPage(member1.getId(), 3);
+        GulbiListResponse gulbis = gulbiService.getGublis(member1.getId(), FIRST_PAGE_INDEX, 3);
 
         // then
         assertThat(gulbis.getEntries().size()).isEqualTo(2);
@@ -35,14 +37,14 @@ public class GulbiReadTest extends UnitTest {
     @Test
     public void 마지막_조회한_아낀_항목_ID가_맞아야한다() {
         // given
+        final int pageSize = 3;
         Member member1 = memberRepository.save(회원1_만들기());
         Gulbi first = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
         gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
         gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
 
         // when
-        GulbiListResponse gulbis = gulbiService.getFirstPage(member1.getId(), 3);
-        List<Gulbi> all = gulbiRepository.findAll();
+        GulbiListResponse gulbis = gulbiService.getGublis(member1.getId(), Long.MAX_VALUE, pageSize);
 
         // then
         assertThat(gulbis.getLastId()).isEqualTo(first.getId());
@@ -53,15 +55,15 @@ public class GulbiReadTest extends UnitTest {
         // given
         final int pageSize = 3;
         Member member1 = memberRepository.save(회원1_만들기());
-        Gulbi lastPage = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
-        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
-        Gulbi firstPage = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
-        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
-        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));
-        GulbiListResponse firstResult = gulbiService.getFirstPage(member1.getId(), pageSize);
+        Gulbi lastPage = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9)); // 1
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));                  // 2
+        Gulbi firstPage = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));// 3
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));                  // 4
+        gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));                  // 5
+        GulbiListResponse firstResult = gulbiService.getGublis(member1.getId(), Long.MAX_VALUE, pageSize);
 
         // when
-        GulbiListResponse lastResult = gulbiService.getNextPage(member1.getId(), firstResult.getLastId(), pageSize);
+        GulbiListResponse lastResult = gulbiService.getGublis(member1.getId(), firstResult.getLastId(), pageSize);
 
         // then
         assertThat(firstResult.getLastId()).isEqualTo(firstPage.getId());

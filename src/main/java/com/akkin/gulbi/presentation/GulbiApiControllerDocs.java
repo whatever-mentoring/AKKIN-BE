@@ -36,7 +36,11 @@ public interface GulbiApiControllerDocs {
         responseCode = "200",
         description = "아낀 항목 조회 성공."
     )
-    ResponseEntity<GulbiListResponse> getGulbis(@RequestParam(value = "lastId", required = false) Optional<Long> lastId,
+    @ApiResponse(
+        responseCode = "204",
+        description = "아낀 항목 조회 성공. 하지만 반환할 아낀 항목이 없습니다."
+    )
+    ResponseEntity<GulbiListResponse> getGulbis(@RequestParam(value = "lastId", required = false) Long lastId,
                                                 HttpServletRequest request);
 
     @Operation(summary = "아낀 항목 수정")

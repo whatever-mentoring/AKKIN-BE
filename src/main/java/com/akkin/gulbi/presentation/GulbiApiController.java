@@ -51,14 +51,15 @@ public class GulbiApiController implements GulbiApiControllerDocs {
     @Override
     @AuthRequired
     @GetMapping
-    public ResponseEntity<GulbiListResponse> getGulbis(@RequestParam(value = "lastId", required = false) Optional<Long> lastId,
+    public ResponseEntity<GulbiListResponse> getGulbis(@RequestParam(value = "lastId", required = false) Long lastId,
                                                        HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        GulbiListResponse response;
-        if (lastId.isEmpty() || lastId.get() <= 1L) {
-            response = gulbiService.getFirstPage(authMember.getId(), PAGE_SIZE);
-        } else {
-            response = gulbiService.getNextPage(authMember.getId(), lastId.get(), PAGE_SIZE);
+        if (lastId == null) {
+            lastId = Long.MAX_VALUE;
+        }
+        GulbiListResponse response = gulbiService.getGublis(authMember.getId(), lastId, PAGE_SIZE);
+        if (response.getLastId() == 0L) {
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(response);
     }

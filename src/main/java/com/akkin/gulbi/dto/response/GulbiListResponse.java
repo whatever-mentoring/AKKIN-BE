@@ -12,10 +12,12 @@ public class GulbiListResponse {
 
     private final List<GulbiResponse> entries;
 
-    private final long lastId;
+    private long lastId = 0L;
 
-    public GulbiListResponse(final List<GulbiResponse> entries, final long lastId) {
+    public GulbiListResponse(final List<GulbiResponse> entries) {
         this.entries = entries;
-        this.lastId = lastId;
+        if (!entries.isEmpty()) {
+            lastId = entries.get(entries.size() - 1).getId();
+        }
     }
 }
