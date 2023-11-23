@@ -16,7 +16,7 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "                                                         MONTH(g.savedAt), " +
         "                                                         DAY(g.savedAt), " +
         "                                                         g.category, " +
-        "                                                         g.content, " +
+        "                                                         g.saveContent, " +
         "                                                         g.how, " +
         "                                                         g.expectCost, " +
         "                                                         g.realCost) " +

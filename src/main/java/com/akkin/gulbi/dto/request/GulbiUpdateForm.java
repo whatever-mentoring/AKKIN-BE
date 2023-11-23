@@ -20,7 +20,7 @@ public class GulbiUpdateForm {
 
     private Category category;
 
-    private String content;
+    private String saveContent;
 
     private String how;
 
@@ -35,7 +35,7 @@ public class GulbiUpdateForm {
             .month(month)
             .day(day)
             .category(category)
-            .content(content)
+            .saveContent(saveContent)
             .how(how)
             .expectCost(expectCost)
             .realCost(realCost)
@@ -46,7 +46,7 @@ public class GulbiUpdateForm {
                             final Integer month,
                             final Integer day,
                             final Category category,
-                            final String content,
+                            final String saveContent,
                             final String how,
                             final Integer expectCost,
                             final Integer realCost) {
@@ -54,7 +54,7 @@ public class GulbiUpdateForm {
         this.month = month;
         this.day = day;
         this.category = category;
-        this.content = content;
+        this.saveContent = saveContent;
         this.how = how;
         this.expectCost = expectCost;
         this.realCost = realCost;

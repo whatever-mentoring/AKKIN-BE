@@ -79,7 +79,7 @@ public class GulbiUpdateTest extends UnitTest {
         gulbi = gulbiRepository.findById(gulbi.getId()).get();
 
         // then
-        assertThat(gulbi.getContent()).isEqualTo(newContent);
+        assertThat(gulbi.getSaveContent()).isEqualTo(newContent);
     }
 
     @Test

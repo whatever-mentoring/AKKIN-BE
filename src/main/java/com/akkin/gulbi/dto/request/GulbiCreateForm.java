@@ -44,7 +44,7 @@ public class GulbiCreateForm {
             .month(month)
             .day(day)
             .category(category)
-            .content(saveContent)
+            .saveContent(saveContent)
             .how(how)
             .expectCost(expectCost)
             .realCost(realCost)

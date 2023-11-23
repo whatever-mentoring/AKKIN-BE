@@ -22,7 +22,7 @@ public class GulbiResponse {
 
     private Category category;
 
-    private String content;
+    private String saveContent;
 
     private String how;
 
@@ -35,7 +35,7 @@ public class GulbiResponse {
                          final Integer month,
                          final Integer day,
                          final Category category,
-                         final String content,
+                         final String saveContent,
                          final String how,
                          final Integer expectCost,
                          final Integer realCost) {
@@ -44,7 +44,7 @@ public class GulbiResponse {
         this.month = month;
         this.day = day;
         this.category = category;
-        this.content = content;
+        this.saveContent = saveContent;
         this.how = how;
         this.expectCost = expectCost;
         this.realCost = realCost;

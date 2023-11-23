@@ -32,7 +32,7 @@ public class Gulbi extends BaseTimeEntity {
     private Category category;
 
     @Column(nullable = false)
-    private String content;
+    private String saveContent;
 
     @Column(nullable = false)
     private String how;
@@ -52,7 +52,7 @@ public class Gulbi extends BaseTimeEntity {
     @Builder
     public Gulbi(final Member member,
                  final Category category,
-                 final String content,
+                 final String saveContent,
                  final String how,
                  final int year,
                  final int month,
@@ -61,7 +61,7 @@ public class Gulbi extends BaseTimeEntity {
                  final Integer realCost) {
         this.member = member;
         this.category = category;
-        this.content = content;
+        this.saveContent = saveContent;
         this.how = how;
         this.savedAt = LocalDateTime.of(year, month, day, 0, 0, 0);
         this.expectCost = expectCost;
@@ -71,7 +71,7 @@ public class Gulbi extends BaseTimeEntity {
 
     public void updateGulbi(final GulbiUpdateForm form) {
         this.category = form.getCategory();
-        this.content = form.getContent();
+        this.saveContent = form.getSaveContent();
         this.how = form.getHow();
         this.savedAt = LocalDateTime.of(form.getYear(), form.getMonth(), form.getDay(), 0, 0, 0);
         this.expectCost = form.getExpectCost();
