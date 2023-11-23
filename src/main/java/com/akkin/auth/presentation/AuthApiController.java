@@ -1,6 +1,9 @@
 package com.akkin.auth.presentation;
 
 import com.akkin.auth.apple.AppleOauthService;
+import com.akkin.auth.apple.AppleRevokeService;
+import com.akkin.auth.apple.AppleTokenService;
+import com.akkin.auth.apple.dto.AppleTokenResponse;
 import com.akkin.auth.apple.dto.AppleUser;
 import com.akkin.auth.dto.request.AppleLoginRequest;
 import com.akkin.auth.dto.response.TokenResponse;
@@ -35,6 +38,10 @@ public class AuthApiController {
 
     private final AppleOauthService appleOauthService;
 
+    private final AppleTokenService appleTokenService;
+
+    private final AppleRevokeService appleRevokeService;
+
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     @PostMapping("/login/oauth2/apple")
     public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody final AppleLoginRequest appleLoginRequest) {
@@ -64,6 +71,15 @@ public class AuthApiController {
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
         authTokenService.deleteAuthToken(accessToken);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
+    @PostMapping("/revoke")
+    public ResponseEntity<Void> revoke(@RequestBody final AppleLoginRequest appleLoginRequest) {
+        appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
+        AppleTokenResponse appleToken = appleTokenService.getAppleToken(appleLoginRequest);
+        appleRevokeService.revoke(appleToken);
         return ResponseEntity.ok().build();
     }
 }
