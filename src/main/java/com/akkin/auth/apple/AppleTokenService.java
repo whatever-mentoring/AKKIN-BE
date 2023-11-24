@@ -2,6 +2,7 @@ package com.akkin.auth.apple;
 
 import com.akkin.auth.apple.dto.AppleTokenResponse;
 import com.akkin.auth.dto.request.AppleLoginRequest;
+import com.akkin.auth.dto.request.AppleRevokeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -26,12 +27,12 @@ public class AppleTokenService {
     @Value("${spring.oauth.apple.bundle}")
     private String bundle;
 
-    public AppleTokenResponse getAppleToken(AppleLoginRequest appleLoginRequest) {
+    public AppleTokenResponse getAppleToken(AppleRevokeRequest appleRevokeRequest) {
         RestTemplate restTemplate = new RestTemplateBuilder().build();
         String authUrl = "https://appleid.apple.com/auth/token";
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("code", appleLoginRequest.getAuthorizationCode());
+        params.add("code", appleRevokeRequest.getAuthorizationCode());
         params.add("client_id", bundle);
         params.add("client_secret", privateKeyGenerator.generate());
         params.add("grant_type", "authorization_code");
