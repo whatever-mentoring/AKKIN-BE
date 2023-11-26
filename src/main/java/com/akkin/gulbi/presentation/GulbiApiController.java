@@ -1,5 +1,7 @@
 package com.akkin.gulbi.presentation;
 
+import static com.akkin.gulbi.application.GulbiService.DEFAULT_GULBI_PAGE_SIZE;
+
 import com.akkin.auth.aop.AuthRequired;
 import com.akkin.auth.dto.AuthMember;
 import com.akkin.gulbi.application.GulbiService;
@@ -7,7 +9,6 @@ import com.akkin.gulbi.dto.request.GulbiCreateForm;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
 import com.akkin.gulbi.dto.response.GulbiListResponse;
 import java.net.URI;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class GulbiApiController implements GulbiApiControllerDocs {
 
     private final GulbiService gulbiService;
-
-    private final int PAGE_SIZE = 10;
 
     @Override
     @AuthRequired
@@ -57,7 +56,7 @@ public class GulbiApiController implements GulbiApiControllerDocs {
         if (lastId == null) {
             lastId = Long.MAX_VALUE;
         }
-        GulbiListResponse response = gulbiService.getGublis(authMember.getId(), lastId, PAGE_SIZE);
+        GulbiListResponse response = gulbiService.getGublis(authMember.getId(), lastId, DEFAULT_GULBI_PAGE_SIZE);
         if (response.getLastId() == 0L) {
             return ResponseEntity.noContent().build();
         }

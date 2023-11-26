@@ -12,23 +12,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GulbiResponse {
 
+    @Schema(description = "아낀 항목 식별자")
     private Long id;
 
+    @Schema(description = "생성 년도")
     private Integer year;
 
+    @Schema(description = "생성 월")
     private Integer month;
 
+    @Schema(description = "생성 일")
     private Integer day;
 
+    @Schema(description = "카테고리(식비, 교통, 쇼핑 ,기타")
     private Category category;
 
+    @Schema(description = "아낀 항목 제목")
     private String saveContent;
 
+    @Schema(description = "아낀 항목 본문")
     private String how;
 
-    private Integer expectCost; // 기존 비용
+    @Schema(description = "예상했던 지출")
+    private Integer expectCost;
 
-    private Integer realCost;   // 실제 아낀 비용
+    @Schema(description = "실제 아낀 비용")
+    private Integer realCost;
 
     public GulbiResponse(final Long id,
                          final Integer year,

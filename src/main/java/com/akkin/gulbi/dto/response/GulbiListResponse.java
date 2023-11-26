@@ -10,8 +10,10 @@ import lombok.Setter;
 @Getter
 public class GulbiListResponse {
 
+    @Schema(description = "아낀 항목 리스트")
     private final List<GulbiResponse> entries;
 
+    @Schema(description = "마지막으로 조회한 아낀 항목 식별자")
     private long lastId = 0L;
 
     public GulbiListResponse(final List<GulbiResponse> entries) {

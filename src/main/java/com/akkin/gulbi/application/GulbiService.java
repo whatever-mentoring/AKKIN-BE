@@ -13,7 +13,6 @@ import com.akkin.member.application.MemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +23,8 @@ public class GulbiService {
 
     private final GulbiRepository gulbiRepository;
     private final MemberService memberService;
+
+    public static int DEFAULT_GULBI_PAGE_SIZE = 10;
 
     @Transactional
     public void create(final Long memberId, final GulbiCreateForm form) {
@@ -48,6 +49,12 @@ public class GulbiService {
     public GulbiListResponse getGublis(final Long memberId, final long lastId, final int pageSize) {
         final PageRequest pageRequest  = PageRequest.of(0, pageSize);
         final List<GulbiResponse> nextPage = gulbiRepository.findGulbiResponseByMemberId(memberId, lastId, pageRequest);
+        return new GulbiListResponse(nextPage);
+    }
+
+    public GulbiListResponse getFirstPage(final Long memberId, final int pageSize) {
+        final PageRequest pageRequest  = PageRequest.of(0, pageSize);
+        final List<GulbiResponse> nextPage = gulbiRepository.findGulbiResponseByMemberId(memberId, Long.MAX_VALUE, pageRequest);
         return new GulbiListResponse(nextPage);
     }
 
