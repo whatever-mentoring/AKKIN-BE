@@ -29,7 +29,7 @@ public class ApplePrivateKeyGenerator {
     public String generate() {
         Date expirationDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
         Map<String, Object> jwtHeader = new HashMap<>();
-        jwtHeader.put("kid", "appleSignKeyId");
+        jwtHeader.put("kid", kid);
         jwtHeader.put("alg", "ES256");
 
         return Jwts.builder()
