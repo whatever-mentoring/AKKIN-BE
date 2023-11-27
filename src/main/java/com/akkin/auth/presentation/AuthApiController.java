@@ -10,6 +10,7 @@ import com.akkin.auth.dto.request.AppleRevokeRequest;
 import com.akkin.auth.dto.response.TokenResponse;
 import com.akkin.auth.domain.AuthToken;
 import com.akkin.auth.application.AuthTokenService;
+import com.akkin.gulbi.application.GulbiService;
 import com.akkin.member.domain.Member;
 import com.akkin.member.application.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +44,8 @@ public class AuthApiController implements AuthApiControllerDocs {
 
     private final AppleRevokeService appleRevokeService;
 
+    private final GulbiService gulbiService;
+
     @Override
     @PostMapping("/login/oauth2/apple")
     public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody final AppleLoginRequest appleLoginRequest) {
@@ -71,9 +74,13 @@ public class AuthApiController implements AuthApiControllerDocs {
     @Override
     @PostMapping("/revoke")
     public ResponseEntity<Void> revoke(@RequestBody final AppleRevokeRequest appleRevokeRequest) {
-        appleOauthService.createAppleUser(appleRevokeRequest.getAppleToken());
+        AppleUser appleUser = appleOauthService.createAppleUser(appleRevokeRequest.getAppleToken());
         AppleTokenResponse appleToken = appleTokenService.getAppleToken(appleRevokeRequest);
         appleRevokeService.revoke(appleToken);
+        Member member = memberService.findMember(appleUser.getEmail());
+        gulbiService.deleteRevokeMemberGulbi(member);
+        authTokenService.deleteRevokedAuthToken(member.getId());
+        memberService.deleteMember(member.getId());
         return ResponseEntity.ok().build();
     }
 }

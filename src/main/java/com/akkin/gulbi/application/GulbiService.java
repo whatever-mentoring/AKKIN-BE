@@ -12,10 +12,12 @@ import com.akkin.member.domain.Member;
 import com.akkin.member.application.MemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -66,5 +68,10 @@ public class GulbiService {
             throw new GulbiNotOwnerException("작성자가 아닙니다.");
         }
         gulbi.updateGulbi(form);
+    }
+
+    @Transactional
+    public void deleteRevokeMemberGulbi(final Member member) {
+        gulbiRepository.deleteAllByMember(member);
     }
 }

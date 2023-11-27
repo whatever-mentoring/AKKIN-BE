@@ -29,4 +29,14 @@ public class MemberService {
         return memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 멤버입니다. : " + memberId));
     }
+
+    public Member findMember(final String email) {
+        return memberRepository.findByEmail(email)
+            .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 이메일입니다. : " + email));
+    }
+
+    @Transactional
+    public void deleteMember(final Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
 }

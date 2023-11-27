@@ -46,7 +46,7 @@ public class AppleTokenService {
             ResponseEntity<AppleTokenResponse> response = restTemplate.postForEntity(authUrl, httpEntity, AppleTokenResponse.class);
             return response.getBody();
         } catch (HttpClientErrorException e) {
-            throw new IllegalArgumentException("Apple Auth Token Error");
+            throw new IllegalArgumentException("탈퇴에 사용할 appleToken을 받아오지 못했습니다.");
         }
     }
 }

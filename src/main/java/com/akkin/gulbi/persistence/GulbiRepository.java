@@ -2,6 +2,7 @@ package com.akkin.gulbi.persistence;
 
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.gulbi.dto.response.GulbiResponse;
+import com.akkin.member.domain.Member;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -27,4 +28,6 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
     List<GulbiResponse> findGulbiResponseByMemberId(@Param("memberId") Long memberId,
                                                     @Param("lastId") long lastId,
                                                     Pageable pageable);
+
+    void deleteAllByMember(Member member);
 }
