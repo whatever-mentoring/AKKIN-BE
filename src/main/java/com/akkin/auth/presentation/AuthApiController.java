@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
@@ -76,11 +78,16 @@ public class AuthApiController implements AuthApiControllerDocs {
     public ResponseEntity<Void> revoke(@RequestBody final AppleRevokeRequest appleRevokeRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleRevokeRequest.getAppleToken());
         AppleTokenResponse appleToken = appleTokenService.getAppleToken(appleRevokeRequest);
+        log.info("apple token: " + appleToken.getAccessToken());
         appleRevokeService.revoke(appleToken);
         Member member = memberService.findMember(appleUser.getEmail());
+        log.info("애플 탈퇴 완료: id: " + member.getId());
         gulbiService.deleteRevokeMemberGulbi(member);
+        log.info("관련 아낀 항목 제거 완료");
         authTokenService.deleteRevokedAuthToken(member.getId());
+        log.info("인증 정보 제거 완료");
         memberService.deleteMember(member.getId());
+        log.info("회원 정보 제거 완료");
         return ResponseEntity.ok().build();
     }
 }
