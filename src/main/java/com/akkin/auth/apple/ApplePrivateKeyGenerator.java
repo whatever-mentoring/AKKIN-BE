@@ -39,7 +39,7 @@ public class ApplePrivateKeyGenerator {
             .setExpiration(expirationDate)
             .setAudience("https://appleid.apple.com")
             .setSubject(bundle)
-            .signWith(SignatureAlgorithm.ES256, kid)
+            .signWith(SignatureAlgorithm.ES256, secret)
             .compact();
     }
 }
