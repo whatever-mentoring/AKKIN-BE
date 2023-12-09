@@ -1,22 +1,17 @@
 package com.akkin.auth.presentation;
 
+import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
+
 import com.akkin.auth.apple.AppleOauthService;
-import com.akkin.auth.apple.AppleRevokeService;
-import com.akkin.auth.apple.AppleTokenService;
-import com.akkin.auth.apple.dto.AppleTokenResponse;
 import com.akkin.auth.apple.dto.AppleUser;
+import com.akkin.auth.application.AuthTokenService;
+import com.akkin.auth.domain.AuthToken;
 import com.akkin.auth.dto.request.AppleLoginRequest;
 import com.akkin.auth.dto.request.AppleRevokeRequest;
 import com.akkin.auth.dto.response.TokenResponse;
-import com.akkin.auth.domain.AuthToken;
-import com.akkin.auth.application.AuthTokenService;
 import com.akkin.gulbi.application.GulbiService;
-import com.akkin.member.domain.Member;
 import com.akkin.member.application.MemberService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.akkin.member.domain.Member;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,10 +34,6 @@ public class AuthApiController implements AuthApiControllerDocs {
     private final MemberService memberService;
 
     private final AppleOauthService appleOauthService;
-
-    private final AppleTokenService appleTokenService;
-
-    private final AppleRevokeService appleRevokeService;
 
     private final GulbiService gulbiService;
 
@@ -77,11 +66,8 @@ public class AuthApiController implements AuthApiControllerDocs {
     @PostMapping("/revoke")
     public ResponseEntity<Void> revoke(@RequestBody final AppleRevokeRequest appleRevokeRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleRevokeRequest.getAppleToken());
-        AppleTokenResponse appleToken = appleTokenService.getAppleToken(appleRevokeRequest);
-        log.info("apple token: " + appleToken.getAccessToken());
-        appleRevokeService.revoke(appleToken);
         Member member = memberService.findMember(appleUser.getEmail());
-        log.info("애플 탈퇴 완료: id: " + member.getId());
+        log.info("탈퇴 진행 id: " + member.getId());
         gulbiService.deleteRevokeMemberGulbi(member);
         log.info("관련 아낀 항목 제거 완료");
         authTokenService.deleteRevokedAuthToken(member.getId());
