@@ -1,13 +1,10 @@
 package com.akkin.gulbi.dto.request;
 
-import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Schema(description = "사용자가 등록하려는 아낀 정보")
 @Getter
@@ -23,7 +20,7 @@ public class GulbiCreateForm {
     private Integer day;
 
     @Schema(description = "카테고리")
-    private Category category;
+    private GulbiCategory category;
 
     @Schema(description = "소비 내용")
     private String saveContent;
@@ -54,7 +51,7 @@ public class GulbiCreateForm {
     public GulbiCreateForm( final Integer year,
                             final Integer month,
                             final Integer day,
-                            final Category category,
+                            final GulbiCategory category,
                             final String saveContent,
                             final String how,
                             final Integer expectCost,

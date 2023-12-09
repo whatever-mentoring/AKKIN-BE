@@ -1,6 +1,6 @@
 package com.akkin.gulbi.dto.request;
 
-import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +18,7 @@ public class GulbiUpdateForm {
 
     private Integer day;
 
-    private Category category;
+    private GulbiCategory category;
 
     private String saveContent;
 
@@ -45,7 +45,7 @@ public class GulbiUpdateForm {
     public GulbiUpdateForm( final Integer year,
                             final Integer month,
                             final Integer day,
-                            final Category category,
+                            final GulbiCategory category,
                             final String saveContent,
                             final String how,
                             final Integer expectCost,

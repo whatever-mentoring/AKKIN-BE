@@ -29,7 +29,7 @@ public class MainApiController implements MainApiControllerDocs {
     @GetMapping
     public ResponseEntity<MainResponse> enterMain(HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        GulbiListResponse firstPage = gulbiService.getFirstPage(authMember.getId(), DEFAULT_GULBI_PAGE_SIZE);
+        GulbiListResponse firstPage = gulbiService.getGublis(authMember.getId(), "", Long.MAX_VALUE, DEFAULT_GULBI_PAGE_SIZE);
         GulbiListResponse today = mainService.parseTodayGulbis(firstPage);
         MainResponse mainResponse = new MainResponse(today, firstPage);
         return ResponseEntity.ok(mainResponse);

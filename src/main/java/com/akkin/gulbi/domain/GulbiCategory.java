@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Category {
+public enum GulbiCategory {
     DINING("DINING", "식비"),
     TRAFFIC("TRAFFIC", "교통"),
     SHOPPING("SHOPPING", "쇼핑"),
@@ -13,4 +13,13 @@ public enum Category {
 
     private final String eng;
     private final String kor;
+
+    public static boolean contains(String category) {
+        for (GulbiCategory c : GulbiCategory.values()) {
+            if (c.getEng().equals(category)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

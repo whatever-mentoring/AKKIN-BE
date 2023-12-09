@@ -1,9 +1,7 @@
 package com.akkin.gulbi.dto.response;
 
-import com.akkin.gulbi.domain.Category;
-import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.gulbi.domain.GulbiCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +23,7 @@ public class GulbiResponse {
     private Integer day;
 
     @Schema(description = "카테고리(식비, 교통, 쇼핑 ,기타")
-    private Category category;
+    private GulbiCategory gulbiCategory;
 
     @Schema(description = "아낀 항목 제목")
     private String saveContent;
@@ -43,7 +41,7 @@ public class GulbiResponse {
                          final Integer year,
                          final Integer month,
                          final Integer day,
-                         final Category category,
+                         final GulbiCategory gulbiCategory,
                          final String saveContent,
                          final String how,
                          final Integer expectCost,
@@ -52,7 +50,7 @@ public class GulbiResponse {
         this.year = year;
         this.month = month;
         this.day = day;
-        this.category = category;
+        this.gulbiCategory = gulbiCategory;
         this.saveContent = saveContent;
         this.how = how;
         this.expectCost = expectCost;

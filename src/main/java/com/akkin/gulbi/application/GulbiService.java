@@ -1,5 +1,6 @@
 package com.akkin.gulbi.application;
 
+import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.dto.response.GulbiResponse;
 import com.akkin.gulbi.exception.GulbiNotFoundException;
 import com.akkin.gulbi.exception.GulbiNotOwnerException;
@@ -10,6 +11,7 @@ import com.akkin.gulbi.dto.response.GulbiListResponse;
 import com.akkin.gulbi.persistence.GulbiRepository;
 import com.akkin.member.domain.Member;
 import com.akkin.member.application.MemberService;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,21 +50,23 @@ public class GulbiService {
             .orElseThrow(() -> new GulbiNotFoundException("존재하지 않은 아낀 항목"));
     }
 
-    public GulbiListResponse getGublis(final Long memberId, final long lastId, final int pageSize) {
+    public GulbiListResponse getGublis(final Long memberId, final String category, final long lastId, final int pageSize) {
         final PageRequest pageRequest  = PageRequest.of(0, pageSize);
-        final List<GulbiResponse> nextPage = gulbiRepository.findGulbiResponseByMemberId(memberId, lastId, pageRequest);
-        return new GulbiListResponse(nextPage);
-    }
+        final List<GulbiResponse> nextPage;
 
-    public GulbiListResponse getFirstPage(final Long memberId, final int pageSize) {
-        final PageRequest pageRequest  = PageRequest.of(0, pageSize);
-        final List<GulbiResponse> nextPage = gulbiRepository.findGulbiResponseByMemberId(memberId, Long.MAX_VALUE, pageRequest);
+        if (category == null || category.isEmpty()) {
+            nextPage = gulbiRepository.findGulbiResponseByMemberId(memberId, lastId, pageRequest);
+        } else if (GulbiCategory.contains(category)) {
+            final GulbiCategory gulbiCategory = GulbiCategory.valueOf(category);
+            nextPage = gulbiRepository.findGulbiResponseByMemberIdAndCategory(memberId, gulbiCategory, lastId, pageRequest);
+        } else {
+            nextPage = Collections.emptyList();
+        }
         return new GulbiListResponse(nextPage);
     }
 
     @Transactional
-    public void update(final Long memberId, final Long gulbiId,
-        final GulbiUpdateForm form) {
+    public void update(final Long memberId, final Long gulbiId, final GulbiUpdateForm form) {
         final Gulbi gulbi = getGulbiOrElseThrow(gulbiId);
         if (!gulbi.isWriter(memberId)) {
             throw new GulbiNotOwnerException("작성자가 아닙니다.");

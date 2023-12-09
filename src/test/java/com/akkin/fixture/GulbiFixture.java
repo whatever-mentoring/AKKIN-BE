@@ -1,6 +1,6 @@
 package com.akkin.fixture;
 
-import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
 import com.akkin.member.domain.Member;
@@ -9,13 +9,13 @@ import com.akkin.member.domain.Member;
 public class GulbiFixture {
 
     public static Gulbi 아낀_항목_만들기(Member member, int year, int month, int day,
-        Category category, String content, String how, int expectCost, int realCost) {
+        GulbiCategory gulbiCategory, String content, String how, int expectCost, int realCost) {
         return Gulbi.builder()
             .member(member)
             .year(year)
             .month(month)
             .day(day)
-            .category(category)
+            .category(gulbiCategory)
             .saveContent(content)
             .how(how)
             .expectCost(expectCost)
@@ -29,7 +29,7 @@ public class GulbiFixture {
             .year(year)
             .month(month)
             .day(day)
-            .category(Category.DINING)
+            .category(GulbiCategory.DINING)
             .saveContent("DINING_content")
             .how("DINING_how")
             .expectCost(1000)
@@ -43,7 +43,7 @@ public class GulbiFixture {
             .year(year)
             .month(month)
             .day(day)
-            .category(Category.TRAFFIC)
+            .category(GulbiCategory.TRAFFIC)
             .saveContent("TRAFFIC_content")
             .how("TRAFFIC_how")
             .expectCost(1000)
@@ -57,7 +57,7 @@ public class GulbiFixture {
             .year(year)
             .month(month)
             .day(day)
-            .category(Category.SHOPPING)
+            .category(GulbiCategory.SHOPPING)
             .saveContent("SHOPPING_content")
             .how("SHOPPING_how")
             .expectCost(1000)
@@ -71,7 +71,7 @@ public class GulbiFixture {
             .year(year)
             .month(month)
             .day(day)
-            .category(Category.ETC)
+            .category(GulbiCategory.ETC)
             .saveContent("ETC_content")
             .how("ETC_how")
             .expectCost(1000)
@@ -79,7 +79,7 @@ public class GulbiFixture {
             .build();
     }
 
-    public static GulbiCreateForm 아낀_항목_생성_폼_만들기(Category category) {
-        return new GulbiCreateForm(2023, 10, 9, category, "content", "how", 1000, 500);
+    public static GulbiCreateForm 아낀_항목_생성_폼_만들기(GulbiCategory gulbiCategory) {
+        return new GulbiCreateForm(2023, 10, 9, gulbiCategory, "content", "how", 1000, 500);
     }
 }

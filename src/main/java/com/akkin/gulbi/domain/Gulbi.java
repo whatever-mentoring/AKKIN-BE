@@ -29,7 +29,7 @@ public class Gulbi extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Category category;
+    private GulbiCategory category;
 
     @Column(nullable = false)
     private String saveContent;
@@ -51,7 +51,7 @@ public class Gulbi extends BaseTimeEntity {
 
     @Builder
     public Gulbi(final Member member,
-                 final Category category,
+                 final GulbiCategory category,
                  final String saveContent,
                  final String how,
                  final int year,
