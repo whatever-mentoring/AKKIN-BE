@@ -1,7 +1,6 @@
 package com.akkin.gulbi.dto.response;
 
-import com.akkin.gulbi.domain.Category;
-import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.gulbi.domain.GulbiCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,33 +10,50 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GulbiResponse {
 
+    @Schema(description = "아낀 항목 식별자")
     private Long id;
 
+    @Schema(description = "생성 년도")
     private Integer year;
 
+    @Schema(description = "생성 월")
     private Integer month;
 
+    @Schema(description = "생성 일")
     private Integer day;
 
-    private Category category;
+    @Schema(description = "카테고리(식비, 교통, 쇼핑 ,기타")
+    private GulbiCategory gulbiCategory;
 
-    private String content;
+    @Schema(description = "아낀 항목 제목")
+    private String saveContent;
 
+    @Schema(description = "아낀 항목 본문")
     private String how;
 
+    @Schema(description = "예상했던 지출")
     private Integer expectCost;
 
+    @Schema(description = "실제 아낀 비용")
     private Integer realCost;
 
-    public GulbiResponse(Gulbi gulbi) {
-        this.id = gulbi.getId();
-        this.year = gulbi.getSaveYear();
-        this.month = gulbi.getSaveMonth();
-        this.day = gulbi.getSaveDay();
-        this.category = gulbi.getCategory();
-        this.content = gulbi.getContent();
-        this.how = gulbi.getHow();
-        this.expectCost = gulbi.getExpectCost();
-        this.realCost = gulbi.getRealCost();
+    public GulbiResponse(final Long id,
+                         final Integer year,
+                         final Integer month,
+                         final Integer day,
+                         final GulbiCategory gulbiCategory,
+                         final String saveContent,
+                         final String how,
+                         final Integer expectCost,
+                         final Integer realCost) {
+        this.id = id;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.gulbiCategory = gulbiCategory;
+        this.saveContent = saveContent;
+        this.how = how;
+        this.expectCost = expectCost;
+        this.realCost = realCost;
     }
 }

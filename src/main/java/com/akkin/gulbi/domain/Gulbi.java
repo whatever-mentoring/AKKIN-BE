@@ -3,6 +3,7 @@ package com.akkin.gulbi.domain;
 import com.akkin.common.BaseTimeEntity;
 import com.akkin.gulbi.dto.request.GulbiUpdateForm;
 import com.akkin.member.domain.Member;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,24 +27,18 @@ public class Gulbi extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @Column(nullable = false)
-    private Integer saveYear;
-
-    @Column(nullable = false)
-    private Integer saveMonth;
-
-    @Column(nullable = false)
-    private Integer saveDay;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Category category;
+    private GulbiCategory category;
 
     @Column(nullable = false)
-    private String content;
+    private String saveContent;
 
     @Column(nullable = false)
     private String how;
+
+    @Column(nullable = false)
+    private LocalDateTime savedAt;
 
     @Column(nullable = false)
     private Integer expectCost;
@@ -55,34 +50,30 @@ public class Gulbi extends BaseTimeEntity {
     private Integer saveMoney;
 
     @Builder
-    public Gulbi(   final Member member,
-                    final Integer year,
-                    final Integer month,
-                    final Integer day,
-                    final Category category,
-                    final String content,
-                    final String how,
-                    final Integer expectCost,
-                    final Integer realCost) {
+    public Gulbi(final Member member,
+                 final GulbiCategory category,
+                 final String saveContent,
+                 final String how,
+                 final int year,
+                 final int month,
+                 final int day,
+                 final Integer expectCost,
+                 final Integer realCost) {
         this.member = member;
-        this.saveYear = year;
-        this.saveMonth = month;
-        this.saveDay = day;
         this.category = category;
-        this.content = content;
+        this.saveContent = saveContent;
         this.how = how;
+        this.savedAt = LocalDateTime.of(year, month, day, 0, 0, 0);
         this.expectCost = expectCost;
         this.realCost = realCost;
         this.saveMoney = expectCost - realCost;
     }
 
     public void updateGulbi(final GulbiUpdateForm form) {
-        this.saveYear = form.getYear();
-        this.saveMonth = form.getMonth();
-        this.saveDay = form.getDay();
         this.category = form.getCategory();
-        this.content = form.getContent();
+        this.saveContent = form.getSaveContent();
         this.how = form.getHow();
+        this.savedAt = LocalDateTime.of(form.getYear(), form.getMonth(), form.getDay(), 0, 0, 0);
         this.expectCost = form.getExpectCost();
         this.realCost = form.getRealCost();
         this.saveMoney = this.expectCost - this.realCost;
@@ -93,8 +84,5 @@ public class Gulbi extends BaseTimeEntity {
             return false;
         }
         return true;
-    }
-
-    protected Gulbi() {
     }
 }

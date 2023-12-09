@@ -96,4 +96,16 @@ public class AuthTokenService {
         authTokenRepository.deleteByMemberId(authMember.getId());
         accessTokenMap.remove(accessToken);
     }
+
+    @Transactional
+    public void deleteRevokedAuthToken(final Long memberId) {
+        log.info("인증 관련 정보 삭제... id: " + memberId);
+        AuthToken authToken = getAuthToken(memberId);
+        authTokenRepository.deleteByMemberId(memberId);
+        accessTokenMap.remove(authToken.getAccessToken());
+    }
+
+    public AuthToken getAuthToken(final Long memberId) {
+        return authTokenRepository.findByMemberId(memberId).orElseThrow();
+    }
 }

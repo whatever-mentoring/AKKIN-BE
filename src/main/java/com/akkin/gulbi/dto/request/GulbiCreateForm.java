@@ -1,19 +1,13 @@
 package com.akkin.gulbi.dto.request;
 
-import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Schema(description = "사용자가 등록하려는 아낀 정보")
-@Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class GulbiCreateForm {
 
     @Schema(description = "아낀 년도")
@@ -26,7 +20,7 @@ public class GulbiCreateForm {
     private Integer day;
 
     @Schema(description = "카테고리")
-    private Category category;
+    private GulbiCategory category;
 
     @Schema(description = "소비 내용")
     private String saveContent;
@@ -40,17 +34,35 @@ public class GulbiCreateForm {
     @Schema(description = "실제 비용")
     private Integer realCost;
 
-    public Gulbi dtoToEntity(Member member) {
+    public Gulbi dtoToEntity(final Member member) {
         return Gulbi.builder()
             .member(member)
             .year(year)
             .month(month)
             .day(day)
             .category(category)
-            .content(saveContent)
+            .saveContent(saveContent)
             .how(how)
             .expectCost(expectCost)
             .realCost(realCost)
             .build();
+    }
+
+    public GulbiCreateForm( final Integer year,
+                            final Integer month,
+                            final Integer day,
+                            final GulbiCategory category,
+                            final String saveContent,
+                            final String how,
+                            final Integer expectCost,
+                            final Integer realCost) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.category = category;
+        this.saveContent = saveContent;
+        this.how = how;
+        this.expectCost = expectCost;
+        this.realCost = realCost;
     }
 }

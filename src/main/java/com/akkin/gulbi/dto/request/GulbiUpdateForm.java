@@ -1,6 +1,6 @@
 package com.akkin.gulbi.dto.request;
 
-import com.akkin.gulbi.domain.Category;
+import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,9 +18,9 @@ public class GulbiUpdateForm {
 
     private Integer day;
 
-    private Category category;
+    private GulbiCategory category;
 
-    private String content;
+    private String saveContent;
 
     private String how;
 
@@ -28,17 +28,35 @@ public class GulbiUpdateForm {
 
     private Integer realCost;
 
-    public Gulbi dtoToEntity(Member member) {
+    public Gulbi dtoToEntity(final Member member) {
         return Gulbi.builder()
             .member(member)
             .year(year)
             .month(month)
             .day(day)
             .category(category)
-            .content(content)
+            .saveContent(saveContent)
             .how(how)
             .expectCost(expectCost)
             .realCost(realCost)
             .build();
+    }
+
+    public GulbiUpdateForm( final Integer year,
+                            final Integer month,
+                            final Integer day,
+                            final GulbiCategory category,
+                            final String saveContent,
+                            final String how,
+                            final Integer expectCost,
+                            final Integer realCost) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.category = category;
+        this.saveContent = saveContent;
+        this.how = how;
+        this.expectCost = expectCost;
+        this.realCost = realCost;
     }
 }

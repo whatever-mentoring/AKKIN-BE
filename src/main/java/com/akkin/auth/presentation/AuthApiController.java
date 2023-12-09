@@ -1,19 +1,20 @@
 package com.akkin.auth.presentation;
 
+import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
+
 import com.akkin.auth.apple.AppleOauthService;
 import com.akkin.auth.apple.dto.AppleUser;
-import com.akkin.auth.dto.request.AppleLoginRequest;
-import com.akkin.auth.dto.response.TokenResponse;
-import com.akkin.auth.domain.AuthToken;
 import com.akkin.auth.application.AuthTokenService;
-import com.akkin.member.domain.Member;
+import com.akkin.auth.domain.AuthToken;
+import com.akkin.auth.dto.request.AppleLoginRequest;
+import com.akkin.auth.dto.request.AppleRevokeRequest;
+import com.akkin.auth.dto.response.TokenResponse;
+import com.akkin.gulbi.application.GulbiService;
 import com.akkin.member.application.MemberService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.akkin.member.domain.Member;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +23,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.akkin.auth.aop.AuthAspect.ACCESS_TOKEN_HEADER;
-
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
-public class AuthApiController {
+public class AuthApiController implements AuthApiControllerDocs {
 
     private final AuthTokenService authTokenService;
 
@@ -35,7 +35,9 @@ public class AuthApiController {
 
     private final AppleOauthService appleOauthService;
 
-    @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
+    private final GulbiService gulbiService;
+
+    @Override
     @PostMapping("/login/oauth2/apple")
     public ResponseEntity<TokenResponse> appleOauthLogin(@RequestBody final AppleLoginRequest appleLoginRequest) {
         AppleUser appleUser = appleOauthService.createAppleUser(appleLoginRequest.getAppleToken());
@@ -44,7 +46,7 @@ public class AuthApiController {
         return ResponseEntity.ok(new TokenResponse(authToken));
     }
 
-    @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
+    @Override
     @GetMapping("/login/dummy/{id}")
     public ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") final Long id) {
         Member member = memberService.findMember(id);
@@ -52,18 +54,26 @@ public class AuthApiController {
         return ResponseEntity.ok(new TokenResponse(authToken));
     }
 
-    @Operation(summary = "로그아웃", parameters = {
-        @Parameter(
-            in = ParameterIn.HEADER,
-            name = "accessToken",
-            required = false,
-            schema = @Schema(type = "string"),
-            description = "Access Token")
-    }, description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
+    @Override
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String accessToken = request.getHeader(ACCESS_TOKEN_HEADER);
         authTokenService.deleteAuthToken(accessToken);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    @PostMapping("/revoke")
+    public ResponseEntity<Void> revoke(@RequestBody final AppleRevokeRequest appleRevokeRequest) {
+        AppleUser appleUser = appleOauthService.createAppleUser(appleRevokeRequest.getAppleToken());
+        Member member = memberService.findMember(appleUser.getEmail());
+        log.info("탈퇴 진행 id: " + member.getId());
+        gulbiService.deleteRevokeMemberGulbi(member);
+        log.info("관련 아낀 항목 제거 완료");
+        authTokenService.deleteRevokedAuthToken(member.getId());
+        log.info("인증 정보 제거 완료");
+        memberService.deleteMember(member.getId());
+        log.info("회원 정보 제거 완료");
         return ResponseEntity.ok().build();
     }
 }

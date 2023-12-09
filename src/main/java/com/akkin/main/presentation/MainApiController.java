@@ -1,14 +1,13 @@
 package com.akkin.main.presentation;
 
+import static com.akkin.gulbi.application.GulbiService.DEFAULT_GULBI_PAGE_SIZE;
+
 import com.akkin.auth.aop.AuthRequired;
-import com.akkin.gulbi.domain.Gulbi;
-import com.akkin.monthly.application.MonthlyService;
-import com.akkin.weekly.application.GulbiWeeklyService;
-import com.akkin.weekly.dto.MemberWeeklyResponse;
 import com.akkin.auth.dto.AuthMember;
+import com.akkin.gulbi.application.GulbiService;
+import com.akkin.gulbi.dto.response.GulbiListResponse;
 import com.akkin.main.application.MainService;
-import com.akkin.main.dto.MainResponse;
-import java.util.List;
+import com.akkin.main.dto.response.MainResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +22,16 @@ public class MainApiController implements MainApiControllerDocs {
 
     private final MainService mainService;
 
-    private final MonthlyService monthlyService;
-
-    private final GulbiWeeklyService weeklyService;
+    private final GulbiService gulbiService;
 
     @Override
     @AuthRequired
     @GetMapping
     public ResponseEntity<MainResponse> enterMain(HttpServletRequest request) {
         final AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        final List<Gulbi> monthGulbis = monthlyService.getMonthGulbis(authMember.getId());
-        final MemberWeeklyResponse weekly = weeklyService.getWeekly(authMember.getId());
-        final MainResponse response = mainService.getMainResponse(monthGulbis, weekly);
-        return ResponseEntity.ok(response);
+        GulbiListResponse firstPage = gulbiService.getGublis(authMember.getId(), "", Long.MAX_VALUE, DEFAULT_GULBI_PAGE_SIZE);
+        GulbiListResponse today = mainService.parseTodayGulbis(firstPage);
+        MainResponse mainResponse = new MainResponse(today, firstPage);
+        return ResponseEntity.ok(mainResponse);
     }
 }
