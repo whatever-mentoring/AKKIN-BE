@@ -18,6 +18,8 @@ public class GulbiUpdateForm {
 
     private Integer day;
 
+    private String imageUrl;
+
     private GulbiCategory category;
 
     private String saveContent;
@@ -34,6 +36,7 @@ public class GulbiUpdateForm {
             .year(year)
             .month(month)
             .day(day)
+            .imageUrl(imageUrl)
             .category(category)
             .saveContent(saveContent)
             .how(how)
@@ -45,6 +48,7 @@ public class GulbiUpdateForm {
     public GulbiUpdateForm( final Integer year,
                             final Integer month,
                             final Integer day,
+                            final String imageUrl,
                             final GulbiCategory category,
                             final String saveContent,
                             final String how,
@@ -53,6 +57,7 @@ public class GulbiUpdateForm {
         this.year = year;
         this.month = month;
         this.day = day;
+        this.imageUrl = imageUrl;
         this.category = category;
         this.saveContent = saveContent;
         this.how = how;

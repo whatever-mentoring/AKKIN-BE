@@ -22,7 +22,7 @@ public interface AuthApiControllerDocs {
     @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
     ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") final Long id);
 
-    @Operation(summary = "아낀 항목 삭제", description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
+    @Operation(summary = "로그아웃", description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
     @Parameter(in = ParameterIn.HEADER, name = "accessToken", required = false, description = "Access Token")
     @Parameter(in = ParameterIn.HEADER, name = "refreshToken", required = false, description = "Refresh Token")
     ResponseEntity<Void> logout(HttpServletRequest request);

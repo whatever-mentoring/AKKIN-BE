@@ -17,6 +17,7 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "                                                         YEAR(g.savedAt), " +
         "                                                         MONTH(g.savedAt), " +
         "                                                         DAY(g.savedAt), " +
+        "                                                         g.imageUrl, " +
         "                                                         g.category, " +
         "                                                         g.saveContent, " +
         "                                                         g.how, " +
@@ -34,6 +35,7 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "                                                         YEAR(g.savedAt), " +
         "                                                         MONTH(g.savedAt), " +
         "                                                         DAY(g.savedAt), " +
+        "                                                         g.imageUrl, " +
         "                                                         g.category, " +
         "                                                         g.saveContent, " +
         "                                                         g.how, " +

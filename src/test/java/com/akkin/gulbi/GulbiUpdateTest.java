@@ -20,7 +20,7 @@ public class GulbiUpdateTest extends UnitTest {
         // given
         Member member = memberRepository.save(회원1_만들기());
         Gulbi gulbi = gulbiRepository.save(기타_500원_아낀_항목_만들기(member, 2023, 9, 9));
-        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, GulbiCategory.ETC, "content", "how", 100, 0);
+        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, "imageUrl", GulbiCategory.ETC, "content", "how", 100, 0);
 
         // when
         gulbiService.update(member.getId(), gulbi.getId(), form);
@@ -36,7 +36,7 @@ public class GulbiUpdateTest extends UnitTest {
         Member member = memberRepository.save(회원1_만들기());
         Gulbi gulbi = gulbiRepository.save(기타_500원_아낀_항목_만들기(member, 2023, 9, 9));
         // 5000 원 아끼기
-        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, GulbiCategory.ETC, "content", "how", 6000, 1000);
+        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, "imageUrl", GulbiCategory.ETC, "content", "how", 6000, 1000);
 
         // when
         gulbiService.update(member.getId(), gulbi.getId(), form);
@@ -55,7 +55,7 @@ public class GulbiUpdateTest extends UnitTest {
         String newHow = "new_how";
         Gulbi gulbi = gulbiRepository.save(기타_500원_아낀_항목_만들기(member, 2023, 9, 9));
         // 5000 원 아끼기
-        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, GulbiCategory.ETC, "content", newHow, 6000, 1000);
+        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, "imageUrl", GulbiCategory.ETC, "content", newHow, 6000, 1000);
 
         // when
         gulbiService.update(member.getId(), gulbi.getId(), form);
@@ -72,7 +72,7 @@ public class GulbiUpdateTest extends UnitTest {
         String newContent = "new_content";
         Gulbi gulbi = gulbiRepository.save(기타_500원_아낀_항목_만들기(member, 2023, 9, 9));
         // 5000 원 아끼기
-        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, GulbiCategory.ETC, newContent, "how", 6000, 1000);
+        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, "imageUrl", GulbiCategory.ETC, newContent, "how", 6000, 1000);
 
         // when
         gulbiService.update(member.getId(), gulbi.getId(), form);
@@ -89,7 +89,7 @@ public class GulbiUpdateTest extends UnitTest {
         GulbiCategory newGulbiCategory = GulbiCategory.DINING;
         Gulbi gulbi = gulbiRepository.save(기타_500원_아낀_항목_만들기(member, 2023, 9, 9));
         // 5000 원 아끼기
-        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, newGulbiCategory, "content", "how", 6000, 1000);
+        GulbiUpdateForm form = new GulbiUpdateForm(2023, 9, 10, "imageUrl", newGulbiCategory, "content", "how", 6000, 1000);
 
         // when
         gulbiService.update(member.getId(), gulbi.getId(), form);

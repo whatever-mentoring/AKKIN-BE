@@ -22,6 +22,9 @@ public class GulbiResponse {
     @Schema(description = "생성 일")
     private Integer day;
 
+    @Schema(description = "이미지 링크")
+    private String imageUrl;
+
     @Schema(description = "카테고리(식비, 교통, 쇼핑 ,기타")
     private GulbiCategory gulbiCategory;
 
@@ -41,6 +44,7 @@ public class GulbiResponse {
                          final Integer year,
                          final Integer month,
                          final Integer day,
+                         final String imageUrl,
                          final GulbiCategory gulbiCategory,
                          final String saveContent,
                          final String how,
@@ -50,6 +54,7 @@ public class GulbiResponse {
         this.year = year;
         this.month = month;
         this.day = day;
+        this.imageUrl = imageUrl;
         this.gulbiCategory = gulbiCategory;
         this.saveContent = saveContent;
         this.how = how;
