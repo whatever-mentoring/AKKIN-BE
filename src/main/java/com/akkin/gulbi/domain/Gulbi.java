@@ -91,4 +91,7 @@ public class Gulbi extends BaseTimeEntity {
         }
         return true;
     }
+
+    protected Gulbi() {
+    }
 }
