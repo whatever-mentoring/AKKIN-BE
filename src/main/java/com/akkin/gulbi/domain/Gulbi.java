@@ -39,6 +39,7 @@ public class Gulbi extends BaseTimeEntity {
     @Column(nullable = false)
     private String how;
 
+    // 아낀 시기가 언제인지 저장
     @Column(nullable = false)
     private LocalDateTime savedAt;
 

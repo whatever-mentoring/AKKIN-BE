@@ -120,4 +120,24 @@ public class GulbiReadTest extends UnitTest {
         // then
         assertThat(traffic.getEntries().isEmpty()).isTrue();
     }
+
+    @Test
+    public void 아낀_날짜_최근순으로_보여주기() {
+        // given
+        final int pageSize = 4;
+        Member member1 = memberRepository.save(회원1_만들기());
+        Gulbi gulbi1 = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 9));  // 3순위
+        Gulbi gulbi2 = gulbiRepository.save(교통_500원_아낀_항목_만들기(member1, 2023, 9, 8));  // 4순위
+        Gulbi gulbi3 = gulbiRepository.save(기타_500원_아낀_항목_만들기(member1, 2023, 9, 10)); // 1 순위
+        Gulbi gulbi4 = gulbiRepository.save(교통_500원_아낀_항목_만들기(member1, 2023, 9, 9));  // 2순위
+
+        // when
+        GulbiListResponse results = gulbiService.getGublis(member1.getId(), "", Long.MAX_VALUE, pageSize);
+
+        // then
+        assertThat(results.getElement(0).getId()).isEqualTo(gulbi3.getId());
+        assertThat(results.getElement(1).getId()).isEqualTo(gulbi4.getId());
+        assertThat(results.getElement(2).getId()).isEqualTo(gulbi1.getId());
+        assertThat(results.getElement(3).getId()).isEqualTo(gulbi2.getId());
+    }
 }

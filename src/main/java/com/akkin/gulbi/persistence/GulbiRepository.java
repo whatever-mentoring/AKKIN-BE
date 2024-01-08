@@ -26,7 +26,7 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "FROM Gulbi g LEFT JOIN g.member m " +
         "WHERE m.id = :memberId " +
         "AND g.id < :lastId " +
-        "ORDER BY g.id DESC")
+        "ORDER BY g.savedAt DESC, g.id DESC")
     List<GulbiResponse> findGulbiResponseByMemberId(@Param("memberId") Long memberId,
                                                     @Param("lastId") long lastId,
                                                     Pageable pageable);
@@ -45,7 +45,7 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "WHERE m.id = :memberId " +
         "AND g.id < :lastId " +
         "AND g.category = :category " +
-        "ORDER BY g.id DESC")
+        "ORDER BY g.savedAt DESC, g.id DESC")
     List<GulbiResponse> findGulbiResponseByMemberIdAndCategory(@Param("memberId") Long memberId,
                                                                @Param("category") GulbiCategory category,
                                                                @Param("lastId") long lastId,
