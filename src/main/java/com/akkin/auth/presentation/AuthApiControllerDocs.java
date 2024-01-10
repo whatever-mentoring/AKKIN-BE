@@ -19,10 +19,10 @@ public interface AuthApiControllerDocs {
     @Operation(summary = "애플 로그인", description = "클라이언트가 로그인 후 받은 토큰을 공개키로 파싱")
     ResponseEntity<TokenResponse> appleOauthLogin(final AppleLoginRequest appleLoginRequest);
 
-    @Operation(summary = "더미 유저 로그인", description = "테스트용 데이터")
+    @Operation(summary = "더미 유저 로그인", description = "101 ~ 105 사이로 입력. 앱스토어 배포시 더미 id를 가능한 높게 줘야함")
     ResponseEntity<TokenResponse> demoOauthLogin(@PathVariable("id") final Long id);
 
-    @Operation(summary = "아낀 항목 삭제", description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
+    @Operation(summary = "로그아웃", description = "해당 API를 호출하면 결과에 상관없이 200이 반환됩니다.")
     @Parameter(in = ParameterIn.HEADER, name = "accessToken", required = false, description = "Access Token")
     @Parameter(in = ParameterIn.HEADER, name = "refreshToken", required = false, description = "Refresh Token")
     ResponseEntity<Void> logout(HttpServletRequest request);

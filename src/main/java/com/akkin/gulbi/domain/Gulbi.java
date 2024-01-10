@@ -27,6 +27,8 @@ public class Gulbi extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GulbiCategory category;
@@ -37,6 +39,7 @@ public class Gulbi extends BaseTimeEntity {
     @Column(nullable = false)
     private String how;
 
+    // 아낀 시기가 언제인지 저장
     @Column(nullable = false)
     private LocalDateTime savedAt;
 
@@ -51,6 +54,7 @@ public class Gulbi extends BaseTimeEntity {
 
     @Builder
     public Gulbi(final Member member,
+                 final String imageUrl,
                  final GulbiCategory category,
                  final String saveContent,
                  final String how,
@@ -60,6 +64,7 @@ public class Gulbi extends BaseTimeEntity {
                  final Integer expectCost,
                  final Integer realCost) {
         this.member = member;
+        this.imageUrl = imageUrl;
         this.category = category;
         this.saveContent = saveContent;
         this.how = how;
@@ -70,6 +75,7 @@ public class Gulbi extends BaseTimeEntity {
     }
 
     public void updateGulbi(final GulbiUpdateForm form) {
+        this.imageUrl = form.getImageUrl();
         this.category = form.getCategory();
         this.saveContent = form.getSaveContent();
         this.how = form.getHow();
@@ -84,5 +90,8 @@ public class Gulbi extends BaseTimeEntity {
             return false;
         }
         return true;
+    }
+
+    protected Gulbi() {
     }
 }
