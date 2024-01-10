@@ -2,14 +2,17 @@ package com.akkin.gulbi;
 
 import static com.akkin.fixture.GulbiFixture.교통_500원_아낀_항목_만들기;
 import static com.akkin.fixture.GulbiFixture.기타_500원_아낀_항목_만들기;
+import static com.akkin.fixture.GulbiFixture.아낀_날짜_수정_폼_만들기;
 import static com.akkin.fixture.MemberFixture.회원1_만들기;
 import static com.akkin.fixture.MemberFixture.회원2_만들기;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.akkin.common.UnitTest;
 import com.akkin.gulbi.domain.Gulbi;
+import com.akkin.gulbi.dto.request.GulbiUpdateForm;
 import com.akkin.gulbi.dto.response.GulbiListResponse;
 import com.akkin.member.domain.Member;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -139,5 +142,21 @@ public class GulbiReadTest extends UnitTest {
         assertThat(results.getElement(1).getId()).isEqualTo(gulbi4.getId());
         assertThat(results.getElement(2).getId()).isEqualTo(gulbi1.getId());
         assertThat(results.getElement(3).getId()).isEqualTo(gulbi2.getId());
+    }
+    
+    @Test
+    public void 아낀_항목_날짜_수정() {
+        // given
+        Member member = memberRepository.save(회원1_만들기());
+        Gulbi before = gulbiRepository.save(기타_500원_아낀_항목_만들기(member, 2023, 9, 9));
+        LocalDateTime beforeSavedAt = before.getSavedAt();
+        GulbiUpdateForm updateForm = 아낀_날짜_수정_폼_만들기(before, 2023, 9, 10);
+        gulbiService.update(member.getId(), before.getId(), updateForm);
+
+        // when
+        Gulbi after = gulbiRepository.findById(before.getId()).get();
+
+        // then
+        assertThat(after.getSavedAt()).isNotEqualTo(beforeSavedAt);
     }
 }

@@ -3,6 +3,7 @@ package com.akkin.fixture;
 import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.domain.Gulbi;
 import com.akkin.gulbi.dto.request.GulbiCreateForm;
+import com.akkin.gulbi.dto.request.GulbiUpdateForm;
 import com.akkin.member.domain.Member;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -86,5 +87,18 @@ public class GulbiFixture {
 
     public static GulbiCreateForm 아낀_항목_생성_폼_만들기(GulbiCategory gulbiCategory) {
         return new GulbiCreateForm(2023, 10, 9, "imageUrl", gulbiCategory, "content", "how", 1000, 500);
+    }
+
+    public static GulbiUpdateForm 아낀_날짜_수정_폼_만들기(Gulbi gulbi, int year, int month, int day) {
+        return new GulbiUpdateForm( year,
+                                    month,
+                                    day,
+                                    gulbi.getImageUrl(),
+                                    gulbi.getCategory(),
+                                    gulbi.getSaveContent(),
+                                    gulbi.getHow(),
+                                    gulbi.getExpectCost(),
+                                    gulbi.getRealCost()
+        );
     }
 }
