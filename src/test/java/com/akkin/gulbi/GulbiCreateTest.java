@@ -76,9 +76,8 @@ public class GulbiCreateTest extends UnitTest {
     public void 하루에_지정된_횟수만_생성가능() {
         // given
         Member member = memberRepository.save(회원1_만들기());
-        LocalDateTime now = LocalDateTime.now();
         for (int i = 0; i < TODAY_CREATE_GULBI_LIMIT; i++) {
-            gulbiRepository.save(기타_500원_아낀_항목_만들기(member, now.getYear(), now.getMonthValue(), now.getDayOfMonth()));
+            gulbiRepository.save(기타_500원_아낀_항목_만들기(member));
         }
 
         // when & then

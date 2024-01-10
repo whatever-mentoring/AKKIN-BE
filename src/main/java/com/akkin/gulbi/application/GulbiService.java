@@ -30,7 +30,7 @@ public class GulbiService {
     private final MemberService memberService;
 
     public static int DEFAULT_GULBI_PAGE_SIZE = 10;
-    public static int TODAY_CREATE_GULBI_LIMIT = 11;
+    public static int TODAY_CREATE_GULBI_LIMIT = 101;
 
     public void create(final Long memberId, final GulbiCreateForm form) {
         final Member member = checkMemberValid(memberId);

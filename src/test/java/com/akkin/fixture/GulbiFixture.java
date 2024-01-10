@@ -85,6 +85,21 @@ public class GulbiFixture {
             .build();
     }
 
+    public static Gulbi 기타_500원_아낀_항목_만들기(Member member) {
+        return Gulbi.builder()
+            .member(member)
+            .imageUrl("image")
+            .year(2023)
+            .month(12)
+            .day(25)
+            .category(GulbiCategory.ETC)
+            .saveContent("ETC_content")
+            .how("ETC_how")
+            .expectCost(1000)
+            .realCost(500)
+            .build();
+    }
+
     public static GulbiCreateForm 아낀_항목_생성_폼_만들기(GulbiCategory gulbiCategory) {
         return new GulbiCreateForm(2023, 10, 9, "imageUrl", gulbiCategory, "content", "how", 1000, 500);
     }

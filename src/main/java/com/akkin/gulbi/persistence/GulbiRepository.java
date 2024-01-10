@@ -55,9 +55,9 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
     @Query("SELECT g.id " +
            "FROM Gulbi g " +
            "WHERE g.member.id = :memberId " +
-           "AND YEAR(g.savedAt) = YEAR(CURRENT_DATE) " +
-           "AND MONTH(g.savedAt) = MONTH(CURRENT_DATE) " +
-           "AND DAY(g.savedAt) = DAY(CURRENT_DATE) "
+           "AND YEAR(g.createdAt) = YEAR(CURRENT_DATE) " +
+           "AND MONTH(g.createdAt) = MONTH(CURRENT_DATE) " +
+           "AND DAY(g.createdAt) = DAY(CURRENT_DATE) "
     )
     List<Long> countTodayGulbiCreate(@Param("memberId") Long memberId);
 
