@@ -2,6 +2,7 @@ package com.akkin.gulbi.application;
 
 import com.akkin.gulbi.domain.GulbiCategory;
 import com.akkin.gulbi.dto.response.GulbiResponse;
+import com.akkin.gulbi.exception.GulbiCreateLimitException;
 import com.akkin.gulbi.exception.GulbiNotFoundException;
 import com.akkin.gulbi.exception.GulbiNotOwnerException;
 import com.akkin.gulbi.domain.Gulbi;
@@ -29,10 +30,25 @@ public class GulbiService {
     private final MemberService memberService;
 
     public static int DEFAULT_GULBI_PAGE_SIZE = 10;
+    public static int TODAY_CREATE_GULBI_LIMIT = 11;
+
+    public void create(final Long memberId, final GulbiCreateForm form) {
+        final Member member = checkMemberValid(memberId);
+        write(member, form);
+
+    }
+
+    private Member checkMemberValid(final Long memberId) {
+        final Member member = memberService.findMember(memberId);
+        List<Long> gulbiList = gulbiRepository.countTodayGulbiCreate(memberId);
+        if (gulbiList.size() >= TODAY_CREATE_GULBI_LIMIT) {
+            throw new GulbiCreateLimitException("너무 많이 작성했습니다.");
+        }
+        return member;
+    }
 
     @Transactional
-    public void create(final Long memberId, final GulbiCreateForm form) {
-        final Member member = memberService.findMember(memberId);
+    private void write(final Member member, final GulbiCreateForm form) {
         gulbiRepository.save(form.dtoToEntity(member));
     }
 

@@ -28,7 +28,7 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "AND g.id < :lastId " +
         "ORDER BY g.savedAt DESC, g.id DESC")
     List<GulbiResponse> findGulbiResponseByMemberId(@Param("memberId") Long memberId,
-                                                    @Param("lastId") long lastId,
+                                                    @Param("lastId") Long lastId,
                                                     Pageable pageable);
 
     @Query("SELECT new com.akkin.gulbi.dto.response.GulbiResponse(g.id, " +
@@ -48,8 +48,20 @@ public interface GulbiRepository extends JpaRepository<Gulbi, Long> {
         "ORDER BY g.savedAt DESC, g.id DESC")
     List<GulbiResponse> findGulbiResponseByMemberIdAndCategory(@Param("memberId") Long memberId,
                                                                @Param("category") GulbiCategory category,
-                                                               @Param("lastId") long lastId,
+                                                               @Param("lastId") Long lastId,
                                                                Pageable pageable);
 
+
+    @Query("SELECT g.id " +
+           "FROM Gulbi g " +
+           "WHERE g.member.id = :memberId " +
+           "AND YEAR(g.savedAt) = YEAR(CURRENT_DATE) " +
+           "AND MONTH(g.savedAt) = MONTH(CURRENT_DATE) " +
+           "AND DAY(g.savedAt) = DAY(CURRENT_DATE) "
+    )
+    List<Long> countTodayGulbiCreate(@Param("memberId") Long memberId);
+
     void deleteAllByMember(Member member);
+
+
 }
