@@ -32,6 +32,7 @@ public class GulbiService {
     public static int DEFAULT_GULBI_PAGE_SIZE = 10;
     public static int TODAY_CREATE_GULBI_LIMIT = 101;
 
+    @Transactional
     public void create(final Long memberId, final GulbiCreateForm form) {
         final Member member = checkMemberValid(memberId);
         write(member, form);
@@ -47,7 +48,6 @@ public class GulbiService {
         return member;
     }
 
-    @Transactional
     private void write(final Member member, final GulbiCreateForm form) {
         gulbiRepository.save(form.dtoToEntity(member));
     }
